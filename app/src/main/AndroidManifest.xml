@@ -11,13 +11,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".StartActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"/>
         <activity android:name=".SignUpActivity" >
 
         </activity>
         <activity android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
-            <intent-filter>
+
+        <intent-filter>
 
                 <action android:name="android.intent.action.MAIN" />
 
