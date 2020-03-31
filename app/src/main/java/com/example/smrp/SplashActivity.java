@@ -22,19 +22,23 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         },2000);*/
-       Search_hospital search_hospital = new Search_hospital(127.919880,37.302744);
-       search_hospital.run();
-        Log.d("TAG", "strstrstrstrstr: \n"+str+"\n");
+       final Search_hospital search_hospital = new Search_hospital(127.919880,37.302744);
+       //search_hospital.run();
+        Thread thread = new Thread(search_hospital);
+        thread.run();
 
-       /*handler.postDelayed(new Runnable() {
+       handler.postDelayed(new Runnable() {
            @Override
            public void run() {
-               str = search_hospital.getInformation();
-               Log.d("TAG", "strstrstrstrstr: \n"+str+"\n");
-           }
-       },1000);*/
+               do{
+                   str = search_hospital.getInformation();
+                   Log.d("TAG", "strstrstrstrstr: \n"+str+"\n");
+               }while(str.equals(""));
 
-        Log.d("TAG", "strstrstrstrstr: \n"+str+"\n");
+           }
+       },2000);//2초가량 대기
+
+
 
     }
 }
