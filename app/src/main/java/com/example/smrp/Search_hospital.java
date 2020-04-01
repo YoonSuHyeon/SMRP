@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
-public class Search_hospital{
+public class Search_hospital implements Runnable {
     //String local_code;
     StringBuilder total_information = new StringBuilder(""); // 총 정보
     StringBuilder total_url = null; // 요청메시지
