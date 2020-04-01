@@ -13,7 +13,17 @@
         android:gravity="center"
         android:weightSum="1">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.12"
+            android:text="로그인"
+            android:textStyle="bold"
+            android:textSize="80dp"
+            android:gravity="center"/>
+
         <EditText
+            android:background="@drawable/border"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
             android:layout_width="match_parent"
@@ -24,6 +34,8 @@
             />
 
         <EditText
+            android:layout_marginTop="10dp"
+            android:background="@drawable/border"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
             android:layout_width="match_parent"
