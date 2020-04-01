@@ -14,14 +14,16 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       /* handler.postDelayed(new Runnable() {
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(getApplicationContext(),StartActivity.class);
                 startActivity(intent);
                 finish();
             }
-        },2000);*/
+        },2000);
+
+       /*
        final Search_hospital search_hospital = new Search_hospital(127.919880,37.302744);
        //search_hospital.run();
         Thread thread = new Thread(search_hospital);
@@ -38,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
            }
        },2000);//2초가량 대기
 
-
+*/
 
     }
 }
