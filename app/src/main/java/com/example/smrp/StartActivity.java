@@ -21,15 +21,15 @@ import android.widget.Toast;
 import androidx.viewpager.widget.PagerAdapter;
 import me.relex.circleindicator.CircleIndicator;
 
-public class StartActivity extends AppCompatActivity implements View.OnClickListener {
+public class StartActivity extends AppCompatActivity{
 
     ViewPagerAdapter adapter;
     ViewPager viewPager;
     int currentPage = 0;
-    Timer timer;
 
-    Button loginBtn;
-    Button singupBtn;
+    Timer timer;
+    Button Btn_login; // 로그인 버튼 객체
+    Button Btn_signup; // 회원가입 버튼 객체
 
     final long DELAY_MS = 1000;
     final long PERIOD_MS = 3000;
@@ -41,16 +41,38 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        viewPager = findViewById(R.id.view);
-        adapter = new ViewPagerAdapter(this);
-        viewPager.setAdapter(adapter);
-        loginBtn = findViewById(R.id.loginB);
-        singupBtn = findViewById(R.id.signB);
-        loginBtn.setOnClickListener(this);
-        singupBtn.setOnClickListener(this);
 
         CircleIndicator indicator = findViewById(R.id.indicator);
+        Btn_login = findViewById(R.id.Btn_login);
+        Btn_signup = findViewById(R.id.Btn_signup);
+        viewPager = findViewById(R.id.view);
+
+
+        adapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(adapter);
         indicator.setViewPager(viewPager);
+
+
+
+        Btn_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        Btn_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),SignUpActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+        // 자동 슬라이드
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             @Override
@@ -73,10 +95,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
 
 
