@@ -3,4 +3,6 @@
     <string name="login_kor">로그인</string>
     <string name="signUp_kor">회원가입</string>
     <string name="slideImage_name">Slide</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
 </resources>
