@@ -41,6 +41,7 @@
 
 
         <TextView
+            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.12"
@@ -51,6 +52,7 @@
             android:gravity="center"/>
 
         <EditText
+
             android:id="@+id/Txt_id"
             android:background="@drawable/border"
             android:layout_marginLeft="7dp"
@@ -59,7 +61,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.1"
             android:hint=" 아이디"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
 
         <EditText
@@ -73,7 +75,7 @@
             android:inputType="textPassword"
             android:layout_weight="0.1"
             android:hint=" 비밀번호"
-            android:textSize="30dp"/>
+            android:textSize="20dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
