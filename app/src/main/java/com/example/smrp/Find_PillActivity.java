@@ -11,7 +11,7 @@ public class Find_PillActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find__pill);
+       // setContentView(R.layout.activity_find__pill);
         Toolbar toolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar(); // 앱바 엑세스

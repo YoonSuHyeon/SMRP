@@ -197,13 +197,15 @@
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
+            android:layout_weight="0.8"
             android:checked="false"
             android:text="이용약관 동의" />
         <ImageButton
+            android:background="@android:color/transparent"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
+            android:layout_weight="0.2"
+            android:src="@drawable/ic_keyboard_arrow_24dp"
             />
 
     </LinearLayout>
@@ -219,9 +221,17 @@
         <RadioButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
+            android:layout_weight="0.8"
             android:checked="false"
             android:text="개인정보 취급 방침 동의" />
+        <ImageButton
+
+            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:src="@drawable/ic_keyboard_arrow_24dp"
+            />
     </LinearLayout>
 
     <Button
