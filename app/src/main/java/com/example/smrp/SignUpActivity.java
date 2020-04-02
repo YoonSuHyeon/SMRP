@@ -27,9 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
         Btn_sua_singup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onBackPressed();
-
             }
         });
     }
