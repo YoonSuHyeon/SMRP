@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.example.smrp.medicine.ViewPagerAdapter;
+
 import me.relex.circleindicator.CircleIndicator;
 
 public class StartActivity extends AppCompatActivity{
@@ -26,7 +29,7 @@ public class StartActivity extends AppCompatActivity{
     ViewPagerAdapter adapter;
     ViewPager viewPager;
     int currentPage = 0;
-
+    private int[] images = {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
     Timer timer;
     Button Btn_login; // 로그인 버튼 객체
     Button Btn_signup; // 회원가입 버튼 객체
@@ -41,14 +44,13 @@ public class StartActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-
         CircleIndicator indicator = findViewById(R.id.indicator);
         Btn_login = findViewById(R.id.Btn_login);
         Btn_signup = findViewById(R.id.Btn_signup);
         viewPager = findViewById(R.id.view);
 
 
-        adapter = new ViewPagerAdapter(this);
+        adapter = new ViewPagerAdapter(this, images);
         viewPager.setAdapter(adapter);
         indicator.setViewPager(viewPager);
 
@@ -100,42 +102,3 @@ public class StartActivity extends AppCompatActivity{
 
 
 
-class ViewPagerAdapter extends PagerAdapter {
-
-
-    private int[] images = {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
-    private LayoutInflater inflater;
-    private Context context;
-
-    public ViewPagerAdapter(Context context)
-    {
-        this.context = context;
-
-    }
-
-
-    @Override
-    public int getCount() {
-        return images.length;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
-        container.invalidate();
-    }
-
-    @Override
-    public boolean isViewFromObject( @NonNull View view,  @NonNull Object o) {
-        return (view == (LinearLayout)o);
-    }
-    @Override
-    public @NonNull Object instantiateItem(@NonNull ViewGroup contatiner, int position)
-    {
-        inflater = (LayoutInflater) context.getSystemService((Context.LAYOUT_INFLATER_SERVICE));
-        View v = inflater.inflate(R.layout.pager, contatiner, false);
-        ImageView imageView = v.findViewById(R.id.imageView);
-        imageView.setImageResource(images[position]);
-        contatiner.addView(v);
-        return v;
-    }
-}

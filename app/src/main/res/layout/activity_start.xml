@@ -50,7 +50,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_shape2"
                     android:text="@string/signUp_kor"
-                    android:textColor="@color/colorBtn" />
+                    android:textColor="@color/appBaseColor" />
 
                 <me.relex.circleindicator.CircleIndicator
                     android:id="@+id/indicator"
