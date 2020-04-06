@@ -2,9 +2,13 @@ package com.example.smrp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
+
+import android.Manifest;
 import android.content.Intent;
 import android.icu.util.ICUUncheckedIOException;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import java.util.Timer;
@@ -36,7 +40,7 @@ public class StartActivity extends AppCompatActivity{
 
     final long DELAY_MS = 1000;
     final long PERIOD_MS = 3000;
-
+    final int PERMISSION = 1;
 
 
     @Override
@@ -54,7 +58,10 @@ public class StartActivity extends AppCompatActivity{
         viewPager.setAdapter(adapter);
         indicator.setViewPager(viewPager);
 
-
+        if (Build.VERSION.SDK_INT >= 23) {      //퍼미션 권한 부여
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET,Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION);
+        }//퍼미션접근 권한
 
         Btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
