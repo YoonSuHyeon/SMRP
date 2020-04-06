@@ -45,6 +45,7 @@
         </LinearLayout>
 
         <CheckBox
+            android:id="@+id/cb_All"
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,6 +59,7 @@
             android:background="#000000"
            />
         <CheckBox
+            android:id="@+id/cb_Check1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="만 14세 이상입니다."/>
@@ -74,6 +76,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <CheckBox
+                android:id="@+id/cb_Check2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="이용약관 동의"/>
@@ -99,6 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <CheckBox
+                android:id="@+id/cb_Check3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="개인정보 수집 및 이용 동의"/>

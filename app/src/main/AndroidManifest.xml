@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ToSActivity"></activity>
         <activity android:name=".findIdActivity" />
-        <activity android:name=".StartActivity" />
+        <activity android:name=".StartActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
