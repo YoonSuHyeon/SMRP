@@ -14,6 +14,7 @@ import android.os.Handler;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,9 +102,7 @@ public class StartActivity extends AppCompatActivity{
             }
         }, DELAY_MS, PERIOD_MS);
 
-
     }
-
 }
 
 

@@ -31,7 +31,7 @@ public class ToSActivity extends AppCompatActivity {
         btn_agree=findViewById(R.id.btn_agree);
         btn_agree.setOnClickListener(new View.OnClickListener() { //동의 버튼  클릭시
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //동의하고 가입하기
 
                 Intent intent =new Intent(context,SignUpActivity.class);
                 startActivity(intent);

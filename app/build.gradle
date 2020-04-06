@@ -36,5 +36,5 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
 
-    implementation 'com.naver.maps:map-sdk:3.7.1' //네이버 SDK
+    //implementation 'com.naver.maps:map-sdk:3.7.1' //네이버 SDK
 }
