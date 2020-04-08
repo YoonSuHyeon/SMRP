@@ -28,7 +28,7 @@ public class MedicineFragment extends Fragment {
     private final long DELAY_MS = 1000; // 자동 슬라이드를 위한 변수
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
-    private Timer timer; // 자동 슬라이드를 위한 ㅕㄴ수
+    private Timer timer; // 자동 슬라이드를 위한 변수
 
     private int[] images= {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private MedicineViewModel medicineViewModel;
@@ -65,7 +65,7 @@ public class MedicineFragment extends Fragment {
         });
 
         /* 자동 슬라이드*/
-        final Handler handler = new Handler();
+             final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             @Override
             public void run() {
