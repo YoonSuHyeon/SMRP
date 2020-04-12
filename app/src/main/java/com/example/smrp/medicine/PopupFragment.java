@@ -19,8 +19,8 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
     private ImageView Img_med_shoot; // 약 촬영 아이콘
     private ImageView Img_envelope; // 약 봉투 아이콘
     private ImageView Img_prescription; // 처방전 아이콘
+    private ImageView Img_search; // 약명검색 아이콘
     private Button Btn_cancel; // 취소 아이콘
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.medicine_dialog, container, false);
@@ -29,6 +29,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
         Img_med_shoot = view.findViewById(R.id.Img_med_shoot);
         Img_envelope = view.findViewById(R.id.Img_envelope);
         Img_prescription = view.findViewById(R.id.Img_prescription);
+        Img_search = view.findViewById(R.id.Img_search);
         Btn_cancel = view.findViewById(R.id.Btn_cancel);
         //
 
@@ -57,7 +58,15 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
             }
         });
 
-        //4. 취소 버튼 클릭 시
+        //4. 약명 검색 아이콘 클릭시
+        Img_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "seach", Toast.LENGTH_LONG).show();// 임시 메세지
+            }
+        });
+
+        //5. 취소 버튼 클릭 시
         Btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

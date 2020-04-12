@@ -11,7 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.smrp.MainActivity;
 import com.example.smrp.R;
+import com.example.smrp.home.HomeFragment;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,7 +28,7 @@ public class MedicineFragment extends Fragment {
     private ListView Lst_medicine; // 등록한 약 목록(아직 구현x)
     private TextView Txt_empty; // 등록한 약이 없을 시 text메세지로 알려줌
     private ImageView Img_ic_plus; // +아이콘
-
+    private MainActivity home;
     private final long DELAY_MS = 1000; // 자동 슬라이드를 위한 변수
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
@@ -37,6 +41,8 @@ public class MedicineFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         medicineViewModel =
                 ViewModelProviders.of(this).get(MedicineViewModel.class);
+
+        home = (MainActivity) getActivity();
 
         View v = inflater.inflate(R.layout.medicine_fragment, container, false);
         CircleIndicator indicator = v.findViewById(R.id.indicator); // 인디케이터
@@ -65,7 +71,7 @@ public class MedicineFragment extends Fragment {
         });
 
         /* 자동 슬라이드*/
-             final Handler handler = new Handler();
+        final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             @Override
             public void run() {
@@ -89,6 +95,7 @@ public class MedicineFragment extends Fragment {
 
 
     }
+
 
 }
 // 약 리스트(커스텀 ) - 클랫

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D7D6D6"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/Txt_Lst_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="현재 등록된 알람이 없습니다."
+                android:gravity="center_horizontal"
+
+                android:textSize="15sp"
+                android:layout_marginTop="13dp"
+
+
+
+
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/Lst_alarm"
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/Btn_add"
+                android:layout_marginTop="12dp"
+                android:layout_width="86dp"
+                android:layout_height="18dp"
+                android:layout_below="@+id/Txt_Lst_empty"
+                android:background="@drawable/btn_add"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text="추가"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                style="?android:attr/borderlessButtonStyle"
+                ></Button>
+
+
+
+
+        </RelativeLayout>
+
+
+
+</LinearLayout>

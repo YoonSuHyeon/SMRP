@@ -2,39 +2,259 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
-    <RelativeLayout
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    >
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/banner"
+        android:fillViewport="true">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="160dp" />
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="16dp"
-            android:layout_marginTop="16dp"
-            app:ci_drawable="@drawable/indicator"
-            app:ci_height="5dp"
-            app:ci_margin="4dp"
-            app:ci_width="5dp"
-            android:layout_above="@+id/Txt_current_med"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/Txt_current_med"
-            android:layout_width="match_parent"
-            android:layout_height="39dp"
-            android:layout_below="@+id/banner"
-            android:text="약복용 알람"
-            android:textColor="#000000"
-            android:background="#E2E2E2"
-            android:textSize="16sp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            />
+            <LinearLayout
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
 
-    </RelativeLayout>
+
+               >
+
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="13dp"
+
+                    android:src="@drawable/img_weather"
+                    android:layout_marginStart="4dp"
+                    android:scaleType="fitStart"
+
+                     />
+
+                <TextClock
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="13dp"
+                    android:layout_gravity="center"
+                    android:gravity="right"
+                    android:textStyle="normal"
+                    android:format12Hour="a hh:mm"
+                    android:format24Hour="@null"
+                    android:textColor="#000000"
+                    android:textSize="35sp" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/viewP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/date"
+
+                >
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    />
+
+
+
+            </LinearLayout>
+
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/indicator_home"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:layout_below="@+id/viewP"
+                android:layout_marginTop="7dp"
+
+                app:ci_drawable="@drawable/indicator_home"
+                app:ci_height="5dp"
+                app:ci_margin="4dp"
+                app:ci_width="5dp"
+                />
+            <TextView
+
+                android:id="@+id/Txt_med_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="11dp"
+                android:layout_below="@+id/indicator_home"
+                android:background="#FFFFFF"
+                android:gravity="center_vertical"
+                android:paddingLeft="11dp"
+                android:text="약복용 알람"
+                android:textColor="#3E3E3E"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+
+                android:id="@+id/Frg_med_alarm"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@+id/Txt_med_alarm"
+                android:layout_marginTop="5dp"
+                android:layout_weight="3.5"
+                android:background="#D7F8FF"></FrameLayout>
+
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/banner2"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_below="@+id/Frg_med_alarm"
+                android:layout_marginTop="10dp"
+                android:layout_weight="4" />
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/indicator_home2"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:layout_above="@+id/row"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:ci_drawable="@drawable/indicator"
+                app:ci_height="5dp"
+                app:ci_margin="4dp"
+                app:ci_width="5dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/row"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:weightSum="2"
+                android:layout_below="@+id/banner2"
+
+                >
+
+                <TextView
+                    android:id="@+id/Txt_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="11dp"
+                    android:layout_below="@+id/banner2"
+                    android:layout_marginTop="18dp"
+                    android:text="추가 메뉴"
+                    android:textColor="#3E3E3E"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/first_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+
+                    android:layout_below="@+id/Txt_menu"
+                    android:layout_marginTop="16dp"
+
+
+                    android:gravity="center"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_med_search" />
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/ic_prescription_register" />
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/ic_envelope_register" />
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="17dp"
+                        android:src="@drawable/ic_pharmacy_seach" />
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="49dp"
+                        android:layout_marginStart="24dp"
+                        android:src="@drawable/ic_hospital_seach" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/second_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ic_register_record" />
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="49dp"
+                        android:layout_marginStart="22dp"
+                        android:src="@drawable/ic_dose_record" />
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="47dp"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_alarm_set" />
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="15dp"
+                        android:src="@drawable/ic_mask_search"
+
+                        />
+
+                    <ImageView
+                        android:layout_width="46dp"
+                        android:layout_height="43dp"
+                        android:layout_marginStart="24dp"
+                        android:src="@drawable/ic_inquiry"
+
+                        />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
 </LinearLayout>
+
+
