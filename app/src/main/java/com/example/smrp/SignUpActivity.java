@@ -6,11 +6,17 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
     /* 이름, 아이디, 이메일, 비밀번호, 비밀번호 확인 객치(여기서 sua는 SignUpActivity의 앞글자를 딴 것이다.) */
@@ -68,5 +74,100 @@ public class SignUpActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        Btn_duplicate.setOnClickListener(new View.OnClickListener() {   //아이디 중복확인 부분
+            @Override
+            public void onClick(View v) {
+                String id=Txt_sua_id.getText().toString();
+                RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                Call<response> call = networkService.getId(id);
+
+                call.enqueue(new Callback<response>() {
+                    @Override
+                    public void onResponse(Call<response> call, Response<response> response) {
+                        Log.d("1234",response.body().getResponse());
+                        Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<response> call, Throwable t) {
+                        Log.d("ddd",t.toString());
+
+                    }
+                });
+            }
+        });
+
+        Btn_sua_signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id,email,password,passwordCheck,name,gender,birth;
+                id = Txt_sua_id.getText().toString();
+                email = Txt_sua_email.getText().toString();
+                password= Txt_sua_password.getText().toString();
+                passwordCheck = Txt_sua_passwordCheck.getText().toString();
+                name = Txt_sua_name.getText().toString();
+                birth=Txt_birth.getText().toString();
+                if(password.equals(passwordCheck)){ //비밀번호 같을 때
+                    if(Rdb_man.isChecked()){ //남자면 1 여자면 0 으로보냄
+                        gender = "1";
+                    }
+                    else{
+                        gender="0";
+                    }
+                    RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                    User user = new User(id,email,password,name,gender,birth);
+                    Call<response> call = networkService.getUser(user);
+                    call.enqueue(new Callback<response>() {
+                        @Override
+                        public void onResponse(Call<response> call, Response<response> response) {
+                            try{
+                                Log.d("12345",response.body().getResponse());
+                            }catch (NullPointerException e){
+                                Log.d("d",e.toString());
+                            }
+
+
+                            Toast.makeText(getApplicationContext(),"회원가입 성공",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(Call<response> call, Throwable t) {
+                            Log.d("dddd",t.toString());
+                            //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }else{//비밀번호 다를때
+                    Toast.makeText(getApplicationContext(),"비밀번호가 같지 않습니다.",Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
+        /*RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+        ItemModel itemModel = new ItemModel("23","bdh","25");
+        Call<ItemModel> call = networkService.getPost(itemModel);
+
+        call.enqueue(new Callback<ItemModel>() {
+            @Override
+            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+                if(response.isSuccessful()){
+
+                    Log.d("1234",response.body().getId());
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ItemModel> call, Throwable t) {
+                Log.d("ddd",t.toString());
+
+            }
+
+        });*/
     }
 }
