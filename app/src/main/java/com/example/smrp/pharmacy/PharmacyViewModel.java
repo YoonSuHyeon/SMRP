@@ -33,7 +33,7 @@ public class PharmacyViewModel extends ViewModel {
     //String information = null;
 
     private String longitude="0.0", latitude="0.0"; //String 형 url변수에 필요한 경도, 위도 작성
-    int radius=500;
+    int radius=250;
     public PharmacyViewModel(){//longitude:경도 latitude:위도
     }
     void setInformation(double longitude, double latitude){  // 경도와 위도를 설정하는 두개의 매개변수를 가진 setInformation 선언
@@ -52,6 +52,7 @@ public class PharmacyViewModel extends ViewModel {
 
         DownLoad dwonLoad = new DownLoad();
         dwonLoad.execute(url);
+
     }
     // < >안에 들은 자료형은 순서대로 doInBackground, onProgressUpdate, onPostExecute의 매개변수 자료형을 뜻한다.(내가 사용할 매개변수타입을 설정하면된다)
     public class DownLoad extends AsyncTask<String,Void,String> {
@@ -76,7 +77,7 @@ public class PharmacyViewModel extends ViewModel {
             String resultCode = "";   //결과코드
             String yadmNm = "";   //요양기관 이름
             String addr = "";   //요양기관 주소
-            String clCdNm = ""; // 요양기관 규모
+            String distance = ""; // 요양기관 규모
             String telno = "";   //요양기관 전화번호
             String XPos = "";   //요양기관x좌표
             String YPos = "";  //요양기관 y좌표
@@ -87,7 +88,7 @@ public class PharmacyViewModel extends ViewModel {
             boolean ho_telno = false;//요양기관 전화번호
             boolean ho_XPos = false;//요양기관 x좌료
             boolean ho_YPos = false; // 요양기관 y좌표
-            boolean ho_clCdNm = false; //종별코드명 (약국)
+            boolean ho_distance = false; //종별코드명 (약국)
             try {
                 XmlPullParserFactory xmlPullParserFactory = XmlPullParserFactory.newInstance();
                 xmlPullParserFactory.setNamespaceAware(true);
@@ -125,9 +126,9 @@ public class PharmacyViewModel extends ViewModel {
                                 //Log.d("TAG", "YPos");
                                 ho_YPos = true;
                                 break;
-                            case "clCdNm": //요양기관 종별코드명
+                            case "distance": //요양기관 거리
                                 //Log.d("TAG", "YPos");
-                                ho_clCdNm = true;
+                                ho_distance = true;
                                 break;
 
                         }
@@ -148,10 +149,10 @@ public class PharmacyViewModel extends ViewModel {
                                 total_information.append(yadmNm + "\n");//병원 정보 문자열
                                 ho_yadmNm = false;
                             }
-                            if (ho_clCdNm) {
-                                clCdNm = xmlPullParser.getText(); //요양기관 종별코드명
-                                total_information.append(clCdNm + "/");
-                                ho_clCdNm = false;
+                            if (ho_distance) {
+                                distance = xmlPullParser.getText(); //요양기관 종별코드명
+                                total_information.append(distance + "/");
+                                ho_distance = false;
                             }
                             if (ho_telno) {
                                 telno = xmlPullParser.getText(); // 요양기관 전화번호
@@ -201,6 +202,7 @@ public class PharmacyViewModel extends ViewModel {
             while((data = br.readLine())!=null){  // con연겷하여 읽어 온 스트림을 total_data StringBuilder 에 저장
                 total_data.append(data);
             }
+            Log.d("TAG", "String.valueOf(total_data): "+String.valueOf(total_data));
             return String.valueOf(total_data); // 모든 스트림 readLine이 끝나면 total_data(스트림)을 return 실시
         }finally {
             if (con != null) {
