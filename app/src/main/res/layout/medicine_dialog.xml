@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="233.02dp"
+        android:layout_width="234dp"
         android:layout_height="128.7dp"
         android:background="#F2EEEE"
         android:orientation="vertical"
@@ -17,31 +17,40 @@
 
             <ImageView
                 android:id="@+id/Img_med_shoot"
-                android:layout_width="55dp"
-                android:layout_height="57dp"
-                android:layout_marginStart="16.5dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="17dp"
                 android:layout_marginTop="15.5dp"
                 android:src="@drawable/ic_med_shoot"
                 android:contentDescription="약촬영"
                 />
             <ImageView
                 android:id="@+id/Img_envelope"
-                android:layout_width="55dp"
-                android:layout_height="57dp"
-                android:layout_marginStart="22dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
                 android:layout_marginTop="15.5dp"
                 android:src="@drawable/ic_envelope"
                 android:contentDescription="약봉투"
                 />
             <ImageView
                 android:id="@+id/Img_prescription"
-                android:layout_width="55dp"
-                android:layout_height="57dp"
-                android:layout_marginStart="22dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="15.5dp"
                 android:src="@drawable/ic_prescription"
                 android:contentDescription="처방전"
                 />
+            <ImageView
+                android:id="@+id/Img_search"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15.5dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="약검색"
+                />
+
+
         </LinearLayout>
 
 

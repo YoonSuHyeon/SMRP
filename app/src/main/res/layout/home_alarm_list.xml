@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:elevation="10dp"
+    android:background="#FFFFFF"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    >
+    <ImageView
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="center"
+        android:id="@+id/Img_icon"
+
+        android:scaleType="fitXY"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:layout_marginStart="6dp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/Txt_name"
+                android:textSize="24dp"
+                android:textColor="#000000"
+                android:gravity="center_vertical"
+                android:layout_weight="2" />
+            <TextView
+                android:layout_marginStart="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/Txt_contents"
+                android:textSize="19dp"
+                android:textColor="#000000"
+                android:gravity="center_vertical"
+                android:layout_weight="2" />
+
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/Txt_date"
+            android:textSize="16dp"
+            android:textColor="#666666"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

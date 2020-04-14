@@ -87,11 +87,11 @@ public class StartActivity extends AppCompatActivity{
         final Runnable Update = new Runnable() {
             @Override
             public void run() {
-                if(currentPage == 3) {
+                if(currentPage == 3) { // currentPage는 현재 페이지로, 3이되면 맨 앞에 페이지로 이동한다.
                     currentPage = 0;
                 }
 
-                viewPager.setCurrentItem(currentPage++, true);
+                viewPager.setCurrentItem(currentPage++, true); // 페이지 이동
             }
         };
         timer = new Timer();
