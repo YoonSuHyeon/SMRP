@@ -39,31 +39,41 @@
 
     <LinearLayout
         android:layout_marginTop="40dp"
-        android:id="@+id/Txt_sua_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
 
         <EditText
+            android:id="@+id/Txt_sua_id"
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="0.7"
-            android:hint="아이디(이메일 주소)"
+            android:hint="아이디"
             android:inputType="text"
             />
         <Button
+            android:id="@+id/Btn_duplicate"
             android:layout_height="match_parent"
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:text="중복확인"/>
 
 
-    </LinearLayout>
 
+
+    </LinearLayout>
+    <EditText
+        android:id="@+id/Txt_sua_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="이메일주소"
+        android:inputType="text" />
 
     <EditText
-        android:id="@+id/Txt_sua_id"
+        android:id="@+id/Txt_sua_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -72,7 +82,7 @@
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/Txt_sua_email"
+        android:id="@+id/Txt_sua_passwordCheck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -81,7 +91,7 @@
         android:inputType="textEmailAddress"
         />
     <EditText
-        android:id="@+id/Txt_sua_password1"
+        android:id="@+id/Txt_sua_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -94,6 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:id="@+id/Txt_birth"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
@@ -114,7 +125,7 @@
 
 
         <RadioButton
-            android:id="@+id/rg_1_btn_1"
+            android:id="@+id/Rdb_man"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
@@ -124,7 +135,7 @@
             />
 
         <RadioButton
-            android:id="@+id/rg_1_btn_2"
+            android:id="@+id/Rdn_woman"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
@@ -136,7 +147,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/Btn_sua_signup"
+        android:id="@+id/Btn_sua_signUp"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
