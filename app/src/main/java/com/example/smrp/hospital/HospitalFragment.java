@@ -18,20 +18,13 @@ import com.example.smrp.R;
 
 public class HospitalFragment extends Fragment {
 
-    private HospitalViewModel hospitalViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        hospitalViewModel =
-                ViewModelProviders.of(this).get(HospitalViewModel.class);
+
         View root = inflater.inflate(R.layout.hospital_fragment, container, false);
         final TextView textView = root.findViewById(R.id.text_hospital);
-        hospitalViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 

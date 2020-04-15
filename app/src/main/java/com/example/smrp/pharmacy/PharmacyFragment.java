@@ -14,39 +14,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smrp.R;
-import com.example.smrp.pharmacy.PharmacyViewModel;
 
-import net.daum.android.map.MapViewEventListener;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
 
-import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PharmacyFragment extends Fragment implements MapView.MapViewEventListener, MapView.POIItemEventListener, MapView.CurrentLocationEventListener {
 
-    private PharmacyViewModel pharmacyViewModel;
+   // private PharmacyViewModel pharmacyViewModel;
     private View root;
     private MapView mapView;
     private ViewGroup mapViewContainer;
@@ -63,15 +54,15 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private ImageView btn_location, btn_research;
     private LinearLayoutManager mlinearLayoutManager;
     private Pharmacy pharmacy;
-    private int radiuse = 500, count = 0 ;
+    private int radiuse = 300, count = 0 ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         startLocationService(); //사용자의 현재위치를 좌표를 가져오기 위한 클래스 호출
 
-        if(pharmacyViewModel==null)
+        /*if(pharmacyViewModel==null)
             pharmacyViewModel =
-                ViewModelProviders.of(this).get(PharmacyViewModel.class);
+                ViewModelProviders.of(this).get(PharmacyViewModel.class);*/
         container.removeAllViews();
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
 
@@ -205,13 +196,12 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         // 트랙
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading); //트래킥 모등 on + 나침반 모드 on
         //Log.d("TAG", "TrackingMode:"+mapView.getCurrentLocationTrackingMode());
-        //marker 중심으로 그릴 원 반경 지정
-        mapView.setCurrentLocationRadius(pharmacyViewModel.radius);
+
         // 원 색상 적용
         mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
         // 중심점에 Marker 로 표시해줍니다
        // CenterMarker(latitude, longitude);
-        Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
+        //Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
     }
     private void CenterMarker(double latitude, double longitude){ //사용자 현재 위치를 Marker표시
         marker1 = new MapPOIItem();
@@ -223,7 +213,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         marker1.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
         //marker1.setAlpha(0.2f);// marker 투명도
         mapView.addPOIItem(marker1); //사용자의 최초 위치를 지도 위에 marker표시 하기 위함
-        Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
+       // Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
     }
     private void addMarker(String addr, String created_at, float latitude, float longitude, String name, String remain_stat, String stock_at,String type){
         //mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
@@ -244,39 +234,6 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         adapter.notifyDataSetChanged();
 
     }
-   /* public class SearchInf implements Runnable{
-
-        @Override
-        public void run() {
-            RetrofitService json = new RetrofitFactory().create();
-            json.getList(latitude,longitude,radiuse).enqueue(new Callback<ItemModel>() {
-                @Override
-                public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
-                    if(response.isSuccessful()){
-                        ItemModel itemModel = response.body();
-                        for(int i =0; i< response.body().count;i++){
-                            Log.d("TAG", "========= "+i+"=========\n");
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getName());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getCode());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getCreated_at());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getLat());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getLng());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getRemain_stat());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getStock_at());
-                            Log.d("TAG", "itemModel.size: "+response.body().getList().get(i).getType());
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ItemModel> call, Throwable t) {
-                    Log.d("dzzzz",t.toString());
-                }
-            });
-
-        }
-    }*/
-
     private class GPSListener implements LocationListener {//위치리너스 클래스
 
         @Override
@@ -372,34 +329,31 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
         switch (i){
             case 1:
-                pharmacyViewModel.radius=250;
                 break;
             case 2:
-                pharmacyViewModel.radius=500;
                 break;
             case 3:
-                pharmacyViewModel.radius=750;
+
                 break;
             case 4:
-                pharmacyViewModel.radius=1000;
+
                 break;
             case 5:
-                pharmacyViewModel.radius=1250;
+
                 break;
             case 6:
-                pharmacyViewModel.radius=1500;
+
                 break;
             case 7:
-                pharmacyViewModel.radius=1750;
+
                 break;
             case 8:
-                pharmacyViewModel.radius=2000;
+
                 break;
             case 9:
-                pharmacyViewModel.radius=2250;
+
                 break;
             case 10:
-                pharmacyViewModel.radius=2500;
                 break;
         }
     }
@@ -435,7 +389,8 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         latitude = mapPoint.getMapPointGeoCoord().latitude;
         longitude = mapPoint.getMapPointGeoCoord().longitude;
         //mapView.removeAllPOIItems();
-
+        //marker 중심으로 그릴 원 반경 지정
+        mapView.setCurrentLocationRadius(radiuse);
 
     }
 }
