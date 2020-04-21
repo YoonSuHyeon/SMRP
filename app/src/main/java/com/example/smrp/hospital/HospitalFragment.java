@@ -16,14 +16,29 @@ import android.widget.TextView;
 
 import com.example.smrp.R;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HospitalFragment extends Fragment {
-
-
+    private View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.hospital_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_hospital);
+        root = inflater.inflate(R.layout.hospital_fragment, container, false);
+
+        RetrofitService json = new RetrofitFactory().create();
+        json.getList(37.303633,127.920252,500).enqueue(new Callback<Return_inf>() {
+            @Override
+            public void onResponse(Call<Return_inf> call, Response<Return_inf> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<Return_inf> call, Throwable t) {
+
+            }
+        });
 
         return root;
     }
