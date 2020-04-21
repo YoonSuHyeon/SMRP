@@ -211,7 +211,6 @@ public class PharmacyViewModel extends ViewModel {
     }
 
     public LiveData<String> getText() {
-        total_information.delete(0,total_information.length()-1);
         return mText;
     }
 }

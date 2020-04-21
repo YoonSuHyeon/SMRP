@@ -39,6 +39,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
+
             }
         });
 
