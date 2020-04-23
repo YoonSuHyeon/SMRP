@@ -68,11 +68,11 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
         /*btn_research = root.findViewById(R.id.btn_research); //지도의 중앙값 좌표를 통해 반경 radius 약국목록을 가져오기 위한 버튼
         btn_location = root.findViewById(R.id.btn_location); //지도의 위치를 사용자 위치로 변경하기 위함*/
-        recyclerView = root.findViewById(R.id.recycle_view);
-        mlinearLayoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
+        mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
 
         recyclerView.setLayoutManager(mlinearLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
 
         createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
 
@@ -170,8 +170,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setPOIItemEventListener(this); // MapView의 marker 표시를 위함
         mapView.setCurrentLocationEventListener(this); // MapView의 현재위치 리스너
 
-        //중심적 변경
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
+
         setMapView(latitude,longitude);
 
     }
@@ -179,9 +178,14 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         //하이브리드 맵 설정
         //mapView.setMapType(MapView.MapType.Hybrid); //Standard ,Statllite, Hybrid
 
+        // 내 현재위치 원 그리기
+        mapView.setCurrentLocationRadius(radiuse);
+
         //고해상도
         //mapView.setHDMapTileEnabled(true);
 
+        //중심적 변경
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
 
         //줌 레벨 변경
         mapView.setZoomLevel(2,true);
