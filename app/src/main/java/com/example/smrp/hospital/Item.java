@@ -5,14 +5,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class Item {
 
-    @SerializedName("addr")
+
+    @SerializedName("addr") //병원주소
     private String addr;
-    @SerializedName("clCd")
-    private String clCd;
-    @SerializedName("clCdNm")
+    @SerializedName("clCdNm")//병원 종별코드명
     private String clCdNm;
-    @SerializedName("distance")
+    @SerializedName("distance")//병원 거리
     private double distance;
+    @SerializedName("XPos")//병원 x좌표
+    private String XPos;
+    @SerializedName("YPos")//병원 y좌표
+    private String YPos;
+    @SerializedName("yadmNm")//병원 이름
+    private String yadmNm;
+    @SerializedName("hospUrl")//병원 사이트
+    private String hospUrl;
+    @SerializedName("telno")//병원 전화번호
+    private String telno;
+
+
+/*@SerializedName("clCd")
+    private String clCd;
     @SerializedName("drTotCnt")
     private int drTotCnt;
     @SerializedName("estbDd")
@@ -37,14 +50,9 @@ public class Item {
     private String sidoCdNm;
     @SerializedName("telno")
     private String telno;
-    @SerializedName("XPos")
-    private String XPos;
-    @SerializedName("YPos")
-    private String YPos;
-    @SerializedName("yadmNm")
-    private String yadmNm;
     @SerializedName("ykiho")
-    private String ykiho;
+    private String ykiho;*/
+
 
     public String getAddr() {
         return addr;
@@ -52,14 +60,6 @@ public class Item {
 
     public void setAddr(String addr) {
         this.addr = addr;
-    }
-
-    public String getClCd() {
-        return clCd;
-    }
-
-    public void setClCd(String clCd) {
-        this.clCd = clCd;
     }
 
     public String getClCdNm() {
@@ -76,103 +76,6 @@ public class Item {
 
     public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    public int getDrTotCnt() {
-        return drTotCnt;
-    }
-
-    public void setDrTotCnt(int drTotCnt) {
-        this.drTotCnt = drTotCnt;
-    }
-
-    public String getEstbDd() {
-        return estbDd;
-    }
-
-    public void setEstbDd(String estbDd) {
-        this.estbDd = estbDd;
-    }
-
-    public String getGdrCnt() {
-        return gdrCnt;
-    }
-
-    public void setGdrCnt(String gdrCnt) {
-        this.gdrCnt = gdrCnt;
-    }
-
-
-    public String getIntnCnt() {
-        return intnCnt;
-    }
-
-    public void setIntnCnt(String intnCnt) {
-        this.intnCnt = intnCnt;
-    }
-
-    public String getPostNo() {
-        return postNo;
-    }
-
-    public void setPostNo(String postNo) {
-        this.postNo = postNo;
-    }
-
-    public String getResdntCnt() {
-        return resdntCnt;
-    }
-
-    public void setResdntCnt(String resdntCnt) {
-        this.resdntCnt = resdntCnt;
-    }
-
-    public String getSdrCnt() {
-        return sdrCnt;
-    }
-
-    public void setSdrCnt(String sdrCnt) {
-        this.sdrCnt = sdrCnt;
-    }
-
-    public String getSgguCd() {
-        return sgguCd;
-    }
-
-    public void setSgguCd(String sgguCd) {
-        this.sgguCd = sgguCd;
-    }
-
-    public String getSgguCdNm() {
-        return sgguCdNm;
-    }
-
-    public void setSgguCdNm(String sgguCdNm) {
-        this.sgguCdNm = sgguCdNm;
-    }
-
-    public String getSidoCd() {
-        return sidoCd;
-    }
-
-    public void setSidoCd(String sidoCd) {
-        this.sidoCd = sidoCd;
-    }
-
-    public String getSidoCdNm() {
-        return sidoCdNm;
-    }
-
-    public void setSidoCdNm(String sidoCdNm) {
-        this.sidoCdNm = sidoCdNm;
-    }
-
-    public String getTelno() {
-        return telno;
-    }
-
-    public void setTelno(String telno) {
-        this.telno = telno;
     }
 
     public String getXPos() {
@@ -199,11 +102,18 @@ public class Item {
         this.yadmNm = yadmNm;
     }
 
-    public String getYkiho() {
-        return ykiho;
+    public String getHospUrl() {
+        return hospUrl;
     }
 
-    public void setYkiho(String ykiho) {
-        this.ykiho = ykiho;
+    public void setHospUrl(String hospUrl) {
+        this.hospUrl = hospUrl;
+    }
+    public String getTelno() {
+        return telno;
+    }
+
+    public void setTelno(String telno) {
+        this.telno = telno;
     }
 }
