@@ -100,6 +100,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onResponse(Call<Return_tag> call, Response<Return_tag> response) {
                 Log.d("TAG", "onResponse: "+response.message());
+                Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
                 for(int i =  0 ; i < response.body().response_tag.body.items.list.size();i++){
                     String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
                     String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급

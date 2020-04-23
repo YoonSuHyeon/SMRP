@@ -21,6 +21,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
     private HashMap<String,String> hash_type,hash_remain_stat;
 
     public PharmacyAdapter(ArrayList<Pharmacy> list){
+        this.items = list;
         hash_type = new HashMap<>();
         hash_remain_stat = new HashMap<>();
 
@@ -28,7 +29,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
         hash_remain_stat.put("plenty","100개 이상 ~");hash_remain_stat.put("some","~100개미만");
         hash_remain_stat.put("few","2개이상 ~ 30개 미만");hash_remain_stat.put("empty","1개 이하");
         hash_remain_stat.put("break","판매중지");
-        this.items = list;
+
     }
     public interface  OnPharmacyItemClickListener{
         void onItemClick(PharmacyAdapter.ViewHolder holder, View view, int position);
@@ -44,7 +45,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PharmacyAdapter.ViewHolder holder, int position) {
         Pharmacy item = items.get(position);
         holder.setItem(item);
     }

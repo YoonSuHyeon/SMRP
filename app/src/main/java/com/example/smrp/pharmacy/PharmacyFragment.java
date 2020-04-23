@@ -54,7 +54,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private ImageView btn_location, btn_research;
     private LinearLayoutManager mlinearLayoutManager;
     private Pharmacy pharmacy;
-    private int radiuse = 300, count = 0 ;
+    private int radiuse = 500, count = 0 ;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -108,7 +108,8 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
                 if(response.isSuccessful()){
-
+                    Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
+                    Log.d("TAG", "onResponse: "+response.message());
                     count = response.body().getCount();
                     for(int i =0; i< response.body().count;i++){
                         String add  = response.body().getList().get(i).getAddr(); //주소
@@ -121,7 +122,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                         String type = response.body().getList().get(i).getType();
                         addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
                     }
-                    Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
+                    ;
                 }
             }
 
