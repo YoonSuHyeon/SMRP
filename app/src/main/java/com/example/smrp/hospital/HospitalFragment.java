@@ -71,6 +71,9 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         adapter.setOnitemClickListener(new HospitalAdapter.OnHospitalItemClickListener() {
             @Override
             public void onItemClick(HospitalAdapter.ViewHolder holder, View viewm, int position) {
+                String lat = list.get(position).getxPos();
+                String lon = list.get(position).getyPos();
+                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(lon), Double.parseDouble(lat)), true);
 
             }
 
@@ -83,10 +86,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onUrl(int position) {
-                Uri uri = Uri.parse(list.get(position).getHosurl());
-                Log.d("TAG", "onUrl: "+uri);
-                Intent intent  = new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(intent);
+                if(!list.get(position).getHosurl().contains("www")){
+                    Toast.makeText(getActivity(),"해당 병원은 사이트가 존재 하지 않습니다.",Toast.LENGTH_LONG);
+                }else{
+                    Uri uri = Uri.parse(list.get(position).getHosurl());
+                    Log.d("TAG", "onUrl: "+uri);
+                    Intent intent  = new Intent(Intent.ACTION_VIEW,uri);
+                    startActivity(intent);
+                }
+
             }
 
             @Override
@@ -143,7 +151,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         marker= new MapPOIItem(); // 약국들을 mapview 에 표시하기 전에 marker를 생성함.
         marker.setItemName(yadmNm); //marker의 타이틀(제목)값을 부여
         marker.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
-        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함
+        //marker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함
         marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         marker.setCustomImageResourceId(R.drawable.pharmacy_icon2); //커스텀 icon 을 설정하기 위함
         marker.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
@@ -174,7 +182,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
 
         //줌 레벨 변경
-        mapView.setZoomLevel(2,true);
+        mapView.setZoomLevel(3,true);
 
         // 줌 인
         mapView.zoomIn(true);

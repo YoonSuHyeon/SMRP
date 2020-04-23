@@ -88,6 +88,15 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             textView_distance = itemView.findViewById(R.id.textView_hos_distance); //병원거리
             button_path = itemView.findViewById(R.id.button_path);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        listener.onItemClick(ViewHolder.this, v, position);
+                    }
+                }
+            });
             textview_hosurl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
