@@ -1,14 +1,19 @@
 package com.example.smrp.hospital;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,24 +40,68 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private Location location;
     private MapView mapView;
     private ViewGroup mapViewContainer;
-    private int radiuse=300;
+    private int radiuse=8000;
     private MapPOIItem marker;
     private Hospital hospital;
     private ArrayList<String> total_hos = new ArrayList<String>();
-    private ArrayList<Hospital> list = new ArrayList<>();
+    private ArrayList<Hospital> list;
+    private HospitalAdapter adapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager mlinearLayoutManager;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.hospital_fragment, container, false);
         startLocationService();
-        RetrofitService json = new RetrofitFactory().create();
         createMapView();
-        json.getList(37.303633,127.920252,500).enqueue(new Callback<Return_tag>() {
+        recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
+        mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
+
+        recyclerView.setLayoutManager(mlinearLayoutManager);
+        recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
+
+        list = new ArrayList<>();
+        adapter = new HospitalAdapter(list);
+        recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        adapter.setOnitemClickListener(new HospitalAdapter.OnHospitalItemClickListener() {
+            @Override
+            public void onItemClick(HospitalAdapter.ViewHolder holder, View viewm, int position) {
+
+            }
+
+            @Override
+            public void onCallClick(int position) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+list.get(position).getTelno()));
+                startActivity(intent);
+                Toast.makeText(getActivity(),"통화 연결 합니다.",Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onUrl(int position) {
+                Uri uri = Uri.parse(list.get(position).getHosurl());
+                Log.d("TAG", "onUrl: "+uri);
+                Intent intent  = new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onPath(int position) {
+
+            }
+        });
+        RetrofitService json = new RetrofitFactory().create();
+
+        json.getList(latitude,longitude,radiuse).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, Response<Return_tag> response) {
                 Log.d("TAG", "onResponse: "+response.message());
                 for(int i =  0 ; i < response.body().response_tag.body.items.list.size();i++){
-                    String yadmnm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
+                    String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
                     String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
                     String addr = response.body().response_tag.body.items.getItemsList().get(i).getAddr(); // 병원주소
                     String hosurl = response.body().response_tag.body.items.getItemsList().get(i).getHospUrl(); //병원 URL
@@ -60,7 +109,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     String xPos = response.body().response_tag.body.items.getItemsList().get(i).getXPos(); //병원 x좌표
                     String yPos = response.body().response_tag.body.items.getItemsList().get(i).getYPos(); //병원 x좌표
                     double distance = response.body().response_tag.body.items.getItemsList().get(i).getDistance(); //병원 x좌표
-
+                    addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
                 }
             }
 
@@ -86,12 +135,12 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         setMapView(latitude, longitude);
     }
 
-    private void addMarker(String addr, String created_at, float latitude, float longitude, String name, String remain_stat, String stock_at,String type){
+    private void addMarker(String yadmNm, String clCdNm, String addr, String hosurl, String telno, String xPos, String yPos, double distance){
         //mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
-        total_hos.clear(); //ArrayList total_phy 의 모든 값을 clear()
-
+        total_hos.clear(); //ArrayList total_hos 의 모든 값을 clear()
+        Log.d("TAG", "hosurl: "+hosurl+"===");
         marker= new MapPOIItem(); // 약국들을 mapview 에 표시하기 전에 marker를 생성함.
-        marker.setItemName(name); //marker의 타이틀(제목)값을 부여
+        marker.setItemName(yadmNm); //marker의 타이틀(제목)값을 부여
         marker.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
         marker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함
         marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
@@ -100,9 +149,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         //marker2.setAlpha(0.2f);// marker 투명도
         mapView.addPOIItem(marker);//mapview위에 marker 띄우기
 
-       /* hospital= new Hospital(addr, created_at, latitude, longitude, name,remain_stat,stock_at,type);
+        if(addr.contains("("))
+            addr = addr.substring(0, addr.indexOf("("));
+
+        if(hosurl==null)
+            hosurl="병원 사이트 없음.";
+        hospital= new Hospital(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
         list.add(hospital);
-        adapter.notifyDataSetChanged();*/
+        adapter.notifyDataSetChanged();
 
     }
     private void setMapView(double latitude, double longitude){ //MapView의 인터페이스 설정 클래스
