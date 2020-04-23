@@ -106,7 +106,7 @@
                             android:text="주소" />
 
                         <TextView
-                            android:id="@+id/textView_hos_hosurl"
+                            android:id="@+id/textView_Url"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
@@ -115,7 +115,7 @@
                             android:textSize="13sp" />
 
                         <TextView
-                            android:id="@+id/textView_hos_hostelno"
+                            android:id="@+id/textView_telno"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="2dp"
@@ -132,7 +132,7 @@
             <Button
                 android:id="@+id/button_path"
                 android:layout_width="match_parent"
-                android:layout_height="86dp"
+                android:layout_height="109dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_weight="1"

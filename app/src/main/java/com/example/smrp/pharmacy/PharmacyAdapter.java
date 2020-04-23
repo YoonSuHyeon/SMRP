@@ -80,12 +80,12 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
         public ViewHolder(View itemView, PharmacyAdapter pharmacyAdapter) {
             super(itemView);
 
-            textview_name = itemView.findViewById(R.id.textView_phar_name);
+            textview_name = itemView.findViewById(R.id.textView_phy_name);
             textview_time = itemView.findViewById(R.id.textView_input_time);
-            textView_create_data = itemView.findViewById(R.id.textView_create_data);
-            textview_type = itemView.findViewById(R.id.textView_phar_type);
+            textView_create_data = itemView.findViewById(R.id.textView_crete_data);
+            textview_type = itemView.findViewById(R.id.textView_phy_type);
             textview_address = itemView.findViewById(R.id.textView_address);
-            textView_mask_state = itemView.findViewById(R.id.textView_mask_state);
+            textView_mask_state = itemView.findViewById(R.id.textView_mask);
             button_path= itemView.findViewById(R.id.button_path);
 
             itemView.setOnClickListener(new View.OnClickListener() {

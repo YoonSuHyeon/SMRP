@@ -83,8 +83,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             textview_name = itemView.findViewById(R.id.textView_hos_name); //병원 이름
             textview_type = itemView.findViewById(R.id.textView_hos_type); //병원 타입
             textView_addr = itemView.findViewById(R.id.textView_hos_addr); //병원 주소
-            textview_hosurl = itemView.findViewById(R.id.textView_hos_hosurl); //병원 홈페이지
-            textview_hostelno = itemView.findViewById(R.id.textView_hos_hostelno); //병원 전화번호
+            textview_hosurl = itemView.findViewById(R.id.textView_Url); //병원 홈페이지
+            textview_hostelno = itemView.findViewById(R.id.textView_telno); //병원 전화번호
             textView_distance = itemView.findViewById(R.id.textView_hos_distance); //병원거리
             button_path = itemView.findViewById(R.id.button_path);
 

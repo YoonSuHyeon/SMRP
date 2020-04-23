@@ -40,7 +40,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private Location location;
     private MapView mapView;
     private ViewGroup mapViewContainer;
-    private int radiuse=8000;
+    private int radiuse=500;
     private MapPOIItem marker;
     private Hospital hospital;
     private ArrayList<String> total_hos = new ArrayList<String>();
