@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
     private ViewPagerAdapter bannerAdapter;
     private ViewPager viewPager;
     private ViewPager viewPager2;
-    private HomeViewModel homeViewModel;
     private final long DELAY_MS = 1000; // 자동 슬라이드를 위한 변수
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
@@ -67,15 +66,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
         /*리스트 프래그먼트 */
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = getActivity().getSupportFragmentManager(); // Fragment를 관리하기 위해서는 FragmentManager를 사용
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.add(R.id.Frg_med_alarm, new HomeAlarmFragment());
-        fragmentTransaction.commit();
+        fragmentTransaction.add(R.id.Frg_med_alarm, new HomeAlarmFragment()); // parameter1 : activity 내에서 fragment 를 삽입할 Layout id
+        fragmentTransaction.commit();                                        // parameter2 : 삽입할 fragment
+
+
 
 
 
