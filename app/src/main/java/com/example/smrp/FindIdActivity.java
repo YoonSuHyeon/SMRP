@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class findIdActivity extends AppCompatActivity {
+public class FindIdActivity extends AppCompatActivity {
     LinearLayout ll_fragment_id,ll_fragment_password,ll_id,ll_password;
     TextView tv_id,tv_password;
     ImageView iv_back;

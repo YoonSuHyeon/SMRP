@@ -86,7 +86,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() {
+        adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() { // 약국 리스트를 눌렀을 때 처리하는 어댑터!!!!!!!!!
             @Override
             public void onItemClick(PharmacyAdapter.ViewHolder holder, View view, int position) {
 
@@ -127,13 +127,12 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
-                Log.d("dzzzz",t.toString());
+                Log.d("데이터 가져오기 실패:",t.toString());
             }
         });
         return root;
     }
 
-    @SuppressLint("ShowToast")
     private void startLocationService(){ //사용자의 위치 좌표를 가져오기 위한 클래스
         LocationManager locationManager1 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성
         LocationManager locationManager2 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성
@@ -142,18 +141,14 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         float minDistance = 10;//단위 m
         try {
             locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, gpsListener); //// 위치 기반을 GPS모듈을 이용함
-            ;//gps
             locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,minTime,minDistance,gpsListener);//// 위치 기반을 네트워크 모듈을 이용함
             //5초 마다 or 10m 이동할떄마다 업데이트   network는 gps에 비해 정확도가 떨어짐
-
             location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다
-            //location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);    ///네트워크로 얻은 마지막 위치좌표를 이용
-
             if (location != null) {
                 latitude = location.getLatitude(); // GPS 모듈 경도 값 ex) 37.30616958190577
                 longitude = location.getLongitude(); //GPS 모듈 위도 값 ex) 127.92099856059595
             }else{
-                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
                 latitude = location.getLatitude(); //네트워크 경도 값
                 longitude = location.getLongitude(); // 네트워크 위도 값
             }
@@ -175,7 +170,10 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setPOIItemEventListener(this); // MapView의 marker 표시를 위함
         mapView.setCurrentLocationEventListener(this); // MapView의 현재위치 리스너
 
+        //중심적 변경
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
         setMapView(latitude,longitude);
+
     }
     private void setMapView(double latitude, double longitude){ //MapView의 인터페이스 설정 클래스
         //하이브리드 맵 설정
@@ -184,8 +182,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         //고해상도
         //mapView.setHDMapTileEnabled(true);
 
-        //중심적 변경
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
+
         //줌 레벨 변경
         mapView.setZoomLevel(2,true);
 
@@ -238,8 +235,8 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
         @Override
         public void onLocationChanged(Location location) {
-            Double latitude = location.getLatitude();
-            Double longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
 
         }
 

@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ToSActivity"></activity>
-        <activity android:name=".findIdActivity" />
+        <activity android:name=".FindIdActivity" />
         <activity android:name=".StartActivity"
             android:launchMode="singleTop"/>
         <activity android:name=".MainActivity" />
@@ -36,6 +36,9 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="q6ek0drodw" />
+        <meta-data
+            android:name="com.kakao.sdk.kakaonavi.useWebView"
+            android:value="false" />
     </application>
 
 </manifest>
