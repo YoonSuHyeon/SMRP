@@ -28,7 +28,6 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +50,9 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        if(container.getChildCount() > 0)
+            container.removeViewAt(0);
 
         root = inflater.inflate(R.layout.hospital_fragment, container, false);
         startLocationService();
@@ -81,13 +83,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             public void onCallClick(int position) {
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+list.get(position).getTelno()));
                 startActivity(intent);
-                Toast.makeText(getActivity(),"통화 연결 합니다.",Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(),"통화 연결 합니다.",Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onUrl(int position) {
                 if(!list.get(position).getHosurl().contains("www")){
-                    Toast.makeText(getActivity(),"해당 병원은 사이트가 존재 하지 않습니다.",Toast.LENGTH_LONG);
+                    Log.d("TAG", "onUrl: url not exist");
+                    Toast.makeText(getActivity(),"해당 병원은 사이트가 존재 하지 않습니다.",Toast.LENGTH_LONG).show();
                 }else{
                     Uri uri = Uri.parse(list.get(position).getHosurl());
                     Log.d("TAG", "onUrl: "+uri);
@@ -134,7 +137,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         if(mapView == null)
             mapView = new MapView(getActivity());
 
-        mapViewContainer = (ViewGroup) root.findViewById(R.id.map_view);
+        mapViewContainer = (ViewGroup) root.findViewById(R.id.hos_map_view);
         mapViewContainer.addView(mapView); // ViewGroup에 mapView 객체 추가
 
         mapView.setMapViewEventListener(this); //MapView의 Event 처리를 위함
@@ -196,7 +199,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
         // 중심점에 Marker 로 표시해줍니다
         // CenterMarker(latitude, longitude);
-        //Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
+        //Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG).show();
     }
 
 
@@ -266,7 +269,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int i) { //지도의 레벨이
-        Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
         switch (i){
             case 1:
                 break;
@@ -384,4 +387,5 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
         }//위치 공급자가 사용 불가능해질(disabled) 때 호출
     }
+
 }

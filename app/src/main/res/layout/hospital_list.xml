@@ -130,7 +130,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button_path"
+                android:id="@+id/hos_button_path"
                 android:layout_width="match_parent"
                 android:layout_height="109dp"
                 android:layout_gravity="center"

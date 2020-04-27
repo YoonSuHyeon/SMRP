@@ -1,6 +1,5 @@
 package com.example.smrp.pharmacy;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +61,11 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         /*if(pharmacyViewModel==null)
             pharmacyViewModel =
                 ViewModelProviders.of(this).get(PharmacyViewModel.class);*/
-        container.removeAllViews();
+        //container.removeAllViews();
+
+        /*if(container.getChildCount() > 0) // 현재 제공하려는 xml에 의외에 다른 xml이
+            container.removeViewAt(0);*/
+
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
 
         /*btn_research = root.findViewById(R.id.btn_research); //지도의 중앙값 좌표를 통해 반경 radius 약국목록을 가져오기 위한 버튼
@@ -162,7 +164,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         if(mapView==null)
             mapView = new MapView(getActivity()); // MapView 객체 선언
 
-        mapViewContainer = (ViewGroup)root.findViewById(R.id.map_view); // mapViewContainer 선언
+        mapViewContainer = (ViewGroup)root.findViewById(R.id.phy_map_view); // mapViewContainer 선언
         mapViewContainer.addView(mapView);
 
         /*btn_location.setVisibility(View.VISIBLE);
@@ -189,7 +191,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
 
         //줌 레벨 변경
-        mapView.setZoomLevel(2,true);
+        mapView.setZoomLevel(3,true);
 
         // 줌 인
         mapView.zoomIn(true);

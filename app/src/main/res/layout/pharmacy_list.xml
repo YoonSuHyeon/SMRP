@@ -126,9 +126,9 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button_path"
+                android:id="@+id/phy_button_path"
                 android:layout_width="match_parent"
-                android:layout_height="107dp"
+                android:layout_height="82dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
                 android:layout_weight="1"

@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smrp.R;
-import com.example.smrp.pharmacy.PharmacyAdapter;
 
 import java.util.ArrayList;
 
@@ -86,7 +85,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             textview_hosurl = itemView.findViewById(R.id.textView_Url); //병원 홈페이지
             textview_hostelno = itemView.findViewById(R.id.textView_telno); //병원 전화번호
             textView_distance = itemView.findViewById(R.id.textView_hos_distance); //병원거리
-            button_path = itemView.findViewById(R.id.button_path);
+            button_path = itemView.findViewById(R.id.hos_button_path);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

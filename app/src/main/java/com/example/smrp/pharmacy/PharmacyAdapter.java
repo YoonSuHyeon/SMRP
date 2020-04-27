@@ -87,7 +87,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
             textview_type = itemView.findViewById(R.id.textView_phy_type);
             textview_address = itemView.findViewById(R.id.textView_address);
             textView_mask_state = itemView.findViewById(R.id.textView_mask);
-            button_path= itemView.findViewById(R.id.button_path);
+            button_path= itemView.findViewById(R.id.phy_button_path);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
