@@ -2,6 +2,9 @@ package com.example.smrp.home;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -18,12 +21,17 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.smrp.R;
+
 import com.example.smrp.medicine.ViewPagerAdapter;
+
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import me.relex.circleindicator.CircleIndicator;
+import retrofit2.Call;
+
 public class HomeFragment extends Fragment {
 
     private ViewPagerAdapter adapter;
@@ -44,7 +52,8 @@ public class HomeFragment extends Fragment {
     String formatDate = sdfNow.format(date);
     TextView time;
 
-
+    private Location location;
+    private double latitude, longitude;
 
     private int[] images= {R.drawable.img_home_p1, R.drawable.img_self,R.drawable.img_home_p3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
@@ -56,6 +65,7 @@ public class HomeFragment extends Fragment {
 
 
 
+        startLocationService();//사용자 현재위치 경도 및 위도 GET
 
         /*리스트 프래그먼트 */
         FragmentManager fm = getActivity().getSupportFragmentManager(); // Fragment를 관리하기 위해서는 FragmentManager를 사용
@@ -142,7 +152,7 @@ public class HomeFragment extends Fragment {
 
         //배너2 자동스크롤
 
-
+        //RetrofitService_home json = new RetrofitFactory_home().create();
 
 
         return root;
@@ -150,5 +160,52 @@ public class HomeFragment extends Fragment {
 
 
     }
+    private void startLocationService(){ //사용자의 위치 좌표를 가져오기 위한 클래스
+        LocationManager locationManager1 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성
+        LocationManager locationManager2 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성
+        GPSListener gpsListener = new GPSListener();
+        long minTime = 1000;//단위 위치정보를 초기화 하기 위한 기준 설정 (millisecond , m)
+        float minDistance = 10;//단위 m
+        try {
+            locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, gpsListener); //// 위치 기반을 GPS모듈을 이용함
+            locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,minTime,minDistance,gpsListener);//// 위치 기반을 네트워크 모듈을 이용함
+            //5초 마다 or 10m 이동할떄마다 업데이트   network는 gps에 비해 정확도가 떨어짐
+            location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다
+            if (location != null) {
+                latitude = location.getLatitude(); // GPS 모듈 경도 값 ex) 37.30616958190577
+                longitude = location.getLongitude(); //GPS 모듈 위도 값 ex) 127.92099856059595
+            }else{
+                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
+                latitude = location.getLatitude(); //네트워크 경도 값
+                longitude = location.getLongitude(); // 네트워크 위도 값
+            }
+        } catch (SecurityException e) { //보안적인 예외처리 발생시 실행
+            e.printStackTrace();
+        }
 
+    }
+    private class GPSListener implements LocationListener {//위치리너스 클래스
+
+        @Override
+        public void onLocationChanged(Location location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }//위치 공급자의 상태가 바뀔 때 호출
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        } //위치 공급자가 사용 가능해질(enabled) 때 호출
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }//위치 공급자가 사용 불가능해질(disabled) 때 호출
+    }
 }
