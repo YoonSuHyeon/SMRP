@@ -70,6 +70,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         Log.d("TAG", "phy_container.count: " + container.getChildCount());
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
 
+
         /*btn_research = root.findViewById(R.id.btn_research); //지도의 중앙값 좌표를 통해 반경 radius 약국목록을 가져오기 위한 버튼
         btn_location = root.findViewById(R.id.btn_location); //지도의 위치를 사용자 위치로 변경하기 위함*/
         recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
@@ -78,7 +79,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         recyclerView.setLayoutManager(mlinearLayoutManager);
         recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
 
-        createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
+
 
         list = new ArrayList<>();
         adapter = new PharmacyAdapter(list);
@@ -110,28 +111,48 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         RetrofitService json = new RetrofitFactory().create();
         json.getList(latitude,longitude,radiuse).enqueue(new Callback<ItemModel>() {
             @Override
-            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+            public void onResponse(Call<ItemModel> call, final Response<ItemModel> response) {
                 if(response.isSuccessful()){
-                    Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
-                    Log.d("TAG", "onResponse: "+response.message());
-                    count = response.body().getCount();
-                    for(int i =0; i< response.body().count;i++){
-                        String add  = response.body().getList().get(i).getAddr(); //주소
-                        String crate_data = response.body().getList().get(i).getCreated_at(); //데이터 생성일자
-                        float latitude = response.body().getList().get(i).getLat(); //경도
-                        float longitude = response.body().getList().get(i).getLng(); //위도
-                        String name = response.body().getList().get(i).getName(); //이름
-                        String remain_state = response.body().getList().get(i).getRemain_stat(); // 마스크 보유량
-                        String input_time = response.body().getList().get(i).getStock_at(); // 마스크 입고시간
-                        String type = response.body().getList().get(i).getType();
-                        addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
-                    }
-                    ;
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
+                            Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
+                            Log.d("TAG", "onResponse: "+response.message());
+
+                            count = response.body().getCount();
+                            for(int i =0; i< response.body().count;i++){
+                                String add  = response.body().getList().get(i).getAddr(); //주소
+                                String crate_data = response.body().getList().get(i).getCreated_at(); //데이터 생성일자
+                                float latitude = response.body().getList().get(i).getLat(); //경도
+                                float longitude = response.body().getList().get(i).getLng(); //위도
+                                String name = response.body().getList().get(i).getName(); //이름
+                                String remain_state = response.body().getList().get(i).getRemain_stat(); // 마스크 보유량
+                                String input_time = response.body().getList().get(i).getStock_at(); // 마스크 입고시간
+                                String type = response.body().getList().get(i).getType();
+                                addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
+                            }
+                        }
+                    },150);
+
+
+
+                }else{
+                    handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(),"반경: "+radiuse+"의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                            createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
+                        }
+                    },400);
                 }
             }
 
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
+                Toast.makeText(getActivity(),"반경: "+radiuse+"의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
                 Log.d("데이터 가져오기 실패:",t.toString());
             }
         });
@@ -162,11 +183,18 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         }
 
     }
-    private void createMapView(){ //MapView 객체 선언과 이벤트 설정하는 클래스
-        if(mapView==null) {
-            mapView = new MapView(getActivity()); // MapView 객체 선언
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+    }
+    private void createMapView(){ //MapView 객체 선언과 이벤트 설정하는 클래스
+       /* if(mapView==null) {
+            mapView = new MapView(getActivity()); // MapView 객체 선언
+        }*/
+        if(mapView == null) {
+            mapView = new MapView(getContext());
+        }
         mapViewContainer = (ViewGroup)root.findViewById(R.id.phy_map_view); // mapViewContainer 선언
         mapViewContainer.addView(mapView);
 
