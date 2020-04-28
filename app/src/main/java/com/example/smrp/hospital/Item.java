@@ -24,34 +24,7 @@ public class Item {
     private String telno;
 
 
-/*@SerializedName("clCd")
-    private String clCd;
-    @SerializedName("drTotCnt")
-    private int drTotCnt;
-    @SerializedName("estbDd")
-    private String estbDd;
-    @SerializedName("gdrCnt")
-    private String gdrCnt;
-    @SerializedName("intnCnt")
-    private String intnCnt;
-    @SerializedName("postNo")
-    private String postNo;
-    @SerializedName("resdntCnt")
-    private String resdntCnt;
-    @SerializedName("sdrCnt")
-    private String sdrCnt;
-    @SerializedName("sgguCd")
-    private String sgguCd;
-    @SerializedName("sgguCdNm")
-    private String sgguCdNm;
-    @SerializedName("sidoCd")
-    private String sidoCd;
-    @SerializedName("sidoCdNm")
-    private String sidoCdNm;
-    @SerializedName("telno")
-    private String telno;
-    @SerializedName("ykiho")
-    private String ykiho;*/
+
 
 
     public String getAddr() {

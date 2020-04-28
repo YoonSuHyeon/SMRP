@@ -2,9 +2,12 @@ package com.example.smrp.home;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -19,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.smrp.R;
@@ -27,6 +31,11 @@ import com.example.smrp.medicine.ViewPagerAdapter;
 import com.example.smrp.response;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -53,11 +62,12 @@ public class HomeFragment extends Fragment {
     SimpleDateFormat sdfNow = new SimpleDateFormat("a hh : mm");
     // nowDate 변수에 값을 저장한다.
     String formatDate = sdfNow.format(date);
-    TextView time;
+    private TextView time,pm_textview,sky_state_textview,temp_textview;
+    ImageView weather_imageview;
 
     private Location location;
     private double latitude, longitude;
-
+    private Bitmap bitmap;
     private int[] images= {R.drawable.img_home_p1, R.drawable.img_self,R.drawable.img_home_p3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
 
@@ -68,8 +78,10 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
-
-
+        pm_textview = root.findViewById(R.id.pm_textview);
+        sky_state_textview = root.findViewById(R.id.sky_state_textview);
+        weather_imageview = root.findViewById(R.id.weather_imageview);
+        temp_textview = root.findViewById(R.id.temp_textview);
         startLocationService();//사용자 현재위치 경도 및 위도 GET
 
         /*리스트 프래그먼트 */
@@ -162,17 +174,44 @@ public class HomeFragment extends Fragment {
         RetrofitService_home json = new RetrofitFactory_home().create();
         json.getList(latitude,longitude).enqueue(new Callback<Response>() {
             @Override
-            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
+            public void onResponse(Call<Response> call, final retrofit2.Response<Response> response) {
 
                 Log.d("TAG", "Success: "+response.message());
                 Log.d("TAG", "size: "+response.body().getweatherList().size());
                 Log.d("TAG", "size: "+response.body().getWeather_main().getTemp());
 
-                for(int i = 0 ;i < response.body().getweatherList().size();i++){
-                    Log.d("TAG", "response: "+response.body().getweatherList().get(i).getDescription());
-                    Log.d("TAG", "response: "+response.body().getweatherList().get(i).getIcon());
-                }//url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
+
+                //url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
                 //미세먼지!!!
+                temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp()));
+                sky_state_textview.setText(response.body().getweatherList().get(0).getDescription());
+                Thread thread = new Thread(){
+                  @Override
+                  public void run(){
+                      try {
+                          URL url = new URL(" http://openweathermap.org/img/wn/"+response.body().getweatherList().get(0).getIcon()+"@2x.png");
+                          URLConnection urlConnection = url.openConnection();
+                          urlConnection.setDoInput(true);
+                          urlConnection.connect();
+
+                          InputStream is = urlConnection.getInputStream();
+                          bitmap = BitmapFactory.decodeStream(is);
+                      } catch (MalformedURLException e) {
+                          e.printStackTrace();
+                      }catch (IOException e){
+                          e.printStackTrace();
+                      }
+                  }
+                };
+                thread.start();
+                try {
+                    thread.join(); //별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 된다.
+                    weather_imageview.setImageBitmap(bitmap);
+               } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
             @Override

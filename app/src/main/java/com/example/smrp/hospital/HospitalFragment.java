@@ -105,7 +105,6 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             }
         });
         RetrofitService json = new RetrofitFactory().create();
-
         json.getList(latitude,longitude,radiuse).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
