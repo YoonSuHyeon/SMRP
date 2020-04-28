@@ -53,9 +53,9 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private LinearLayoutManager mlinearLayoutManager;
     private Pharmacy pharmacy;
     private int radiuse = 500, count = 0 ;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         startLocationService(); //사용자의 현재위치를 좌표를 가져오기 위한 클래스 호출
 
         /*if(pharmacyViewModel==null)
@@ -63,9 +63,11 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 ViewModelProviders.of(this).get(PharmacyViewModel.class);*/
         //container.removeAllViews();
 
-        /*if(container.getChildCount() > 0) // 현재 제공하려는 xml에 의외에 다른 xml이
-            container.removeViewAt(0);*/
-
+        /*if(container.getChildCount() > 0) { // 현재 제공하려는 xml에 의외에 다른 xml이
+            Log.d("TAG", "container.count: " + container.getChildCount());
+            container.removeViewAt(0);
+        }*/
+        Log.d("TAG", "phy_container.count: " + container.getChildCount());
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
 
         /*btn_research = root.findViewById(R.id.btn_research); //지도의 중앙값 좌표를 통해 반경 radius 약국목록을 가져오기 위한 버튼
@@ -161,8 +163,9 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
     }
     private void createMapView(){ //MapView 객체 선언과 이벤트 설정하는 클래스
-        if(mapView==null)
+        if(mapView==null) {
             mapView = new MapView(getActivity()); // MapView 객체 선언
+        }
 
         mapViewContainer = (ViewGroup)root.findViewById(R.id.phy_map_view); // mapViewContainer 선언
         mapViewContainer.addView(mapView);

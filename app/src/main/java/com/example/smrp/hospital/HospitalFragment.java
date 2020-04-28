@@ -51,9 +51,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        if(container.getChildCount() > 0)
-            container.removeViewAt(0);
 
+        Log.d("TAG", "Hos_container.count: "+container.getChildCount());
         root = inflater.inflate(R.layout.hospital_fragment, container, false);
         startLocationService();
         createMapView();
@@ -134,9 +133,9 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     }
 
     private void createMapView(){
-        if(mapView == null)
+        if(mapView == null) {
             mapView = new MapView(getActivity());
-
+        }
         mapViewContainer = (ViewGroup) root.findViewById(R.id.hos_map_view);
         mapViewContainer.addView(mapView); // ViewGroup에 mapView 객체 추가
 
