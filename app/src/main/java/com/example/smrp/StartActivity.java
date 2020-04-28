@@ -61,7 +61,7 @@ public class StartActivity extends AppCompatActivity{
 
         if (Build.VERSION.SDK_INT >= 23) {      //퍼미션 권한 부여
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET,Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION);
+                    Manifest.permission.CALL_PHONE,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION);
         }//퍼미션접근 권한
 
         Btn_login.setOnClickListener(new View.OnClickListener() {

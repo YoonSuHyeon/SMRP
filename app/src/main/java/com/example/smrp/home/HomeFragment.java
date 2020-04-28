@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.example.smrp.R;
 
 import com.example.smrp.medicine.ViewPagerAdapter;
+import com.example.smrp.response;
 
 
 import java.text.SimpleDateFormat;
@@ -31,6 +33,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
+import retrofit2.Callback;
 
 public class HomeFragment extends Fragment {
 
@@ -60,6 +63,8 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        if(container.getChildCount() > 0)
+            container.removeViewAt(0);
 
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
@@ -152,9 +157,30 @@ public class HomeFragment extends Fragment {
 
         //배너2 자동스크롤
 
-        //RetrofitService_home json = new RetrofitFactory_home().create();
+        Log.d("TAG", "latitude: "+String.valueOf(latitude)+"\n");
+        Log.d("TAG", "longitude: "+String.valueOf(longitude)+"\n");
+        RetrofitService_home json = new RetrofitFactory_home().create();
+        json.getList(latitude,longitude).enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(Call<Response> call, retrofit2.Response<Response> response) {
 
+                Log.d("TAG", "Success: "+response.message());
+                Log.d("TAG", "size: "+response.body().getweatherList().size());
+                Log.d("TAG", "size: "+response.body().getWeather_main().getTemp());
 
+                for(int i = 0 ;i < response.body().getweatherList().size();i++){
+                    Log.d("TAG", "response: "+response.body().getweatherList().get(i).getDescription());
+                    Log.d("TAG", "response: "+response.body().getweatherList().get(i).getIcon());
+                }//url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
+                //미세먼지!!!
+            }
+
+            @Override
+            public void onFailure(Call<Response> call, Throwable t) {
+                Log.d("TAG", "Fail: "+ t.getMessage());
+                Log.d("TAG", "Fail: "+ t.getLocalizedMessage());
+            }
+        });
         return root;
 
 
