@@ -13,13 +13,11 @@
             />-->
 
         <RelativeLayout
-            android:id="@+id/map_view"
+            android:id="@+id/phy_map_view"
             android:layout_width="match_parent"
             android:layout_height="370dp"
             tools:layout_editor_absoluteX="-96dp"
-            tools:layout_editor_absoluteY="35dp">
-
-        </RelativeLayout>
+            tools:layout_editor_absoluteY="35dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_view"

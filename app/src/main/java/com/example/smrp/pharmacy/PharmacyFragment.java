@@ -1,6 +1,5 @@
 package com.example.smrp.pharmacy;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
@@ -18,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,25 +52,31 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private ImageView btn_location, btn_research;
     private LinearLayoutManager mlinearLayoutManager;
     private Pharmacy pharmacy;
-    private int radiuse = 300, count = 0 ;
-
+    private int radiuse = 500, count = 0 ;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         startLocationService(); //사용자의 현재위치를 좌표를 가져오기 위한 클래스 호출
 
         /*if(pharmacyViewModel==null)
             pharmacyViewModel =
                 ViewModelProviders.of(this).get(PharmacyViewModel.class);*/
-        container.removeAllViews();
+        //container.removeAllViews();
+
+        /*if(container.getChildCount() > 0) { // 현재 제공하려는 xml에 의외에 다른 xml이
+            Log.d("TAG", "container.count: " + container.getChildCount());
+            container.removeViewAt(0);
+        }*/
+        Log.d("TAG", "phy_container.count: " + container.getChildCount());
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
 
         /*btn_research = root.findViewById(R.id.btn_research); //지도의 중앙값 좌표를 통해 반경 radius 약국목록을 가져오기 위한 버튼
         btn_location = root.findViewById(R.id.btn_location); //지도의 위치를 사용자 위치로 변경하기 위함*/
-        recyclerView = root.findViewById(R.id.recycle_view);
-        mlinearLayoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
+        mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
 
         recyclerView.setLayoutManager(mlinearLayoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
 
         createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
 
@@ -86,7 +90,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() {
+        adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() { // 약국 리스트를 눌렀을 때 처리하는 어댑터!!!!!!!!!
             @Override
             public void onItemClick(PharmacyAdapter.ViewHolder holder, View view, int position) {
 
@@ -108,7 +112,8 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
                 if(response.isSuccessful()){
-
+                    Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
+                    Log.d("TAG", "onResponse: "+response.message());
                     count = response.body().getCount();
                     for(int i =0; i< response.body().count;i++){
                         String add  = response.body().getList().get(i).getAddr(); //주소
@@ -121,19 +126,18 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                         String type = response.body().getList().get(i).getType();
                         addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
                     }
-                    Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
+                    ;
                 }
             }
 
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
-                Log.d("dzzzz",t.toString());
+                Log.d("데이터 가져오기 실패:",t.toString());
             }
         });
         return root;
     }
 
-    @SuppressLint("ShowToast")
     private void startLocationService(){ //사용자의 위치 좌표를 가져오기 위한 클래스
         LocationManager locationManager1 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성
         LocationManager locationManager2 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성
@@ -142,18 +146,14 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         float minDistance = 10;//단위 m
         try {
             locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, gpsListener); //// 위치 기반을 GPS모듈을 이용함
-            ;//gps
             locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,minTime,minDistance,gpsListener);//// 위치 기반을 네트워크 모듈을 이용함
             //5초 마다 or 10m 이동할떄마다 업데이트   network는 gps에 비해 정확도가 떨어짐
-
             location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다
-            //location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);    ///네트워크로 얻은 마지막 위치좌표를 이용
-
             if (location != null) {
                 latitude = location.getLatitude(); // GPS 모듈 경도 값 ex) 37.30616958190577
                 longitude = location.getLongitude(); //GPS 모듈 위도 값 ex) 127.92099856059595
             }else{
-                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
                 latitude = location.getLatitude(); //네트워크 경도 값
                 longitude = location.getLongitude(); // 네트워크 위도 값
             }
@@ -163,10 +163,11 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
     }
     private void createMapView(){ //MapView 객체 선언과 이벤트 설정하는 클래스
-        if(mapView==null)
+        if(mapView==null) {
             mapView = new MapView(getActivity()); // MapView 객체 선언
+        }
 
-        mapViewContainer = (ViewGroup)root.findViewById(R.id.map_view); // mapViewContainer 선언
+        mapViewContainer = (ViewGroup)root.findViewById(R.id.phy_map_view); // mapViewContainer 선언
         mapViewContainer.addView(mapView);
 
         /*btn_location.setVisibility(View.VISIBLE);
@@ -175,19 +176,25 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setPOIItemEventListener(this); // MapView의 marker 표시를 위함
         mapView.setCurrentLocationEventListener(this); // MapView의 현재위치 리스너
 
+
         setMapView(latitude,longitude);
+
     }
     private void setMapView(double latitude, double longitude){ //MapView의 인터페이스 설정 클래스
         //하이브리드 맵 설정
         //mapView.setMapType(MapView.MapType.Hybrid); //Standard ,Statllite, Hybrid
+
+        // 내 현재위치 원 그리기
+        mapView.setCurrentLocationRadius(radiuse);
 
         //고해상도
         //mapView.setHDMapTileEnabled(true);
 
         //중심적 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
+
         //줌 레벨 변경
-        mapView.setZoomLevel(2,true);
+        mapView.setZoomLevel(3,true);
 
         // 줌 인
         mapView.zoomIn(true);
@@ -238,8 +245,8 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
         @Override
         public void onLocationChanged(Location location) {
-            Double latitude = location.getLatitude();
-            Double longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
 
         }
 

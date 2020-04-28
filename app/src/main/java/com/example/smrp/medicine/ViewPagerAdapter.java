@@ -97,6 +97,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
 
 
+
                     if(position == 0){
                         navController.navigate(R.id.action_nav_home_to_nav_medicine);
                     }
@@ -109,6 +110,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                         navController.navigate(R.id.action_nav_home_to_nav_look_up);
                     }
 
+                    navController.popBackStack();
 
                 }
 

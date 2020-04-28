@@ -21,6 +21,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
     private HashMap<String,String> hash_type,hash_remain_stat;
 
     public PharmacyAdapter(ArrayList<Pharmacy> list){
+        this.items = list;
         hash_type = new HashMap<>();
         hash_remain_stat = new HashMap<>();
 
@@ -28,7 +29,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
         hash_remain_stat.put("plenty","100개 이상 ~");hash_remain_stat.put("some","~100개미만");
         hash_remain_stat.put("few","2개이상 ~ 30개 미만");hash_remain_stat.put("empty","1개 이하");
         hash_remain_stat.put("break","판매중지");
-        this.items = list;
+
     }
     public interface  OnPharmacyItemClickListener{
         void onItemClick(PharmacyAdapter.ViewHolder holder, View view, int position);
@@ -44,7 +45,7 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PharmacyAdapter.ViewHolder holder, int position) {
         Pharmacy item = items.get(position);
         holder.setItem(item);
     }
@@ -80,13 +81,13 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
         public ViewHolder(View itemView, PharmacyAdapter pharmacyAdapter) {
             super(itemView);
 
-            textview_name = itemView.findViewById(R.id.textView_phar_name);
+            textview_name = itemView.findViewById(R.id.textView_phy_name);
             textview_time = itemView.findViewById(R.id.textView_input_time);
-            textView_create_data = itemView.findViewById(R.id.textView_create_data);
-            textview_type = itemView.findViewById(R.id.textView_phar_type);
+            textView_create_data = itemView.findViewById(R.id.textView_crete_data);
+            textview_type = itemView.findViewById(R.id.textView_phy_type);
             textview_address = itemView.findViewById(R.id.textView_address);
-            textView_mask_state = itemView.findViewById(R.id.textView_mask_state);
-            button_path= itemView.findViewById(R.id.button_path);
+            textView_mask_state = itemView.findViewById(R.id.textView_mask);
+            button_path= itemView.findViewById(R.id.phy_button_path);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

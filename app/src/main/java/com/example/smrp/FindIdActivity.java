@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class findIdActivity extends AppCompatActivity {
+public class FindIdActivity extends AppCompatActivity {
     LinearLayout ll_fragment_id,ll_fragment_password,ll_id,ll_password;
     TextView tv_id,tv_password;
     ImageView iv_back;
@@ -25,7 +25,7 @@ public class findIdActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_id);
-
+////////////////////////////
         iv_back = findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_findId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,findIdActivity.class);
+                Intent intent = new Intent(LoginActivity.this, FindIdActivity.class);
                 startActivity(intent);
 
             }
