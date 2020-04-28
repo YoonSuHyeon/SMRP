@@ -26,18 +26,25 @@
                 >
 
                 <LinearLayout
-                    android:layout_width="216dp"
+                    android:layout_width="208dp"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="127dp"
+                        android:id="@+id/weather_imageview"
+                        android:layout_width="61dp"
+
                         android:layout_height="80dp"
-
                         android:scaleType="fitStart"
-                        android:src="@drawable/img_weather"
 
-                        />
+                        android:src="@drawable/img_weather" />
+
+                    <TextView
+                        android:id="@+id/temp_textview"
+                        android:layout_width="21dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="dsada" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -78,13 +85,14 @@
 
                             <TextView
                                 android:id="@+id/sky_state_textview"
-                                android:layout_width="wrap_content"
+                                android:layout_width="160dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:textSize="8sp" />
                         </LinearLayout>
 
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <TextClock
@@ -306,5 +314,3 @@
 
 
 </LinearLayout>
-
-
