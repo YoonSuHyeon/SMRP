@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class ToSActivity extends AppCompatActivity {
     Context context; //this 객체
@@ -33,19 +34,40 @@ public class ToSActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent =new Intent(context,SignUpActivity.class);
-                startActivity(intent);
-                finish();
-
+                if(check1.isChecked()&&check2.isChecked()&&check3.isChecked()){
+                    Intent intent =new Intent(context,SignUpActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(context,"모든 약관을 동의 해야합니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+
         iv_back=findViewById(R.id.iv_back);
-        iv_back.setOnClickListener(new View.OnClickListener() {
+        iv_back.setOnClickListener(new View.OnClickListener() { //뒤로가기 이미지를 눌렀을때
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
+        checkAll.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkAll.isChecked()){//모두 동의 true
+                    check1.setChecked(true);
+                    check2.setChecked(true);
+                    check3.setChecked(true);
+                }else{
+                    check1.setChecked(false);
+                    check2.setChecked(false);
+                    check3.setChecked(false);
+                }
+            }
+        });
+
 
 
 
