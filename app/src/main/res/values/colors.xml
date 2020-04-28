@@ -6,4 +6,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBtn">#5A95C6</color>
     <color name="appBaseColor">#2658FB</color>
+    <color name="searchFont">#989898</color>
 </resources>
