@@ -81,6 +81,8 @@ public class StartActivity extends AppCompatActivity{
             }
         });
 
+        /*HTTP*/
+        
 
         // 자동 슬라이드
         final Handler handler = new Handler();
