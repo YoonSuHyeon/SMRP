@@ -6,17 +6,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.smrp.home.HomeFragment"
-        tools:layout="@layout/home_fragment" >
-        <action
-            android:id="@+id/action_nav_home_to_nav_medicine"
-            app:destination="@id/nav_medicine" />
-        <action
-            android:id="@+id/action_nav_home_to_nav_inquiry"
-            app:destination="@id/nav_inquiry" />
-        <action
-            android:id="@+id/action_nav_home_to_nav_look_up"
-            app:destination="@id/nav_look_up" />
-    </fragment>
+        tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/nav_alarm"
         android:name="com.example.smrp.alarm.AlarmFragment"
@@ -40,11 +30,7 @@
     <fragment
         android:id="@+id/nav_medicine"
         android:name="com.example.smrp.medicine.MedicineFragment"
-        tools:layout="@layout/medicine_fragment" >
-        <action
-            android:id="@+id/action_nav_medicine_to_nav_home"
-            app:destination="@id/nav_home" />
-    </fragment>
+        tools:layout="@layout/medicine_fragment" />
     <fragment
         android:id="@+id/nav_pharmacy"
         android:name="com.example.smrp.pharmacy.PharmacyFragment"

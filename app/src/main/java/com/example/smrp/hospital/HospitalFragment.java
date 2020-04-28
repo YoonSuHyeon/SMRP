@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +38,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private View root;
     private double latitude=0.0 ,longitude=0.0;
     private Location location;
-    private MapView mapView;
+    public MapView mapView;
     private ViewGroup mapViewContainer;
     private int radiuse=500;
     private MapPOIItem marker;
@@ -47,15 +48,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private HospitalAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager mlinearLayoutManager;
-
+    private Handler handler;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         Log.d("TAG", "Hos_container.count: "+container.getChildCount());
         root = inflater.inflate(R.layout.hospital_fragment, container, false);
         startLocationService();
-        createMapView();
+
         recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
         mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
 
@@ -108,33 +108,63 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
         json.getList(latitude,longitude,radiuse).enqueue(new Callback<Return_tag>() {
             @Override
-            public void onResponse(Call<Return_tag> call, Response<Return_tag> response) {
-                Log.d("TAG", "onResponse: "+response.message());
-                Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
-                for(int i =  0 ; i < response.body().response_tag.body.items.list.size();i++){
-                    String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
-                    String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
-                    String addr = response.body().response_tag.body.items.getItemsList().get(i).getAddr(); // 병원주소
-                    String hosurl = response.body().response_tag.body.items.getItemsList().get(i).getHospUrl(); //병원 URL
-                    String telno = response.body().response_tag.body.items.getItemsList().get(i).getTelno(); // 병원 전화번호
-                    String xPos = response.body().response_tag.body.items.getItemsList().get(i).getXPos(); //병원 x좌표
-                    String yPos = response.body().response_tag.body.items.getItemsList().get(i).getYPos(); //병원 x좌표
-                    double distance = response.body().response_tag.body.items.getItemsList().get(i).getDistance(); //병원 x좌표
-                    addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
+            public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
+                if(response.isSuccessful()){
+                    Log.d("TAG", "onResponse: "+response.message());
+                    Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            createMapView();
+                            for(int i =  0 ; i < response.body().response_tag.body.items.list.size();i++){
+                                String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
+                                String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
+                                String addr = response.body().response_tag.body.items.getItemsList().get(i).getAddr(); // 병원주소
+                                String hosurl = response.body().response_tag.body.items.getItemsList().get(i).getHospUrl(); //병원 URL
+                                String telno = response.body().response_tag.body.items.getItemsList().get(i).getTelno(); // 병원 전화번호
+                                String xPos = response.body().response_tag.body.items.getItemsList().get(i).getXPos(); //병원 x좌표
+                                String yPos = response.body().response_tag.body.items.getItemsList().get(i).getYPos(); //병원 x좌표
+                                double distance = response.body().response_tag.body.items.getItemsList().get(i).getDistance(); //병원 x좌표
+                                addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
+                            }
+                        }
+                    },150);
+
+
+                }else{
+                    handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(),"반경: "+radiuse+"의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                            createMapView();
+                        }
+                    },400);
                 }
+
             }
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
-
+                Toast.makeText(getActivity(),"반경: "+radiuse+"의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
             }
         });
         return root;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
     private void createMapView(){
         if(mapView == null) {
-            mapView = new MapView(getActivity());
+            mapView = new MapView(getContext());
         }
         mapViewContainer = (ViewGroup) root.findViewById(R.id.hos_map_view);
         mapViewContainer.addView(mapView); // ViewGroup에 mapView 객체 추가
