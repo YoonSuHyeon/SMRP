@@ -1,10 +1,12 @@
 package com.example.smrp.pharmacy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,6 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smrp.R;
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
+import com.kakao.kakaonavi.options.RpOption;
+import com.kakao.kakaonavi.options.VehicleType;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -53,20 +61,13 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private LinearLayoutManager mlinearLayoutManager;
     private Pharmacy pharmacy;
     private int radiuse = 500, count = 0 ;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         startLocationService(); //사용자의 현재위치를 좌표를 가져오기 위한 클래스 호출
 
-        /*if(pharmacyViewModel==null)
-            pharmacyViewModel =
-                ViewModelProviders.of(this).get(PharmacyViewModel.class);*/
-        //container.removeAllViews();
 
-        /*if(container.getChildCount() > 0) { // 현재 제공하려는 xml에 의외에 다른 xml이
-            Log.d("TAG", "container.count: " + container.getChildCount());
-            container.removeViewAt(0);
-        }*/
         Log.d("TAG", "phy_container.count: " + container.getChildCount());
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
 
@@ -91,10 +92,10 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
+
         adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() { // 약국 리스트를 눌렀을 때 처리하는 어댑터!!!!!!!!!
             @Override
             public void onItemClick(PharmacyAdapter.ViewHolder holder, View view, int position) {
-
             }
 
             @Override
@@ -103,7 +104,25 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             }
 
             @Override
-            public void onPath(int position) {
+            public void onPath(int position) {//카카오 네비게이션 설치가 되어있을 경우
+                if(KakaoNaviService.isKakaoNaviInstalled(getContext())){
+                    Log.d("TAG", "yes: ");
+                    Log.d("TAG", "name:"+list.get(position).getName() );
+                    Log.d("TAG", "name:"+list.get(position).getLatitude() );
+                    Log.d("TAG", "name:"+list.get(position).getLongitude() );
+                    com.kakao.kakaonavi.Location location = com.kakao.kakaonavi.Location.newBuilder(list.get(position).getName(),list.get(position).getLongitude(),
+                            list.get(position).getLatitude()).build();
+                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build(); //setCoordType: 좌표계  setVehicleType: 차종  setRpOption: 경로 옵션
+                    KakaoNaviParams parms = KakaoNaviParams.newBuilder(location).setNaviOptions(options).build();
+                    KakaoNaviService.navigate(getActivity(),parms);
+                }else{ //카카오 네비게이션 설치가 안되어 있을 경우
+                    Log.d("TAG", "nononno ");
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.locnall.KimGiSa"));
+                    startActivity(intent);
+
+                }
 
             }
         });
@@ -120,8 +139,6 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                             Log.d("TAG", "response.body().getCount().size: "+response.body().getCount());
                             Log.d("TAG", "onResponse: "+response.message());
-
-                            count = response.body().getCount();
                             for(int i =0; i< response.body().count;i++){
                                 String add  = response.body().getList().get(i).getAddr(); //주소
                                 String crate_data = response.body().getList().get(i).getCreated_at(); //데이터 생성일자
@@ -135,9 +152,6 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                             }
                         }
                     },150);
-
-
-
                 }else{
                     handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -358,10 +372,10 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         //Toast.makeText(getActivity().getApplicationContext(),"지도 중심 좌표 변경",Toast.LENGTH_LONG).show();
     }
 ///////////////////////////지도의 반경을 그릴때 이 값을 표현 하기 위해 서 최신화 해주기위한 클래스 호출 고려
-    
+
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int i) { //지도의 레벨이
-        Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
         switch (i){
             case 1:
                 break;

@@ -38,6 +38,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import me.relex.circleindicator.CircleIndicator;
@@ -78,6 +79,19 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
+        HashMap<String,String> sky_image = new HashMap<>();
+
+
+        //밤일떄 return 받는 이미지가 n으로 끝남
+        sky_image.put("01n","clear_sky");sky_image.put("02n","few_clouds");sky_image.put("03n","scattered_clouds");sky_image.put("04n","broken_clouds");
+        sky_image.put("09n","show_rain");sky_image.put("10n","rain");sky_image.put("11n","thunderstom");sky_image.put("13n","snow");sky_image.put("50n","mist");
+
+        //아침,낮 일떄 return 받는 이미지가 d으로 끝남
+        sky_image.put("01d","clear_sky");sky_image.put("02d","few_clouds");sky_image.put("03d","scattered_clouds");sky_image.put("04d","broken_clouds");
+        sky_image.put("09d","show_rain");sky_image.put("10d","rain");sky_image.put("11d","thunderstom");sky_image.put("13d","snow");sky_image.put("50d","mist");
+
+
+
         pm_textview = root.findViewById(R.id.pm_textview);
         sky_state_textview = root.findViewById(R.id.sky_state_textview);
         weather_imageview = root.findViewById(R.id.weather_imageview);
@@ -97,7 +111,7 @@ public class HomeFragment extends Fragment {
         CircleIndicator indicator = root.findViewById(R.id.indicator_home); // 인디케이터
         CircleIndicator indicator2 = root.findViewById(R.id.indicator_home2); // 인디케이터
 
-        /*동적으로 배너 크기 바끄기 */
+        /*동적으로 배너 크기 바꾸기 */
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
@@ -185,6 +199,7 @@ public class HomeFragment extends Fragment {
                 //미세먼지!!!
                 temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp()));
                 sky_state_textview.setText(response.body().getweatherList().get(0).getDescription());
+                Log.d("TAG", "icons: "+response.body().getweatherList().get(0).getIcon());
                 Thread thread = new Thread(){
                   @Override
                   public void run(){

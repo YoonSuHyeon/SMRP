@@ -23,6 +23,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.smrp.R;
+import com.kakao.kakaonavi.KakaoNaviParams;
+import com.kakao.kakaonavi.KakaoNaviService;
+import com.kakao.kakaonavi.NaviOptions;
+import com.kakao.kakaonavi.options.CoordType;
+import com.kakao.kakaonavi.options.RpOption;
+import com.kakao.kakaonavi.options.VehicleType;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -101,6 +107,23 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onPath(int position) {
+                if(KakaoNaviService.isKakaoNaviInstalled(getContext())){
+                    Log.d("TAG", "yes: ");
+                    Log.d("TAG", "name:"+list.get(position).getYadmNm() );
+                    Log.d("TAG", "name:"+Double.parseDouble(list.get(position).getyPos() ));
+                    Log.d("TAG", "name:"+Double.parseDouble(list.get(position).getxPos()) );
+                    com.kakao.kakaonavi.Location location = com.kakao.kakaonavi.Location.newBuilder(list.get(position).getYadmNm(),Double.parseDouble(list.get(position).getxPos()),Double.parseDouble(list.get(position).getyPos())).build();
+                    NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build(); //setCoordType: 좌표계  setVehicleType: 차종  setRpOption: 경로 옵션
+                    KakaoNaviParams parms = KakaoNaviParams.newBuilder(location).setNaviOptions(options).build();
+                    KakaoNaviService.navigate(getActivity(),parms);
+                }else{ //카카오 네비게이션 설치가 안되어 있을 경우
+                    Log.d("TAG", "nononno ");
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.locnall.KimGiSa"));
+                    startActivity(intent);
+
+                }
 
             }
         });
