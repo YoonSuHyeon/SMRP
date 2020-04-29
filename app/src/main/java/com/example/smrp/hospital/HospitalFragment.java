@@ -128,6 +128,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             }
         });
         RetrofitService json = new RetrofitFactory().create();
+        Log.d("TAG", "latitude: "+latitude);
+        Log.d("TAG", "longitude: "+longitude);
         json.getList(latitude,longitude,radiuse).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
@@ -151,6 +153,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                                 double distance = response.body().response_tag.body.items.getItemsList().get(i).getDistance(); //병원 x좌표
                                 addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
                             }
+
+
                         }
                     },150);
 
@@ -205,7 +209,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         marker= new MapPOIItem(); // 약국들을 mapview 에 표시하기 전에 marker를 생성함.
         marker.setItemName(yadmNm); //marker의 타이틀(제목)값을 부여
         marker.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
-        //marker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함
+        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(xPos),Double.parseDouble(yPos))); //mapview의 초점을 marker를 중심으로 함
         marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         marker.setCustomImageResourceId(R.drawable.pharmacy_icon2); //커스텀 icon 을 설정하기 위함
         marker.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
@@ -404,10 +408,12 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             if (location != null) {
                 latitude = location.getLatitude(); // GPS 모듈 경도 값 ex) 37.30616958190577
                 longitude = location.getLongitude(); //GPS 모듈 위도 값 ex) 127.92099856059595
+                location=null;
             }else{
                 location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
                 latitude = location.getLatitude(); //네트워크 경도 값
                 longitude = location.getLongitude(); // 네트워크 위도 값
+                location=null;
             }
         } catch (SecurityException e) { //보안적인 예외처리 발생시 실행
             e.printStackTrace();
