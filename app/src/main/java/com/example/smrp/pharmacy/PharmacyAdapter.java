@@ -115,8 +115,8 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
             textview_time.setText(item.getStock_at()); //입고시간
             textView_create_data.setText(item.getCreated_at()); //데이터생성일자
             textview_type.setText(hash_type.get(item.getType())); //타입(약국 우체국, 농협)
-            textview_address.append(item.getAddr()); //주소
-            textView_mask_state.append(hash_remain_stat.get(item.getRemain_stat()));
+            textview_address.setText(item.getAddr()); //주소
+            textView_mask_state.setText(hash_remain_stat.get(item.getRemain_stat()));
         }
     }
 }
