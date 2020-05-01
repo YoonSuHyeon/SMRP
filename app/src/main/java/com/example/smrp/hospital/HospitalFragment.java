@@ -69,9 +69,10 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                              ViewGroup container, Bundle savedInstanceState) {
 
         Log.d("TAG", "Hos_container.count: "+container.getChildCount());
-        root = inflater.inflate(R.layout.hospital_fragment, container, false);
         dialog = new Dialog();
         dialog.execute();
+        root = inflater.inflate(R.layout.hospital_fragment, container, false);
+
 
         startLocationService();
 
@@ -106,7 +107,11 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                 list.clear();
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
                 mapView.setCurrentLocationRadius(radiuse);
+                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                mapCircle.setTag(2);
+                mapView.addCircle(mapCircle);
                 re_parsingData(latitude,longitude,radiuse);
+
             }
         });
         research_fb.setOnClickListener(new View.OnClickListener() {
@@ -134,14 +139,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             public void onItemClick(HospitalAdapter.ViewHolder holder, View viewm, int position) {
                 String lat = list.get(position).getxPos();
                 String lon = list.get(position).getyPos();
-                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(lat), Double.parseDouble(lon)), true);
+                mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(lon), Double.parseDouble(lat)), true);
             }
 
             @Override
             public void onCallClick(int position) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"+list.get(position).getTelno()));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+list.get(position).getTelno()));
+                //ACTION_DIAL: 전화 다이얼로그 Action_call:전화 연결
                 startActivity(intent);
-                Toast.makeText(getActivity(),"통화 연결 합니다.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"통화 연결다이얼로그로 전환합니다.",Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -182,6 +188,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         });
         Log.d("TAG", "latitude1: "+latitude);
         Log.d("TAG", "longitude1: "+longitude);
+
         parsingData(latitude,longitude,radiuse);
 
         return root;
@@ -205,7 +212,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                         public void run() {
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                             count = response.body().response_tag.body.items.getItemsList().size();
-                            Log.d("TAG", "count: "+count);
+                            Log.d("TAG", "count1: "+count);
                             for(int i =  0 ; i < count;i++){
                                 String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
                                 String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
@@ -260,7 +267,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                         @Override
                         public void run() {
                             count = response.body().response_tag.body.items.getItemsList().size();
-                            Log.d("TAG", "count: "+count);
+                            Log.d("TAG", "count1: "+count);
                             for(int i =  0 ; i < count;i++){
                                 String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
                                 String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
@@ -283,7 +290,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity(),"반경: "+radiuse+"m 의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
                         }
                     },150);
                 }
@@ -292,7 +299,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
-                Toast.makeText(getActivity(),"반경: "+radiuse+"m 의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -313,12 +320,10 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         }
         if(mapViewContainer!=null){
             Log.d("TAG", "mapViewContainer not null: ");
-            Toast.makeText(getActivity(),"mapViewContainer not null",Toast.LENGTH_LONG).show();
             mapViewContainer.removeAllViews();
         }
 
-        Log.d("TAG", "mapViewContainer count: "+i);
-        Toast.makeText(getActivity(),"mapViewContainer"+i,Toast.LENGTH_LONG).show();
+
         i++;
         mapViewContainer = (ViewGroup)root.findViewById(R.id.hos_map_view); // mapViewContainer 선언
         mapViewContainer.addView(mapView);
@@ -412,9 +417,9 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         double longitude = geoCoordinate.longitude; // 경도*/
         Log.d("TAG", "onDraggablePOIItemMoved: ===============>");
 
-        Toast.makeText(getActivity().getApplicationContext(), "단말기의 방향 각도값:"+mapView.getMapCenterPoint(), Toast.LENGTH_LONG).show();
+
     }
-    /*
+    /*f
      *  현재 위치 업데이트(setCurrentLocationEventListener)
      */
     @Override
@@ -595,7 +600,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                Thread.sleep(2000); // 2초 지속
+                Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -607,6 +612,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             progressDialog.dismiss();
 
             //finish();
+            Log.d("TAG", "onPostExecute: "+count);;
             Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
             super.onPostExecute(result);
         }

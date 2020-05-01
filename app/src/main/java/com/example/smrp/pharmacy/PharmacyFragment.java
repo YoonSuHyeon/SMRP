@@ -120,6 +120,9 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 list.clear();
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
                 mapView.setCurrentLocationRadius(radiuse);
+                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                mapCircle.setTag(2);
+                mapView.addCircle(mapCircle);
                 re_parsingData(latitude,longitude,radiuse);
             }
         });
@@ -222,6 +225,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                         public void run() {
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                             count = response.body().count;
+                            Log.d("TAG", "count2: "+count);
                             Log.d("TAG", "latitude1: "+latitude);
                             Log.d("TAG", "longitude1: "+longitude);
                             for(int i =0; i< count;i++){
@@ -235,9 +239,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                                 String type = response.body().getList().get(i).getType();
                                 addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
                             }
-                            mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                            mapCircle.setTag(2);
-                            mapView.addCircle(mapCircle);
+
                         }
                     },150);
                 }else{
@@ -245,7 +247,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity(),"반경: "+radiuse+"m 의 약국이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                         }
                     },150);
@@ -254,7 +256,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
-                Toast.makeText(getActivity(),"반경: "+radiuse+"m 의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
                 Log.d("데이터 가져오기 실패:",t.toString());
             }
         });
@@ -292,7 +294,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity(),"반경: "+radiuse+"m 의 약국이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
                         }
                     },150);
                 }
@@ -300,7 +302,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
-                Toast.makeText(getActivity(),"반경: "+radiuse+"m 의 병원이 존재하지 않습니다.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
                 Log.d("데이터 가져오기 실패:",t.toString());
             }
         });
@@ -319,13 +321,9 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         }
         if(mapViewContainer!=null){
             Log.d("TAG", "mapViewContainer not null: ");
-            Toast.makeText(getActivity(),"mapViewContainer not null",Toast.LENGTH_LONG).show();
             mapViewContainer.removeAllViews();
         }
 
-
-        Log.d("TAG", "mapViewContainer count: "+i);
-        Toast.makeText(getActivity(),"mapViewContainer"+i,Toast.LENGTH_LONG).show();
         i++;
         mapViewContainer = (ViewGroup)root.findViewById(R.id.phy_map_view); // mapViewContainer 선언
         mapViewContainer.addView(mapView);
@@ -456,7 +454,6 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         double longitude = geoCoordinate.longitude; // 경도*/
         Log.d("TAG", "onDraggablePOIItemMoved: ===============>");
 
-        Toast.makeText(getActivity().getApplicationContext(), "단말기의 방향 각도값:"+mapView.getMapCenterPoint(), Toast.LENGTH_LONG).show();
     }
     /*
      *  현재 위치 업데이트(setCurrentLocationEventListener)
@@ -593,6 +590,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             progressDialog.dismiss();
 
             //finish();
+            Log.d("TAG", "onPostExecute: "+count);;
             Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
             super.onPostExecute(result);
         }

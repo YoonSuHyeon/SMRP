@@ -189,10 +189,10 @@ public class HomeFragment extends Fragment {
         json.getList(latitude,longitude).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, final retrofit2.Response<Response> response) {
-
                 Log.d("TAG", "Success: "+response.message());
                 Log.d("TAG", "size: "+response.body().getweatherList().size());
                 Log.d("TAG", "size: "+response.body().getWeather_main().getTemp());
+
 
 
                 //url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
