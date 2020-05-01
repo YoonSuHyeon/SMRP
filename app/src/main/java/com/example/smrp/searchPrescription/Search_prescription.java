@@ -1,5 +1,6 @@
 package com.example.smrp.searchPrescription;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,11 +51,13 @@ public class Search_prescription extends AppCompatActivity {
     private static final int MAX_LABEL_RESULTS = 10;
     private static final int MAX_DIMENSION = 1080;
     private Button button;
+    private Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prescription);
 
+        dialog = new Dialog();
         fb = findViewById(R.id.take_button);
         cameraView = findViewById(R.id.cameraView);
         //button = findViewById(R.id.button);
@@ -63,8 +66,10 @@ public class Search_prescription extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("TAG", "onClickonClickonClickonClick: ");
                 cameraView.captureImage();
+
             }
         });
+
        /* button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +94,8 @@ public class Search_prescription extends AppCompatActivity {
                 Log.d("TAG", "onImageonImage: ");
                 bitmap = cameraKitImage.getBitmap();
                 Uploading_bitmap(bitmap);
+                cameraView.stop();
+                dialog.execute();
             }
 
             @Override
@@ -273,7 +280,7 @@ public class Search_prescription extends AppCompatActivity {
         }
     }
     private static String convertResponseToString(BatchAnnotateImagesResponse response) {
-        StringBuilder message = new StringBuilder("I found these things:\n\n");
+        StringBuilder message = new StringBuilder();
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
         if (labels != null) {
@@ -286,5 +293,39 @@ public class Search_prescription extends AppCompatActivity {
         }
 
         return message.toString();
+    }
+
+    private class Dialog extends AsyncTask<Void,Void,Void>{
+        ProgressDialog progressDialog = new ProgressDialog(Search_prescription.this);
+        @Override
+        protected void onPreExecute() {
+            /*ViewGroup group = (ViewGroup) root.getParent();
+            if(group!=null)
+                group.removeView(root);*/
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("로딩중입니다..");
+
+            // show dialog
+            progressDialog.show();
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(2500); // 2초 지속
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialog.dismiss();
+
+            //finish();
+
+            super.onPostExecute(result);
+        }
     }
 }
