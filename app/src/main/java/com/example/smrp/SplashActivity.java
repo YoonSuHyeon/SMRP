@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
+import com.kakao.kakaonavi.Location;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

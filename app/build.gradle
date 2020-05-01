@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.smrp"
         minSdkVersion 21
@@ -15,6 +15,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        buildTypes.each {
+            it.buildConfigField('String', 'API_KEY', '"[AIzaSyAh8cQhRUiXMB5bUmjqnyWcFDMlrhEHySk]"')
+//'"[AIzaSyAh8cQhRUiXMB5bUmjqnyWcFDMlrhEHySk]"'
         }
     }
 }
@@ -37,13 +41,20 @@ dependencies {
 
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.2.1'
-    implementation 'androidx.navigation:navigation-ui:2.2.1'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
 
+
+    //서버와 데이터 파싱을 위한 라이브러리//
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 
+    //구글 OCR에 필요한 라이브러리//
+    implementation 'com.wonderkiln:camerakit:0.13.1'
+    implementation 'com.google.api-client:google-api-client-android:1.23.0' exclude module: 'httpclient'
+    implementation 'com.google.http-client:google-http-client-gson:1.23.0' exclude module: 'httpclient'
+    implementation 'com.google.apis:google-api-services-vision:v1-rev369-1.23.0'
 
     //implementation 'com.naver.maps:map-sdk:3.7.1' //네이버 SDK
 }
