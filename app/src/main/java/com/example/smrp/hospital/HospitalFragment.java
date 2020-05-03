@@ -10,19 +10,21 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.smrp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,6 +41,7 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,17 +68,103 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private Dialog dialog;
     private boolean boolean_start=false;
     private MapCircle mapCircle;
+    private Spinner dgsbjtCd_spinner, radiuse_spinner;
+    private  ArrayAdapter dgsbjtCd_adapter, radiuse_adapter;
+    private String dgsbjtCd; //진료과목
+    private HashMap<String,String> hash_dgsbjtCd;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         Log.d("TAG", "Hos_container.count: "+container.getChildCount());
-        dialog = new Dialog();
-        dialog.execute();
+
+        Log.d("TAG", "before_latitude: "+latitude+"\n");
+        Log.d("TAG", "before_latitude: "+longitude+"\n");
+        GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
+        getLocation_dialog.execute();
+
+
         root = inflater.inflate(R.layout.hospital_fragment, container, false);
 
 
         startLocationService();
 
+        dgsbjtCd_spinner = root.findViewById(R.id.dgsbjtCd_spinner); //진료과목 spinner 객체 생성
+        dgsbjtCd_adapter = ArrayAdapter.createFromResource(getContext(),R.array.dgsbjtCd,
+                android.R.layout.simple_spinner_item);
+        dgsbjtCd_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dgsbjtCd_spinner.setAdapter(dgsbjtCd_adapter);
+
+        radiuse_spinner = root.findViewById(R.id.radiuse_spinner); //거리 spinner 객체 생성
+        radiuse_adapter = ArrayAdapter.createFromResource(getContext(),R.array.radiuse,android.R.layout.simple_spinner_item);
+        radiuse_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        radiuse_spinner.setAdapter(radiuse_adapter);
+
+        dgsbjtCd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String code  = String.valueOf(parent.getItemAtPosition(position));
+                dgsbjtCd = getDgsbjtCd(code);
+
+                if(mapView!=null) {
+
+                    mapView.removeAllCircles();
+                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                    mapCircle.setTag(2);
+                    mapView.addCircle(mapCircle);
+                    HospitalFragment.Dialog dialog = new Dialog();
+                    dialog.execute();
+                    mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
+                    list.clear();
+                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        radiuse_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            if(mapView!=null){
+                mapView.removeAllCircles();
+                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                mapCircle.setTag(2);
+                mapView.addCircle(mapCircle);
+                if(position!=0){//기본값을 제외
+                    String meter = String.valueOf(parent.getItemAtPosition(position));
+                    meter = meter.substring(0,meter.indexOf("m")); //ex: meter : 500m --> m 문자 제거
+
+                    radiuse = Integer.parseInt(meter);
+                    HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
+                    dialog.execute();
+                    mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
+                    list.clear();
+                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+
+                }else{//기본값
+                    radiuse=500;
+                    HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
+                    dialog.execute();
+                    mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
+                    list.clear();
+                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                }
+            }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
         location_fb = root.findViewById(R.id.floatingActionButton1);
         research_fb = root.findViewById(R.id.floatingActionButton2);
@@ -97,20 +186,18 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onClick(View v) {
                 // 트랙
-                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                mapCircle.setTag(2);
-                mapView.removeAllCircles();
-                mapView.addCircle(mapCircle);
-                dialog = new Dialog();
-                dialog.execute();
+
+                GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
+                getLocation_dialog.execute();
                 mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                 list.clear();
+                mapView.removeAllCircles();
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
                 mapView.setCurrentLocationRadius(radiuse);
                 mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                 mapCircle.setTag(2);
                 mapView.addCircle(mapCircle);
-                re_parsingData(latitude,longitude,radiuse);
+                re_parsingData(latitude,longitude,radiuse,dgsbjtCd);
 
             }
         });
@@ -128,7 +215,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     list.clear();
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude), true);
                     mapView.setCurrentLocationRadius(radiuse);
-                    re_parsingData(movelatititue, movelongitude, radiuse);
+                    re_parsingData(movelatititue, movelongitude, radiuse,dgsbjtCd);
                     boolean_start=false;
                 }
 
@@ -189,17 +276,29 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         Log.d("TAG", "latitude1: "+latitude);
         Log.d("TAG", "longitude1: "+longitude);
 
-        parsingData(latitude,longitude,radiuse);
-
+        parsingData(latitude,longitude,radiuse,dgsbjtCd);
         return root;
     }
-
-    private void parsingData(final double latitude, final double longitude, final int radiuse){
+    private String getDgsbjtCd(String dgsbjtCd){
+        if(hash_dgsbjtCd==null){
+            hash_dgsbjtCd = new HashMap<>();
+            hash_dgsbjtCd.put("-전체-","");
+            hash_dgsbjtCd.put("가정의학과","23");hash_dgsbjtCd.put("내과","01");hash_dgsbjtCd.put("외과","04");
+            hash_dgsbjtCd.put("성형외과","08");hash_dgsbjtCd.put("소아과","11");hash_dgsbjtCd.put("이비인후과","13");
+            hash_dgsbjtCd.put("안과","12");hash_dgsbjtCd.put("정형외과","05");hash_dgsbjtCd.put("정신건강의학과","03");
+            hash_dgsbjtCd.put("피부과","14");hash_dgsbjtCd.put("치과","49");hash_dgsbjtCd.put("응급실","24");
+            hash_dgsbjtCd.put("한의원","80");
+        }
+        String result=  hash_dgsbjtCd.get(dgsbjtCd);
+        return result;
+    }
+    private void parsingData(final double latitude, final double longitude, final int radiuse,final String dgsbjtCd){
         RetrofitService json = new RetrofitFactory().create();
-        Log.d("TAG", "latitude: "+latitude);
-        Log.d("TAG", "longitude: "+longitude);
+        Log.d("TAG", "latitude1: "+latitude);
+        Log.d("TAG", "longitude1: "+longitude);
+        Log.d("TAG", "dgsbjtCd1: "+dgsbjtCd);
 
-        json.getList(latitude,longitude,radiuse).enqueue(new Callback<Return_tag>() {
+        json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
                 if(response.isSuccessful()){
@@ -247,15 +346,17 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
+                createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                 Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
             }
         });
     }
-    private void re_parsingData(double latitude, double longitude, final int radiuse){
+    private void re_parsingData(double latitude, double longitude, final int radiuse,final String dgsbjtCd){
         RetrofitService json = new RetrofitFactory().create();
-        Log.d("TAG", "latitude: "+latitude);
-        Log.d("TAG", "longitude: "+longitude);
-        json.getList(latitude,longitude,radiuse).enqueue(new Callback<Return_tag>() {
+        Log.d("TAG", "latitude2: "+latitude);
+        Log.d("TAG", "longitude2: "+longitude);
+        Log.d("TAG", "dgsbjtCd2: "+dgsbjtCd);
+        json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
                 if(response.isSuccessful()){
@@ -313,6 +414,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     public void onPause() {
         super.onPause();
     }
+
     private void createMapView(){
 
         if(mapView == null) {
@@ -418,12 +520,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         Log.d("TAG", "onDraggablePOIItemMoved: ===============>");
 
 
+
     }
     /*f
      *  현재 위치 업데이트(setCurrentLocationEventListener)
      */
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) { // Tracking 모드가 켜진경우 단말의 현위치 좌표값을 통보받을 수 있다.
+        Log.d("TAG", "onCurrentLocationUpdate: ");
         /*MapPoint.GeoCoordinate mPointGeo = mapPoint.getMapPointGeoCoord();
         longitude = mPointGeo.longitude;
         latitude = mPointGeo.latitude;*/
@@ -464,7 +568,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int i) { //지도의 레벨이 변경되었을때 호출
         //Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
-        switch (i){
+       /* switch (i){
             case 1:
                 radiuse=100;
                 break;
@@ -495,7 +599,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             case 10:
                 radiuse=1200;
                 break;
-        }
+        }*/
     }
 
     @Override
@@ -542,13 +646,13 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, gpsListener); //// 위치 기반을 GPS모듈을 이용함
             locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,minTime,minDistance,gpsListener);//// 위치 기반을 네트워크 모듈을 이용함
             //5초 마다 or 10m 이동할떄마다 업데이트   network는 gps에 비해 정확도가 떨어짐
-            location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다
+            location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
             if (location != null) {
                 latitude = location.getLatitude(); // GPS 모듈 경도 값 ex) 37.30616958190577
                 longitude = location.getLongitude(); //GPS 모듈 위도 값 ex) 127.92099856059595
                 location=null;
             }else{
-                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
+                location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다 따라서 최근 GPS기록을 제공할 수 도 있다.
                 latitude = location.getLatitude(); //네트워크 경도 값
                 longitude = location.getLongitude(); // 네트워크 위도 값
                 location=null;
@@ -610,6 +714,43 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         @Override
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
+
+            //finish();
+            Log.d("TAG", "onPostExecute: "+count);;
+            Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
+            super.onPostExecute(result);
+        }
+    }
+
+    private class GetLocation_Dialog extends AsyncTask<Void,Void,Void>{
+        ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        @Override
+        protected void onPreExecute() {
+            /*ViewGroup group = (ViewGroup) root.getParent();
+            if(group!=null)
+                group.removeView(root);*/
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("GPS정보를 가져오고 있습니다. \n잠시만 기다려 주세요.");
+
+            // show dialog
+            progressDialog.show();
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(3000); // 2초 지속
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialog.dismiss();
+            Log.d("TAG", "after_latitude: "+latitude+"\n");
+            Log.d("TAG", "after_latitude: "+longitude+"\n");
 
             //finish();
             Log.d("TAG", "onPostExecute: "+count);;

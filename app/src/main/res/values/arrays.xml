@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+    <string-array name="dgsbjtCd"> <!--진료과목 ID-->
+        <item>-전체-</item>
+        <item>가정의학과</item>
+        <item>내과</item>
+        <item>외과</item>
+        <item>성형외과</item>
+        <item>소아과</item>
+        <item>이비인후과</item>
+        <item>안과</item>
+        <item>정형외과</item>
+        <item>정신건강의학과</item>
+        <item>피부과</item>
+        <item>치과</item>
+        <item>응급실</item>
+        <item>한의원</item>
+
+    </string-array>
+
+    <string-array name="radiuse"> <!-- 반경(m) -->
+        <item>-기본값-</item>
+        <item>100m</item>
+        <item>250m</item>
+        <item>500m</item>
+        <item>600m</item>
+        <item>700m</item>
+        <item>800m</item>
+        <item>900m</item>
+        <item>1000m</item>
+        <item>1100m</item>
+        <item>1200m</item>
+
+    </string-array>
+
+
+</resources>

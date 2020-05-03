@@ -13,7 +13,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.smrp.R;
 import com.example.smrp.searchMed.SearchActivity;
 import com.example.smrp.searchPrescription.Search_prescription;
-import com.example.smrp.searchPrescription.take_env;
 
 /* 아직 각 버튼에 관한 구현은 하지 않았다 */
 public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment에서 +버튼 눌렀을 때 띄어주는 Dialog 창
@@ -64,7 +63,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
         Img_prescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(getContext().getApplicationContext(), take_env.class);//
+                intent = new Intent(getContext().getApplicationContext(), Search_prescription.class);//
                 startActivity(intent);
                 dismiss();
             }

@@ -75,8 +75,12 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        dialog = new Dialog();
-        dialog.execute();
+
+        Log.d("TAG", "before_latitude: "+latitude+"\n");
+        Log.d("TAG", "before_latitude: "+longitude+"\n");
+        GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
+        getLocation_dialog.execute();
+
 
         startLocationService(); //사용자의 현재위치를 좌표를 가져오기 위한 클래스 호출
 
@@ -110,19 +114,19 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onClick(View v) {
                 // 트랙
-                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                mapCircle.setTag(2);
-                mapView.removeAllCircles();
-                mapView.addCircle(mapCircle);
-                dialog = new Dialog();
-                dialog.execute();
+
+                GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
+                getLocation_dialog.execute();
                 mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                 list.clear();
+                mapView.removeAllCircles();
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
                 mapView.setCurrentLocationRadius(radiuse);
                 mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                 mapCircle.setTag(2);
                 mapView.addCircle(mapCircle);
+                Log.d("TAG", "radiuse2: "+radiuse);
+
                 re_parsingData(latitude,longitude,radiuse);
             }
         });
@@ -197,13 +201,13 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             locationManager1.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, gpsListener); //// 위치 기반을 GPS모듈을 이용함
             locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,minTime,minDistance,gpsListener);//// 위치 기반을 네트워크 모듈을 이용함
             //5초 마다 or 10m 이동할떄마다 업데이트   network는 gps에 비해 정확도가 떨어짐
-            location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다
+            location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
             if (location != null) {
                 latitude = location.getLatitude(); // GPS 모듈 경도 값 ex) 37.30616958190577
                 longitude = location.getLongitude(); //GPS 모듈 위도 값 ex) 127.92099856059595
                 location=null;
             }else{
-                location = locationManager2.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);///네트워크로 얻은 마지막 위치좌표를 이용
+                location = locationManager1.getLastKnownLocation(LocationManager.GPS_PROVIDER);//최근 gps기록  실내에서는 안잡힐수가 있다|
                 latitude = location.getLatitude(); //네트워크 경도 값
                 longitude = location.getLongitude(); // 네트워크 위도 값
                 location=null;
@@ -313,6 +317,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         super.onResume();
 
     }
+
     private void createMapView(){ //MapView 객체 선언과 이벤트 설정하는 클래스
 
 
@@ -344,6 +349,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
         // 내 현재위치 원 그리기
         mapView.setCurrentLocationRadius(radiuse);
+        Log.d("TAG", "radiuse1: "+radiuse);
 
         // 원 색상 적용
         mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
@@ -464,6 +470,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         longitude = mPointGeo.longitude;
         latitude = mPointGeo.latitude;*/
         //Toast.makeText(getActivity().getApplicationContext(),"현재 위치 좌표 업데이트 됨",Toast.LENGTH_LONG).show();
+        Log.d("TAG", "onCurrentLocationUpdate: ");
     }
 
     @Override
@@ -500,7 +507,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     @Override
     public void onMapViewZoomLevelChanged(MapView mapView, int i) { //지도의 레벨이
         //Toast.makeText(getActivity().getApplicationContext(),"zoom_level:"+i,Toast.LENGTH_LONG).show();
-        switch (i){
+        /*switch (i){
             case 1:
                 radiuse=100;
                 break;
@@ -531,7 +538,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             case 10:
                 radiuse=1200;
                 break;
-        }
+        }*/
     }
 
     @Override
@@ -588,6 +595,44 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         @Override
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
+
+            Log.d("TAG", "after_latitude: "+latitude+"\n");
+            Log.d("TAG", "after_latitude: "+longitude+"\n");
+            //finish();
+            Log.d("TAG", "onPostExecute: "+count);;
+            Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
+            super.onPostExecute(result);
+        }
+    }
+    private class GetLocation_Dialog extends AsyncTask<Void,Void,Void>{
+        ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        @Override
+        protected void onPreExecute() {
+            /*ViewGroup group = (ViewGroup) root.getParent();
+            if(group!=null)
+                group.removeView(root);*/
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("GPS정보를 가져오고 있습니다. \n잠시만 기다려 주세요.");
+
+            // show dialog
+            progressDialog.show();
+            super.onPreExecute();
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(3000); // 2초 지속
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialog.dismiss();
+            Log.d("TAG", "after_latitude: "+latitude+"\n");
+            Log.d("TAG", "after_latitude: "+longitude+"\n");
 
             //finish();
             Log.d("TAG", "onPostExecute: "+count);;
