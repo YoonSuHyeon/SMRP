@@ -117,7 +117,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
+                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                        mapCircle.setTag(2);
+                        mapView.addCircle(mapCircle);
+                        re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
+                    }else{
+                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    }
+
                 }
             }
 
@@ -133,9 +141,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             if(mapView!=null){
                 mapView.removeAllCircles();
-                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                mapCircle.setTag(2);
-                mapView.addCircle(mapCircle);
+
                 if(position!=0){//기본값을 제외
                     String meter = String.valueOf(parent.getItemAtPosition(position));
                     meter = meter.substring(0,meter.indexOf("m")); //ex: meter : 500m --> m 문자 제거
@@ -145,7 +151,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
+                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                        mapCircle.setTag(2);
+                        mapView.addCircle(mapCircle);
+                        re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
+                    }else{
+                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    }
 
                 }else{//기본값
                     radiuse=500;
@@ -153,7 +166,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
+                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                        mapCircle.setTag(2);
+                        mapView.addCircle(mapCircle);
+                        re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
+                    }else{
+                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    }
                 }
             }
 
