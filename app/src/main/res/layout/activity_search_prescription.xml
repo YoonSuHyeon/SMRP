@@ -31,12 +31,15 @@
         android:layout_marginBottom="17dp"
         android:clickable="true"
         android:src="@drawable/camera_icon2"
+        app:backgroundTint="#00FFFFFF"
+        app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cameraView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:maxImageSize="60dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
