@@ -71,7 +71,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private FloatingActionButton location_fb,research_fb;
     private boolean boolean_start=false;
     private Dialog dialog;
-
+    private boolean bool_start = false;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -243,7 +243,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                                 String type = response.body().getList().get(i).getType();
                                 addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
                             }
-
+                            bool_start = true;
                         }
                     },150);
                 }else{
@@ -262,6 +262,10 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             public void onFailure(Call<ItemModel> call, Throwable t) {
                 Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
                 Log.d("데이터 가져오기 실패:",t.toString());
+                createMapView();
+                list.clear();
+                adapter.notifyDataSetChanged();
+                bool_start = true;
             }
         });
     }
@@ -291,6 +295,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                                 String type = response.body().getList().get(i).getType();
                                 addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
                             }
+                            bool_start = true;
                         }
                     },150);
                 }else{
@@ -307,6 +312,9 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
                 Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
+                list.clear();
+                adapter.notifyDataSetChanged();
+                bool_start = true;
                 Log.d("데이터 가져오기 실패:",t.toString());
             }
         });
@@ -377,18 +385,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         //Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
     }
 
-    private void CenterMarker(double latitude, double longitude){ //사용자 현재 위치를 Marker표시
-        marker1 = new MapPOIItem();
-        marker1.setItemName("현재위치");
-        marker1.setTag(0);////MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
-        marker1.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude));
-        marker1.setMarkerType(MapPOIItem.MarkerType.CustomImage);
-        marker1.setCustomImageResourceId(R.drawable.location_icon2);
-        marker1.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
-        //marker1.setAlpha(0.2f);// marker 투명도
-        mapView.addPOIItem(marker1); //사용자의 최초 위치를 지도 위에 marker표시 하기 위함
-       // Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
-    }
+
     private void addMarker(String addr, String created_at, float latitude, float longitude, String name, String remain_stat, String stock_at,String type){
         //mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
         total_phy.clear(); //ArrayList total_phy 의 모든 값을 clear()
@@ -584,12 +581,15 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
+            /*try {
                 Thread.sleep(2000); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
+            while(!bool_start)
+                ;
+            bool_start=false;
             return null;
         }
         @Override

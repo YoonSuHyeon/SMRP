@@ -72,7 +72,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private  ArrayAdapter dgsbjtCd_adapter, radiuse_adapter;
     private String dgsbjtCd; //진료과목
     private HashMap<String,String> hash_dgsbjtCd;
-
+    private boolean bool_start = false, bool_restart=false;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -207,8 +207,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             public void onClick(View v) {
                 // 트랙
 
-                GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
-                getLocation_dialog.execute();
+                Dialog dialog = new Dialog();
+                dialog.execute();
                 mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                 list.clear();
                 mapView.removeAllCircles();
@@ -346,7 +346,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                             mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                             mapCircle.setTag(2);
                             mapView.addCircle(mapCircle);
-
+                            bool_start = true;
                         }
                     },150);
 
@@ -358,6 +358,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                         public void run() {
                             Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
+                            bool_start = true;
                         }
                     },150);
                 }
@@ -367,6 +368,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
                 createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
+                bool_start = true;
+
                 Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
             }
         });
@@ -401,7 +404,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                                 addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
                             }
 
-
+                            bool_restart = true;
                         }
                     },150);
 
@@ -411,15 +414,23 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            bool_restart = true;
+                            list.clear();
+                            adapter.notifyDataSetChanged();
                             Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
+
                         }
-                    },150);
+                    }
+                    ,150);
                 }
 
             }
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
+                bool_restart = true;
+                list.clear();
+                adapter.notifyDataSetChanged();
                 Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
             }
         });
@@ -723,12 +734,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
+           /*try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
+           while(!bool_restart)
+               ;
+           bool_restart = false;
             return null;
         }
         @Override
@@ -758,12 +772,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
+            /*try {
                 Thread.sleep(3000); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
+            while(!bool_start)
+                ;
+            bool_start = false;
             return null;
         }
         @Override

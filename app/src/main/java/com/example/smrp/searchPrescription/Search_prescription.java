@@ -52,6 +52,7 @@ public class Search_prescription extends AppCompatActivity {
     private static final int MAX_DIMENSION = 1080;
     private Button button;
     private Dialog dialog;
+    private boolean bool_end = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,7 +148,7 @@ public class Search_prescription extends AppCompatActivity {
         return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
     }
 
-    private class LableDetectionTask extends AsyncTask<Object, Void, String> {
+    private class LableDetectionTask extends AsyncTask<Object, Void, ArrayList<String>> {
         private final WeakReference<Search_prescription> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
 
@@ -157,7 +158,7 @@ public class Search_prescription extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Object... params) {
+        protected ArrayList<String> doInBackground(Object... params) {
             try {
 
                 BatchAnnotateImagesResponse response = mRequest.execute();
@@ -169,18 +170,25 @@ public class Search_prescription extends AppCompatActivity {
                 Log.d("TAG", "failed to make API request because of other IOException " +
                         e.getMessage());
             }
-            return "Cloud Vision API request failed. Check logs for details.";
+            //return "Cloud Vision API request failed. Check logs for details.";
+            ArrayList<String> list = new ArrayList<>();
+            list.add("Cloud Vision API request failed. Check logs for details.");
+            return list;
         }
 
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(ArrayList<String> result) {
             Search_prescription activity = mActivityWeakReference.get();
             StringBuilder st_result = new StringBuilder();
             if (activity != null && !activity.isFinishing()) {
                 // TextView imageDetail = activity.findViewById(R.id.textViewResult);
                 //imageDetail.setText(result);
 
-                st_result.append(result);
-                Log.d("TAG", "st_result: "+st_result);
+                //st_result.append(result);
+
+                for(int i = 0; i < result.size();i++)
+                    Log.d("TAG", "result: "+result.get(i));
+                Log.d("TAG", "result_size: "+result.size());
+                bool_end = true;
                 /*Intent intent = new Intent(activity,SelectPillActivity.class);
                 intent.putExtra("state",state);
                 intent.putExtra("st_result",st_result.toString());
@@ -272,27 +280,29 @@ public class Search_prescription extends AppCompatActivity {
 
         // Do the real work in an async task, because we need to use the network anyway
         try {
-            AsyncTask<Object, Void, String> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
+            AsyncTask<Object, Void, ArrayList<String>> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
             labelDetectionTask.execute();
         } catch (IOException e) {
             Log.d("TAG", "failed to make API request because of other IOException " +
                     e.getMessage());
         }
     }
-    private static String convertResponseToString(BatchAnnotateImagesResponse response) {
+    private static ArrayList<String> convertResponseToString(BatchAnnotateImagesResponse response) {
         StringBuilder message = new StringBuilder();
-
+        ArrayList<String>list = new ArrayList<>();
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
         if (labels != null) {
             for (EntityAnnotation label : labels) {
-                message.append(String.format(Locale.KOREA, "%s", label.getDescription()));//%.3f: , label.getScore()
+                //message.append(String.format(Locale.KOREA, "%s", label.getDescription()));//%.3f: , label.getScore()
+                list.add(String.format(Locale.KOREA,"%s",label.getDescription()));
                 //message.append("\n");
             }
         } else {
-            message.append("nothing");
+            //message.append("nothing");
+            list.add("nothing");
         }
 
-        return message.toString();
+        return list;
     }
 
     private class Dialog extends AsyncTask<Void,Void,Void>{
@@ -311,12 +321,15 @@ public class Search_prescription extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
+            /*try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
+            while(!bool_end)
+                ;
+            bool_end = false;
             return null;
         }
         @Override
