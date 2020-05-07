@@ -229,9 +229,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         ListItem item;
         TextView name =  v.findViewById(R.id.Txt_name);
         ImageView icon = v.findViewById(R.id.Img_icon);
+
         switch(rList.getId()){
 
             case R.id.Lst_shape : {
+
                 item= list_row1.get(position) ;
                 if ( mSelectedItems1.get(position, false) ){
                     mSelectedItems1.put(position, false);
