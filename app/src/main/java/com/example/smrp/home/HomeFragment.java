@@ -1,35 +1,31 @@
 package com.example.smrp.home;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
-
-import android.util.Log;
-import android.view.ViewGroup.LayoutParams;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.smrp.R;
-
 import com.example.smrp.medicine.ViewPagerAdapter;
-import com.example.smrp.response;
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,7 +89,6 @@ public class HomeFragment extends Fragment {
 
 
 
-        pm_textview = root.findViewById(R.id.pm_textview);
         sky_state_textview = root.findViewById(R.id.sky_state_textview);
         weather_imageview = root.findViewById(R.id.weather_imageview);
         temp_textview = root.findViewById(R.id.temp_textview);
@@ -197,6 +193,7 @@ public class HomeFragment extends Fragment {
 
                 //url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
                 //미세먼지!!!
+                Log.d("TAG", "temp: "+String.valueOf(response.body().getWeather_main().getTemp()));
                 temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp()));
                 sky_state_textview.setText(response.body().getweatherList().get(0).getDescription());
                 Log.d("TAG", "icons: "+response.body().getweatherList().get(0).getIcon());
