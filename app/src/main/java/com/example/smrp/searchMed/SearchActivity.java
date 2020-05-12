@@ -195,19 +195,19 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             tv5.setTextColor(Color.BLACK);
             tv5.setGravity(Gravity.CENTER);
             tbrow.addView(tv5);
-            //tbrow.setId(i+1);
+            tbrow.setId(i+1);
             tableLayout.addView(tbrow);
-            ///String id = Integer.toString(i+1);
-            //int resID = getResources().getIdentifier(id,"id",getPackageName());
+            String id = Integer.toString(i+1);
+            int resID = getResources().getIdentifier(id,"id",getPackageName());
 
-           // tbrow = findViewById(resID);
-            /*tbrow.setOnClickListener(new View.OnClickListener() {
+            tbrow = findViewById(resID);
+            tbrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
                     startActivity(intent);
                 }
-            });*/
+            });
 
         }
 
