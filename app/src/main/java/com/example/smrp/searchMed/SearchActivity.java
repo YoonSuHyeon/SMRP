@@ -1,6 +1,7 @@
 package com.example.smrp.searchMed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -38,6 +39,7 @@ import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
 import com.example.smrp.User;
+import com.example.smrp.medicine.MedicineDetailActivity;
 import com.example.smrp.reponse_medicine;
 import com.example.smrp.response;
 
@@ -65,6 +67,9 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     RecyclerView Lst_dosageForm= null ;
     RecyclerView Lst_line= null ;
     ImageView iv_back;
+
+    TableRow tbrow;
+
     SearchRecyclerAdapter adapter_row1 = null ;
     SearchRecyclerAdapter adapter_row2  = null ;
     SearchRecyclerAdapter adapter_row3  = null ;
@@ -154,90 +159,16 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         for(int i=0; i<list.size(); i++){
 
             Log.d("1234543534535","ggigigigigi");
-            TableRow tbrow = new TableRow(this);
+            tbrow = new TableRow(this);
             iv1 = new ImageView(this);
             stringURL=list.get(i).getItemImage();
             Log.d("999999",list.get(i).getItemImage());
-           // Thread mThread = new Thread(){
-            //    @Override
-             //   public void run() {
-              //      Glide.with(getBaseContext()).load(stringURL).override(800,100).fitCenter().into(iv1);
-               // }
-            //};
-            //mThread.start();
-            //try{
-             //   mThread.join();
-            //}catch (InterruptedException e){
-             //   e.printStackTrace();
-            //}
+
             Glide.with(this).load(stringURL).override(800,100).fitCenter().into(iv1);
             Log.d("list1",Integer.toString(i));
-           // Log.d("list1",list.get(i).getImageURL());
-           /* try{
-                Thread.sleep(100);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }*/
 
-           // URL url = new URL(stringURL);
-           /* Log.d("URL",stringURL);
-            Thread mThread = new Thread(){
-                @Override
-                public void run() {
-                    try{
-                        URL url = new URL(stringURL);
-                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                        conn.setDoInput(true);
-                        conn.connect();
-
-                        InputStream is = conn.getInputStream();
-
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        //options.inSampleSize=2;
-                        //bitmap = BitmapFactory.decodeStream(is,null,options);
-                        //resized = Bitmap.createScaledBitmap(bitmap,100,100,false);
-                        options.inJustDecodeBounds = true;
-                        BitmapFactory.decodeStream(is,null,options);
-                        options.inSampleSize = calculateInSampleSize(options,380,60);
-                        options.inJustDecodeBounds = false;
-                        //conn.setDoInput(true);
-                        //conn.connect();
-                        URL url2 = new URL(stringURL);
-                        HttpURLConnection conn2 = (HttpURLConnection) url.openConnection();
-                        conn2.setDoInput(true);
-                        conn2.connect();
-                        is = conn2.getInputStream();
-
-                        bitmap = BitmapFactory.decodeStream(is,null,options);
-                        Log.d("size",Integer.toString(bitmap.getHeight()));
-                        //resized = Bitmap.createScaledBitmap(bitmap,200 , 100,true);
-
-
-                        //BitmapFactory.decodeStream(is,null,options);
-                        //options.inSampleSize = calculateInSampleSize(options,100,100);
-                       // options.inJustDecodeBounds = false;
-
-                       // bitmap = BitmapFactory.decodeStream(is,null,options);
-                    }catch(MalformedJsonException e){
-                        e.printStackTrace();
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }
-                }
-            };
-            mThread.start();
-            try{
-                mThread.join();
-
-                iv1.setImageBitmap(bitmap);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }*/
-            //iv1.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1f));
-            //iv1.setText(list.get(i).getImageURL());
             Log.d("999999",list.get(i).getItemImage());
-            //tv1.setTextColor(Color.BLACK);
-            //tv1.setGravity(Gravity.CENTER);
+
             tbrow.addView(iv1);
             TextView tv2 = new TextView(this);
             tv2.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
@@ -263,7 +194,16 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             tv5.setTextColor(Color.BLACK);
             tv5.setGravity(Gravity.CENTER);
             tbrow.addView(tv5);
+            tbrow.setId(i+1);
             tableLayout.addView(tbrow);
+            tbrow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
+                    startActivity(intent);
+                }
+            });
+
         }
 
 
@@ -282,6 +222,8 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         iv_back = findViewById(R.id.iv_back);
         scrollView = (ScrollView)findViewById(R.id.scrollView);
         scrollView2 = (ScrollView)findViewById(R.id.scrollView2);
+
+
 
 
         scrollView.setOnTouchListener(new View.OnTouchListener() {
@@ -429,6 +371,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
                         Log.d("1234","ggigigigigi");
                         init(list);
+
                         //String test = list.get(0).getColor();
                         //Log.d("1234",test);
                         //if(response.body() != null){
@@ -441,43 +384,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         Log.d("12312312312312313",t.toString());
                     }
                 });
-                //Call<com.example.smrp.reponse_medicine> call = networkService.findLists();
-                /*call.enqueue(new Callback<reponse_medicine>() {
-                    @Override
-                    public void onResponse(Call<reponse_medicine> call, Response<reponse_medicine> response) {
-                        String url;
-                        if(response.body() == null){
-                            Log.d("1234","Serseresresr");
-                        }else{
-                            url=response.body().getName();
-                            if(url==null){
-                                url ="resresrsr";
-                            }
-                            Log.d("1235554",url);
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<reponse_medicine> call, Throwable t) {
-                        Log.d("122323232334",t.toString());
-                    }
-                });*/
-                /*call.enqueue(new Callback<response>() {
-                    @Override
-                    public void onResponse(Call<response> call, Response<response> response) {
-                       if(response.body() == null){
-                           Log.d("1234","Serseresresr");
-                       }else{
-                           Log.d("1235554","Serseresresr");
-                       }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<response> call, Throwable t) {
-
-                    }
-                });*/
 
 
                 String a = " ";
