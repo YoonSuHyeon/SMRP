@@ -1,5 +1,6 @@
 package com.example.smrp.searchMed;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -194,15 +195,19 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             tv5.setTextColor(Color.BLACK);
             tv5.setGravity(Gravity.CENTER);
             tbrow.addView(tv5);
-            tbrow.setId(i+1);
+            //tbrow.setId(i+1);
             tableLayout.addView(tbrow);
-            tbrow.setOnClickListener(new View.OnClickListener() {
+            ///String id = Integer.toString(i+1);
+            //int resID = getResources().getIdentifier(id,"id",getPackageName());
+
+           // tbrow = findViewById(resID);
+            /*tbrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
                     startActivity(intent);
                 }
-            });
+            });*/
 
         }
 
@@ -210,6 +215,25 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    scrollView2.requestDisallowInterceptTouchEvent(false);
+                }else{
+                    scrollView2.requestDisallowInterceptTouchEvent(true);
+                }
+                return false;
+            }
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
@@ -369,6 +393,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                        // Log.d("1234",Integer.toString(a));
                       //  Log.d("1234",b);
                         TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
+
                         Log.d("1234","ggigigigigi");
                         init(list);
 
