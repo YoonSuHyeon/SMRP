@@ -89,6 +89,7 @@ public class HomeFragment extends Fragment {
 
 
 
+        //pm_textview = root.findViewById(R.id.pm_textview);
         sky_state_textview = root.findViewById(R.id.sky_state_textview);
         weather_imageview = root.findViewById(R.id.weather_imageview);
         temp_textview = root.findViewById(R.id.temp_textview);
@@ -193,7 +194,6 @@ public class HomeFragment extends Fragment {
 
                 //url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
                 //미세먼지!!!
-                Log.d("TAG", "temp: "+String.valueOf(response.body().getWeather_main().getTemp()));
                 temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp()));
                 sky_state_textview.setText(response.body().getweatherList().get(0).getDescription());
                 Log.d("TAG", "icons: "+response.body().getweatherList().get(0).getIcon());

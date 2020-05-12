@@ -5,7 +5,8 @@
     android:orientation="vertical"
     >
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -195,6 +196,7 @@
                     android:background="@color/colorWhite"
                     android:layout_marginBottom="20dp"
                     >
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -204,53 +206,62 @@
                         android:textSize="13dp"
                         />
 
-
-                    <TableLayout
+                    <ScrollView
+                        android:id="@+id/scrollView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
-
-                        <TableRow>
-                            <TextView
-                                android:text="식별/포장"
-                                android:layout_weight="2"
-                                android:background="#989898"
-                                android:gravity="center"
-                                />
-                            <TextView
-                                android:text="제품명"
-                                android:layout_weight="1.5"
-                                android:layout_marginStart="1dp"
-                                android:background="#989898"
-                                android:gravity="center"
-                                />
-                            <TextView
-                                android:text="회사명"
-                                android:layout_weight="1.5"
-                                android:layout_marginStart="1dp"
-                                android:background="#989898"
-                                android:gravity="center"
-                                />
-                            <TextView
-                                android:text="제형"
-                                android:layout_weight="0.7"
-                                android:layout_marginStart="1dp"
-                                android:background="#989898"
-                                android:gravity="center"
-                                />
-                            <TextView
-                                android:text="구분"
-                                android:layout_weight="0.7"
-                                android:layout_marginStart="1dp"
-                                android:background="#989898"
-                                android:gravity="center"
-                                />
-
-                        </TableRow>
+                        android:layout_height="wrap_content">
 
 
+                        <TableLayout
+                            android:id="@+id/table"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
 
-                    </TableLayout>
+                            <TableRow>
+                                <TextView
+                                    android:text="식별/포장"
+                                    android:layout_weight="2"
+                                    android:background="#989898"
+                                    android:gravity="center"
+                                    />
+                                <TextView
+                                    android:text="제품명"
+                                    android:layout_weight="1.5"
+                                    android:background="#989898"
+                                    android:gravity="center"
+                                    />
+                                <TextView
+                                    android:text="회사명"
+                                    android:layout_weight="1.5"
+
+                                    android:background="#989898"
+                                    android:gravity="center"
+                                    />
+                                <TextView
+                                    android:text="제형"
+                                    android:layout_weight="0.7"
+
+                                    android:background="#989898"
+                                    android:gravity="center"
+                                    />
+                                <TextView
+                                    android:text="구분"
+                                    android:layout_weight="0.7"
+
+                                    android:background="#989898"
+                                    android:gravity="center"
+                                    />
+
+                            </TableRow>
+
+
+
+                        </TableLayout>
+
+
+                    </ScrollView>
+
 
 
 
@@ -259,7 +270,7 @@
 
         </RelativeLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
 
 

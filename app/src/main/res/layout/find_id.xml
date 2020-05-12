@@ -15,12 +15,14 @@
 
 
         <EditText
+            android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="이름"
             android:inputType="text"/>
 
         <EditText
+            android:id="@+id/et_email"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,6 +30,7 @@
             android:inputType="textEmailAddress"/>
 
         <Button
+            android:id="@+id/btn_findId"
             android:layout_marginTop="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

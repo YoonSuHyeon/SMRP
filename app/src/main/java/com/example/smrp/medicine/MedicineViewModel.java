@@ -9,7 +9,7 @@ public class MedicineViewModel extends ViewModel {
 
     public MedicineViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is medicine fragment");
+        mText.setValue("This is Medicines fragment");
     }
 
     public LiveData<String> getText() {

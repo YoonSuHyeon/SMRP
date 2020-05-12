@@ -1,6 +1,8 @@
 package com.example.smrp;
 
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -18,4 +20,26 @@ public interface RetrofitService {
     Call<response> getUser(
             @Body User user
     );
+
+    @GET("/findId")
+    Call<response> findId(
+            @Query("name") String id,
+            @Query("email") String email
+    );
+
+    @GET("/findPassword")
+    Call<response> findPassword(
+            @Query("name") String name,
+            @Query("id") String id,
+            @Query("email") String email
+    );
+
+    @GET("/medicine1/find")
+    Call<List<reponse_medicine>> findList(
+            @Query("shape") String shape,
+            @Query("color") String color,
+            @Query("formula") String formula,
+            @Query("line") String line
+    );
+
 }

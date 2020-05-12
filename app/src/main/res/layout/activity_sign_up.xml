@@ -70,7 +70,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="이메일주소"
-        android:inputType="text" />
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/Txt_sua_password"
@@ -79,7 +79,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="비밀번호"
-        android:inputType="text" />
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/Txt_sua_passwordCheck"
@@ -88,7 +88,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="비밀번호 확인"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
+
         />
     <EditText
         android:id="@+id/Txt_sua_name"
@@ -96,8 +97,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:inputType="text"
         android:hint="이름 (실명 입력)"
-        android:inputType="textPassword"
+
        />
 
     <LinearLayout
@@ -110,7 +112,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:layout_weight="0.7"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:hint="생년월일(6자리입력)"
              />
         <RadioGroup
