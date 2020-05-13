@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment {
 
 
 
-        //pm_textview = root.findViewById(R.id.pm_textview);
         sky_state_textview = root.findViewById(R.id.sky_state_textview);
         weather_imageview = root.findViewById(R.id.weather_imageview);
         temp_textview = root.findViewById(R.id.temp_textview);
