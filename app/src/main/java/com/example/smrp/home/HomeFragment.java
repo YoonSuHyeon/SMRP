@@ -2,6 +2,7 @@ package com.example.smrp.home;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment {
     // nowDate 변수에 값을 저장한다.
     String formatDate = sdfNow.format(date);
     private TextView time,pm_textview,sky_state_textview,temp_textview;
-    ImageView weather_imageview;
+    private ImageView weather_imageview;
 
     private Location location;
     private double latitude, longitude;
@@ -69,6 +70,9 @@ public class HomeFragment extends Fragment {
     private int[] images= {R.drawable.img_home_p1, R.drawable.img_self,R.drawable.img_home_p3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
 
+
+    private Thread thread;
+    private boolean therad_satue = false;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if(container.getChildCount() > 0)
@@ -76,18 +80,33 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.home_fragment, container, false);
 
-        HashMap<String,String> sky_image = new HashMap<>();
+        final HashMap<String,String> sky_image = new HashMap<>();
 
 
         //밤일떄 return 받는 이미지가 n으로 끝남
-        sky_image.put("01n","clear_sky");sky_image.put("02n","few_clouds");sky_image.put("03n","scattered_clouds");sky_image.put("04n","broken_clouds");
-        sky_image.put("09n","show_rain");sky_image.put("10n","rain");sky_image.put("11n","thunderstom");sky_image.put("13n","snow");sky_image.put("50n","mist");
+        if(sky_image != null) {
+            sky_image.put("01n", "clear_sky");
+            sky_image.put("02n", "few_clouds");
+            sky_image.put("03n", "scattered_clouds");
+            sky_image.put("04n", "broken_clouds");
+            sky_image.put("09n", "show_rain");
+            sky_image.put("10n", "rain");
+            sky_image.put("11n", "thunderstom");
+            sky_image.put("13n", "snow");
+            sky_image.put("50n", "mist");
 
-        //아침,낮 일떄 return 받는 이미지가 d으로 끝남
-        sky_image.put("01d","clear_sky");sky_image.put("02d","few_clouds");sky_image.put("03d","scattered_clouds");sky_image.put("04d","broken_clouds");
-        sky_image.put("09d","show_rain");sky_image.put("10d","rain");sky_image.put("11d","thunderstom");sky_image.put("13d","snow");sky_image.put("50d","mist");
+            //아침,낮 일떄 return 받는 이미지가 d으로 끝남
+            sky_image.put("01d", "clear_sky");
+            sky_image.put("02d", "few_clouds");
+            sky_image.put("03d", "scattered_clouds");
+            sky_image.put("04d", "broken_clouds");
+            sky_image.put("09d", "show_rain");
+            sky_image.put("10d", "rain");
+            sky_image.put("11d", "thunderstom");
+            sky_image.put("13d", "snow");
+            sky_image.put("50d", "mist");
 
-
+        }
 
         sky_state_textview = root.findViewById(R.id.sky_state_textview);
         weather_imageview = root.findViewById(R.id.weather_imageview);
@@ -196,32 +215,47 @@ public class HomeFragment extends Fragment {
                 temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp()));
                 sky_state_textview.setText(response.body().getweatherList().get(0).getDescription());
                 Log.d("TAG", "icons: "+response.body().getweatherList().get(0).getIcon());
-                Thread thread = new Thread(){
-                  @Override
-                  public void run(){
-                      try {
-                          URL url = new URL(" http://openweathermap.org/img/wn/"+response.body().getweatherList().get(0).getIcon()+"@2x.png");
-                          URLConnection urlConnection = url.openConnection();
-                          urlConnection.setDoInput(true);
-                          urlConnection.connect();
-
-                          InputStream is = urlConnection.getInputStream();
-                          bitmap = BitmapFactory.decodeStream(is);
-                      } catch (MalformedURLException e) {
-                          e.printStackTrace();
-                      }catch (IOException e){
-                          e.printStackTrace();
-                      }
-                  }
-                };
-                thread.start();
-                try {
-                    thread.join(); //별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 된다.
-                    weather_imageview.setImageBitmap(bitmap);
-               } catch (InterruptedException e) {
-                    e.printStackTrace();
+                String icon_name = response.body().getweatherList().get(0).getIcon();
+                if(icon_name.contains("d")){ //밤과 낮의 아이콘을 하나로 통일하기위해서 낮으로 replace
+                    icon_name = icon_name.replaceAll("d","n");
                 }
+                String str = sky_image.get(icon_name);
+                Log.d("TAG", "strstrstr: "+str);
+                if(str.equals("clear_sky")){
+                    //BitmapDrawable image  = (BitmapDrawable)getResources().getDrawable(R.drawable.Sun1);
+                    weather_imageview.setImageResource(R.drawable.clear_sky1);
+                }else{
+                     thread = new Thread(){
+                        @Override
+                        public void run(){
+                            try {
+                                URL url = new URL(" http://openweathermap.org/img/wn/"+response.body().getweatherList().get(0).getIcon()+"@2x.png");
+                                URLConnection urlConnection = url.openConnection();
+                                urlConnection.setDoInput(true);
+                                urlConnection.connect();
 
+                                InputStream is = urlConnection.getInputStream();
+                                bitmap = BitmapFactory.decodeStream(is);
+                                therad_satue=true;
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }catch (IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+                }
+                if(therad_satue){
+                    thread.start();
+
+                    try {
+                        thread.join(); //별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 된다.
+                        weather_imageview.setImageBitmap(bitmap);
+                        therad_satue=false;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }
 
