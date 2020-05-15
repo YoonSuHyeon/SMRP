@@ -48,7 +48,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
             public void onClick(View v) {
                 //현재 사진 촬영 단계를 건너뛴 다음 액티비티 약 상세정보 액티비티로 전환 시킴.
 
-                intent = new Intent(getContext().getApplicationContext(), AlarmDetailActivity.class);
+                intent = new Intent(getContext().getApplicationContext(), CameraActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
