@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".alarm.AlarmDetailActivity" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="adc15b958c5d03495cd889d997401566" />
@@ -48,6 +48,10 @@
         <meta-data
             android:name="com.kakao.sdk.kakaonavi.useWebView"
             android:value="false" />
+        <activity android:name=".camera.CameraActivity"/>
+        <activity android:name=".camera.ResultActivity"/>
+
+
     </application>
 
 </manifest>
