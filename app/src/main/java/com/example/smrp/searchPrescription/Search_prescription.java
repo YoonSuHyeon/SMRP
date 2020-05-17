@@ -6,11 +6,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smrp.R;
+import com.example.smrp.RetrofitHelper;
+import com.example.smrp.RetrofitService;
+import com.example.smrp.reponse_medicine;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -41,6 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Search_prescription extends AppCompatActivity {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyAh8cQhRUiXMB5bUmjqnyWcFDMlrhEHySk";//구글 인증키
     private FloatingActionButton fb;
@@ -50,9 +56,10 @@ public class Search_prescription extends AppCompatActivity {
     private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
     private static final int MAX_LABEL_RESULTS = 10;
     private static final int MAX_DIMENSION = 1080;
-    private Button button;
     private Dialog dialog;
     private boolean bool_end = false;
+    private RetrofitService_takenpicture json;
+    private RetrofitService retrofitService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +72,7 @@ public class Search_prescription extends AppCompatActivity {
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "onClickonClickonClickonClick: ");
+
                 cameraView.captureImage();
 
             }
@@ -95,6 +102,7 @@ public class Search_prescription extends AppCompatActivity {
                 Log.d("TAG", "onImageonImage: ");
                 bitmap = cameraKitImage.getBitmap();
                 Uploading_bitmap(bitmap);
+                //Search_text\(bitmap);
                 cameraView.stop();
                 dialog.execute();
             }
@@ -117,8 +125,32 @@ public class Search_prescription extends AppCompatActivity {
         cameraView.stop();
         super.onPause();
     }
+    public byte[] bitmapToByteArray( Bitmap bitmap ) { // Bitmap을 binary 로 변환 하는 클래스
+        ByteArrayOutputStream stream = new ByteArrayOutputStream() ;
+        bitmap.compress( Bitmap.CompressFormat.JPEG, 100, stream) ;
+        byte[] byteArray = stream.toByteArray() ;
+        return byteArray ;
+    }
 
-        private void Uploading_bitmap(Bitmap bitmap){
+    private String Search_text(Bitmap bitmap){
+
+        if(json == null){
+            json = new RetrofitFactory_takenpicture().create();
+        }
+        json.getList(12.0,12.5).enqueue(new Callback<Text_Response>() {
+            @Override
+            public void onResponse(Call<Text_Response> call, Response<Text_Response> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Text_Response> call, Throwable t) {
+
+            }
+        });
+        return "";
+    }
+    private void Uploading_bitmap(Bitmap bitmap){
         if(bitmap != null){
             bitmap = scaleBitmapDown(bitmap,MAX_DIMENSION);
             callCloudVision(bitmap);
@@ -135,7 +167,7 @@ public class Search_prescription extends AppCompatActivity {
         int originalHeight = bitmap.getHeight();
         int resizedWidth = maxDimension;
         int resizedHeight = maxDimension;
-        if (originalHeight > originalWidth) {
+        if (originalHeight > originalWidth) { // 촬영한 사진의 세로길이가 너비보다 크면
             resizedHeight = maxDimension;
             resizedWidth = (int) (resizedHeight * (float) originalWidth / (float) originalHeight);
         } else if (originalWidth > originalHeight) {
@@ -148,7 +180,7 @@ public class Search_prescription extends AppCompatActivity {
         return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
     }
 
-    private class LableDetectionTask extends AsyncTask<Object, Void, ArrayList<String>> {
+    private class LableDetectionTask extends AsyncTask<Object, Void, String> {
         private final WeakReference<Search_prescription> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
 
@@ -158,7 +190,7 @@ public class Search_prescription extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<String> doInBackground(Object... params) {
+        protected String doInBackground(Object... params) {
             try {
 
                 BatchAnnotateImagesResponse response = mRequest.execute();
@@ -171,12 +203,11 @@ public class Search_prescription extends AppCompatActivity {
                         e.getMessage());
             }
             //return "Cloud Vision API request failed. Check logs for details.";
-            ArrayList<String> list = new ArrayList<>();
-            list.add("Cloud Vision API request failed. Check logs for details.");
-            return list;
+
+            return "Cloud Vision API request failed. Check logs for details.";
         }
 
-        protected void onPostExecute(ArrayList<String> result) {
+        protected void onPostExecute(String result) { // 객체에서 문자 추출한 결과: result
             Search_prescription activity = mActivityWeakReference.get();
             StringBuilder st_result = new StringBuilder();
             if (activity != null && !activity.isFinishing()) {
@@ -184,16 +215,45 @@ public class Search_prescription extends AppCompatActivity {
                 //imageDetail.setText(result);
 
                 //st_result.append(result);
+                String[] pill_name = result.split("\n");
+                Log.d("TAG", "size: "+ pill_name.length);
 
-                for(int i = 0; i < result.size();i++)
-                    Log.d("TAG", "result: "+result.get(i));
-                Log.d("TAG", "result_size: "+result.size());
+                for(int i = 0 ; i<pill_name.length;i++){
+                    Log.d("TAG", "pil_name: ["+i+"]="+pill_name[i]);
+                }
+                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class); //아래부터는 약품명을 서버에 요청하기 위한 코드
+                Call<List<reponse_medicine>> call = retrofitService.findList("string","string","string","string");
+                call.enqueue(new Callback<List<reponse_medicine>>() {
+                    @Override
+                    public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {//접속에 성공하였을때
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {// 접속실패했을때
+
+                    }
+                });
+                /*StringTokenizer token  = new StringTokenizer(result,"\n");
+                int i = 0;
+                String list[] = new String[token.countTokens()];
+                while(token.hasMoreTokens()){
+                    list[i] = token.nextToken();
+                    i++;
+                }
+                Log.d("TAG", "list.size: "+list.length);
+
+                for(i = 0; i < list.length ; i++){
+                    Log.d("TAG", "result: ["+i+"]="+list[i]);
+                }
+                st_result.append(result);
+                Log.d("TAG", "st_result: "+st_result);*/
+
                 bool_end = true;
                 /*Intent intent = new Intent(activity,SelectPillActivity.class);
                 intent.putExtra("state",state);
                 intent.putExtra("st_result",st_result.toString());
-                while (ttsClient.isPlaying())
-                    ;
+
                 startActivity(intent);
                 finish();*/
             }
@@ -280,29 +340,29 @@ public class Search_prescription extends AppCompatActivity {
 
         // Do the real work in an async task, because we need to use the network anyway
         try {
-            AsyncTask<Object, Void, ArrayList<String>> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
+            AsyncTask<Object, Void, String> labelDetectionTask = new LableDetectionTask(this, prepareAnnotationRequest(bitmap));
             labelDetectionTask.execute();
         } catch (IOException e) {
             Log.d("TAG", "failed to make API request because of other IOException " +
                     e.getMessage());
         }
     }
-    private static ArrayList<String> convertResponseToString(BatchAnnotateImagesResponse response) {
+    private String convertResponseToString(BatchAnnotateImagesResponse response) {
         StringBuilder message = new StringBuilder();
-        ArrayList<String>list = new ArrayList<>();
+
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
         if (labels != null) {
             for (EntityAnnotation label : labels) {
-                //message.append(String.format(Locale.KOREA, "%s", label.getDescription()));//%.3f: , label.getScore()
-                list.add(String.format(Locale.KOREA,"%s",label.getDescription()));
+
+                message.append(String.format(Locale.KOREA, "%s", label.getDescription()));//%.3f: , label.getScore()
                 //message.append("\n");
             }
         } else {
             //message.append("nothing");
-            list.add("nothing");
+            message.append("nothing");
         }
 
-        return list;
+        return message.toString();
     }
 
     private class Dialog extends AsyncTask<Void,Void,Void>{
@@ -321,14 +381,14 @@ public class Search_prescription extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            /*try {
+            try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
-            while(!bool_end)
-                ;
+            }
+            /*while(!bool_end)
+                ;*/
             bool_end = false;
             return null;
         }

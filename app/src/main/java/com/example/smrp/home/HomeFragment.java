@@ -1,11 +1,12 @@
 package com.example.smrp.home;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment {
     SimpleDateFormat sdfNow = new SimpleDateFormat("a hh : mm");
     // nowDate 변수에 값을 저장한다.
     String formatDate = sdfNow.format(date);
-    private TextView time,pm_textview,sky_state_textview,temp_textview;
+    private TextView time,pm_textview,humidity_textView,temp_textview , min_max_textview, feel_textview;
     private ImageView weather_imageview;
 
     private Location location;
@@ -108,9 +109,13 @@ public class HomeFragment extends Fragment {
 
         }
 
-        sky_state_textview = root.findViewById(R.id.sky_state_textview);
-        weather_imageview = root.findViewById(R.id.weather_imageview);
-        temp_textview = root.findViewById(R.id.temp_textview);
+        weather_imageview = root.findViewById(R.id.weather_imageview); //하늘 상태 사진
+        temp_textview = root.findViewById(R.id.temp_textview); //온도 textView
+        min_max_textview = root.findViewById(R.id.min_max_textview);
+        feel_textview = root.findViewById(R.id.feel_textview);
+        humidity_textView = root.findViewById(R.id.humidity_textView); //하늘상태
+
+
         startLocationService();//사용자 현재위치 경도 및 위도 GET
 
         /*리스트 프래그먼트 */
@@ -197,24 +202,18 @@ public class HomeFragment extends Fragment {
 
 
         //배너2 자동스크롤
-
-        Log.d("TAG", "latitude: "+String.valueOf(latitude)+"\n");
-        Log.d("TAG", "longitude: "+String.valueOf(longitude)+"\n");
         RetrofitService_home json = new RetrofitFactory_home().create();
         json.getList(latitude,longitude).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, final retrofit2.Response<Response> response) {
-                Log.d("TAG", "Success: "+response.message());
-                Log.d("TAG", "size: "+response.body().getweatherList().size());
-                Log.d("TAG", "size: "+response.body().getWeather_main().getTemp());
+
+                temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp())+"℃"); //현재 온도
+                min_max_textview.append(String.valueOf(response.body().getWeather_main().getTemp_min())+"℃/"+String.valueOf(response.body().getWeather_main().getTemp_max())+"℃");
+                feel_textview.setText("체감온도: "+String.valueOf(response.body().getWeather_main().getFells_like())+"℃");
+                Log.d("TAG", "sky_satate: "+response.body().getweatherList().get(0).getDescription());
+                humidity_textView.setText("습도: "+response.body().getWeather_main().getHumidity()+"%"); //하늘상태
 
 
-
-                //url: http://openweathermap.org/img/wn/10d@2x.png 해당 이미지 가져오기
-                //미세먼지!!!
-                temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp()));
-                sky_state_textview.setText(response.body().getweatherList().get(0).getDescription());
-                Log.d("TAG", "icons: "+response.body().getweatherList().get(0).getIcon());
                 String icon_name = response.body().getweatherList().get(0).getIcon();
                 if(icon_name.contains("d")){ //밤과 낮의 아이콘을 하나로 통일하기위해서 낮으로 replace
                     icon_name = icon_name.replaceAll("d","n");
@@ -225,36 +224,10 @@ public class HomeFragment extends Fragment {
                     //BitmapDrawable image  = (BitmapDrawable)getResources().getDrawable(R.drawable.Sun1);
                     weather_imageview.setImageResource(R.drawable.clear_sky1);
                 }else{
-                     thread = new Thread(){
-                        @Override
-                        public void run(){
-                            try {
-                                URL url = new URL(" http://openweathermap.org/img/wn/"+response.body().getweatherList().get(0).getIcon()+"@2x.png");
-                                URLConnection urlConnection = url.openConnection();
-                                urlConnection.setDoInput(true);
-                                urlConnection.connect();
+                    String str_url = " http://openweathermap.org/img/wn/"+ response.body().getweatherList().get(0).getIcon()+"@2x.png";
+                    Url_Connection uc = new Url_Connection();
+                    uc.execute(str_url);
 
-                                InputStream is = urlConnection.getInputStream();
-                                bitmap = BitmapFactory.decodeStream(is);
-                                therad_satue=true;
-                            } catch (MalformedURLException e) {
-                                e.printStackTrace();
-                            }catch (IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                }
-                if(therad_satue){
-                    thread.start();
-
-                    try {
-                        thread.join(); //별도의 작업 Thread가 종료될 때까지 메인 Thread가 기다리게 된다.
-                        weather_imageview.setImageBitmap(bitmap);
-                        therad_satue=false;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
 
             }
@@ -268,7 +241,48 @@ public class HomeFragment extends Fragment {
         return root;
 
 
+//
+    }
+    private Bitmap getIcon(String str_url){
+        try{
+            Log.d("TAG", "getIcon: "+str_url);
+            URL url = new URL(str_url);
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.setDoInput(true);
+            urlConnection.connect();
 
+            InputStream is = urlConnection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    private class Url_Connection extends AsyncTask<String,Void,String>{
+        @Override
+        protected String doInBackground(String... str_url) {
+            try {
+                URL url = new URL(str_url[0]);
+                URLConnection urlConnection = url.openConnection();
+                urlConnection.setDoInput(true);
+                urlConnection.connect();
+
+                InputStream is = urlConnection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(is);
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }catch (IOException e1){
+                e1.printStackTrace();
+            }
+            return null;
+        }
+        protected void onPostExecute(String result){
+            weather_imageview.setImageBitmap(bitmap);
+
+        }
     }
     private void startLocationService(){ //사용자의 위치 좌표를 가져오기 위한 클래스
         LocationManager locationManager1 = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);//위치관리자 생성

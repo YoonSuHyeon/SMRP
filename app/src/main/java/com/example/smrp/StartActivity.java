@@ -1,19 +1,29 @@
 package com.example.smrp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Intent;
+import android.icu.util.ICUUncheckedIOException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.smrp.medicine.ViewPagerAdapter;
 

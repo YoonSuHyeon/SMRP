@@ -100,7 +100,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         radiuse_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         radiuse_spinner.setAdapter(radiuse_adapter);
 
-        dgsbjtCd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        dgsbjtCd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // 진료과목 버튼을 눌렀을 경우 발생하는 이벤트
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -113,19 +113,21 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                     mapCircle.setTag(2);
                     mapView.addCircle(mapCircle);
-                    HospitalFragment.Dialog dialog = new Dialog();
+                    Dialog dialog = new Dialog();
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
+                    /*if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
                         mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                         mapCircle.setTag(2);
                         mapView.addCircle(mapCircle);
                         re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
+                        boolean_start = false;
                     }else{
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }
+                    }*/
 
+                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
                 }
             }
 
@@ -136,10 +138,12 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         });
 
         radiuse_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             if(mapView!=null){
+
                 mapView.removeAllCircles();
 
                 if(position!=0){//기본값을 제외
@@ -147,18 +151,26 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     meter = meter.substring(0,meter.indexOf("m")); //ex: meter : 500m --> m 문자 제거
 
                     radiuse = Integer.parseInt(meter);
-                    HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
+                    Dialog dialog = new Dialog();
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
+                    /*if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
                         mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                         mapCircle.setTag(2);
+                        mapView.removeAllCircles();
                         mapView.addCircle(mapCircle);
                         re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
+                        boolean_start = false;
+
                     }else{
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }
+                    }*/
+                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                    mapCircle.setTag(2);
+                    mapView.removeAllCircles();
+                    mapView.addCircle(mapCircle);
+                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
 
                 }else{//기본값
                     radiuse=500;
@@ -166,14 +178,19 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
+                   /* if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
                         mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                         mapCircle.setTag(2);
                         mapView.addCircle(mapCircle);
                         re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
                     }else{
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }
+                    }*/
+                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                    mapCircle.setTag(2);
+                    mapView.removeAllCircles();
+                    mapView.addCircle(mapCircle);
+                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
                 }
             }
 
@@ -202,7 +219,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        location_fb.setOnClickListener(new View.OnClickListener() {
+        location_fb.setOnClickListener(new View.OnClickListener() { //내위치 주변 병원들을 찾기위함 / 내위치 버튼을 눌렀을경우
             @Override
             public void onClick(View v) {
                 // 트랙
@@ -221,10 +238,11 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             }
         });
-        research_fb.setOnClickListener(new View.OnClickListener() {
+        research_fb.setOnClickListener(new View.OnClickListener() { //재검색 버튼을 눌러 지도의 중심을 기준으로 병원을 검색
             @Override
             public void onClick(View v) {
                 if(boolean_start){
+                    bool_restart = false;
                     dialog = new Dialog();
                     dialog.execute();
                     mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
@@ -236,9 +254,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude), true);
                     mapView.setCurrentLocationRadius(radiuse);
                     re_parsingData(movelatititue, movelongitude, radiuse,dgsbjtCd);
-                    boolean_start=false;
                 }
-
             }
         });
         adapter.setOnitemClickListener(new HospitalAdapter.OnHospitalItemClickListener() {
@@ -321,6 +337,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
+                Log.d("TAG", "bool_start: "+bool_start+"\n");
+
                 if(response.isSuccessful()){
                     Log.d("TAG", "onResponse: "+response.message());
                     Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
@@ -347,11 +365,13 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                             mapCircle.setTag(2);
                             mapView.addCircle(mapCircle);
                             bool_start = true;
+                            Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
                         }
                     },150);
 
 
                 }else{
+                    Log.d("TAG", "bool_start: "+bool_start+"\n");
                     handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -368,13 +388,13 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
                 createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
-                bool_start = true;
-
                 Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
+                bool_start = true;
             }
         });
     }
     private void re_parsingData(double latitude, double longitude, final int radiuse,final String dgsbjtCd){
+
         RetrofitService json = new RetrofitFactory().create();
         Log.d("TAG", "latitude2: "+latitude);
         Log.d("TAG", "longitude2: "+longitude);
@@ -382,6 +402,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
+                Log.d("TAG", "bool_restart: "+bool_restart+"\n");
                 if(response.isSuccessful()){
                     Log.d("TAG", "onResponse: "+response.message());
                     Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
@@ -403,10 +424,12 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                                 double distance = response.body().response_tag.body.items.getItemsList().get(i).getDistance(); //병원 x좌표
                                 addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
                             }
-
                             bool_restart = true;
+                            Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
+                            Log.d("TAG", "runrunrunrun: "+bool_restart);
+                            count = 0;
                         }
-                    },150);
+                    },500);
 
 
                 }else{
@@ -414,24 +437,26 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            bool_restart = true;
+
                             list.clear();
                             adapter.notifyDataSetChanged();
                             Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
 
+                            bool_restart = true;
                         }
                     }
-                    ,150);
+                    ,500);
                 }
-
+                bool_restart = true;
             }
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
-                bool_restart = true;
+                Log.d("TAG", "bool_restart: "+bool_restart+"\n");
                 list.clear();
                 adapter.notifyDataSetChanged();
-                Toast.makeText(getActivity(),"해당지역에는 병원이 없습니다.",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
+                bool_restart = true;
             }
         });
     }
@@ -728,21 +753,24 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMessage("로딩중입니다..");
 
+            Log.d("TAG", "bool_restart_before: "+bool_restart);
             // show dialog
             progressDialog.show();
             super.onPreExecute();
         }
         @Override
         protected Void doInBackground(Void... voids) {
-           /*try {
+           try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
-           while(!bool_restart)
-               ;
+            }
+
+           /*while(!bool_restart)
+               ;*/
            bool_restart = false;
+            Log.d("TAG", "bool_restart_after: "+bool_restart);
             return null;
         }
         @Override
@@ -751,7 +779,6 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             //finish();
             Log.d("TAG", "onPostExecute: "+count);;
-            Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
             super.onPostExecute(result);
         }
     }
@@ -772,14 +799,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            /*try {
-                Thread.sleep(3000); // 2초 지속
+            try {
+                Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
-            while(!bool_start)
-                ;
+            }
+           /* while(!bool_start)
+                ;*/
             bool_start = false;
             return null;
         }
@@ -791,7 +818,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             //finish();
             Log.d("TAG", "onPostExecute: "+count);;
-            Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
+
             super.onPostExecute(result);
         }
     }

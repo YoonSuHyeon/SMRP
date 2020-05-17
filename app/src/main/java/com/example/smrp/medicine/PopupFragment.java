@@ -1,4 +1,5 @@
 package com.example.smrp.medicine;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.smrp.R;
 import com.example.smrp.searchMed.SearchActivity;
+import com.example.smrp.searchPrescription.Search_pill;
 import com.example.smrp.searchPrescription.Search_prescription;
 
 /* 아직 각 버튼에 관한 구현은 하지 않았다 */
@@ -43,7 +45,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
             @Override
             public void onClick(View v) {
                 //현재 사진 촬영 단계를 건너뛴 다음 액티비티 약 상세정보 액티비티로 전환 시킴.
-                Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
+                Intent intent = new Intent(getContext().getApplicationContext(), Search_pill.class);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
                 dismiss();
@@ -55,7 +57,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
         Img_envelope.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(getContext().getApplicationContext(),Search_prescription.class);
+                intent = new Intent(getContext().getApplicationContext(), Search_prescription.class);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "envelope", Toast.LENGTH_LONG).show(); // 임시 메세지
                 dismiss();
@@ -78,8 +80,9 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
             public void onClick(View v) {
                 Intent intent = new Intent(getContext().getApplicationContext(), SearchActivity.class);
                 startActivity(intent);
-                dismiss();
                 Toast.makeText(getActivity(), "seach", Toast.LENGTH_LONG).show();// 임시 메세지
+                dismiss();
+
             }
         });
 

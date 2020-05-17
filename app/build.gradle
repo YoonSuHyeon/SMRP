@@ -57,10 +57,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
 
     //구글 OCR에 필요한 라이브러리//
-    implementation 'com.wonderkiln:camerakit:0.13.1'
+    implementation 'com.wonderkiln:camerakit:0.13.5'
     implementation 'com.google.api-client:google-api-client-android:1.23.0' exclude module: 'httpclient'
     implementation 'com.google.http-client:google-http-client-gson:1.23.0' exclude module: 'httpclient'
     implementation 'com.google.apis:google-api-services-vision:v1-rev369-1.23.0'
-
+    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+    implementation 'com.google.android.gms:play-services:12.0.1'
     //implementation 'com.naver.maps:map-sdk:3.7.1' //네이버 SDK
 }

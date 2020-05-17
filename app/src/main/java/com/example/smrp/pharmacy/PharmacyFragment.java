@@ -581,14 +581,14 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            /*try {
-                Thread.sleep(2000); // 2초 지속
+            try {
+                Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
-            while(!bool_start)
-                ;
+            }
+            /*while(!bool_start)
+                ;*/
             bool_start=false;
             return null;
         }
@@ -621,7 +621,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         @Override
         protected Void doInBackground(Void... voids) {
             try {
-                Thread.sleep(3000); // 2초 지속
+                Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

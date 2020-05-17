@@ -22,24 +22,23 @@ public interface RetrofitService {
     );
 
     @GET("/findId")
-    Call<response> findId(
+    Call<response> findId( //아이디 검색
             @Query("name") String id,
             @Query("email") String email
     );
 
     @GET("/findPassword")
-    Call<response> findPassword(
+    Call<response> findPassword( //패스워드 검색
             @Query("name") String name,
             @Query("id") String id,
             @Query("email") String email
     );
 
     @GET("/medicine1/find")
-    Call<List<reponse_medicine>> findList(
+    Call<List<reponse_medicine>> findList( // 약 찾가
             @Query("shape") String shape,
             @Query("color") String color,
             @Query("formula") String formula,
             @Query("line") String line
     );
-
 }
