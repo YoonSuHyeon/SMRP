@@ -23,6 +23,15 @@ public interface RetrofitService {
     Call<response> getUser(
             @Body User user
     );
+    @POST("/medicineRegister")
+    Call<response>addMedicine(
+            @Body MedicineUserId medicineUserId
+    );
+
+    @GET("/medicineRegister")
+    Call<List<reponse_medicine>>findUserMedicine(
+            @Query("userId")String userId
+    );
 
     @GET("/findId")
     Call<response> findId( //아이디 검색

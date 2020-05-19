@@ -3,12 +3,21 @@ package com.example.smrp.medicine;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.smrp.MedicineUserId;
 import com.example.smrp.R;
+import com.example.smrp.RetrofitHelper;
+import com.example.smrp.RetrofitService;
+import com.example.smrp.response;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MedicineDetailActivity extends AppCompatActivity {
 
@@ -26,6 +35,10 @@ public class MedicineDetailActivity extends AppCompatActivity {
         medicineImage=findViewById(R.id.iv_medicine);
         iv_back=findViewById(R.id.iv_back);
 
+
+
+        //일련번호 ItemSeq 를 Intent로 받는다.  사진촬영이든,검색을 해서 든 .
+
         //Image 등록
         Glide.with(this).load("https://lh3.googleusercontent.com/proxy/z5m61I7Jz2jDC56-WPtNa2ddl2zFUSasdcyTfqN8migJLE6xOwzbt7AsJv2wWo0B81jFvX0x4UlQKSDe6HZKKu4e7ByOnfTBZf-P9fim6zQ").into(medicineImage);
 
@@ -41,7 +54,31 @@ public class MedicineDetailActivity extends AppCompatActivity {
         //추가하기 버튼
         addMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.
+            public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.  // userId 사용자 id    itemSeq  일련번호
+
+                RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                MedicineUserId medicineUserId = new MedicineUserId("aa","123");
+                Call<response> call = networkService.addMedicine(medicineUserId);
+                call.enqueue(new Callback<response>() {
+                    @Override
+                    public void onResponse(Call<response> call, Response<response> response) {
+                        try{
+
+                            Log.d("12345",response.body().getResponse());
+                        }catch (NullPointerException e){
+                            Log.d("d",e.toString());
+                        }
+
+                        //Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        //startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<response> call, Throwable t) {
+                        Log.d("dddd",t.toString());
+                        //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
         });

@@ -6,11 +6,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.medicine.MedicineDetailActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,17 +28,28 @@ import retrofit2.Response;
 
 public class ResultActivity extends Activity {
 
-
+    Button btn_ok;
     ArrayList<String> list = new ArrayList<>();
     ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
+        btn_ok=findViewById(R.id.btn_ok);
         img = findViewById(R.id.img);
         getImage("med"); // 캐시 이미지 파일 불러오기 호출
 
+
+
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
+                //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
     private void sendFile(File tempFile){//서버에게 이미지 전송
 
@@ -57,6 +72,8 @@ public class ResultActivity extends Activity {
 
             //서버에게 약 데이터를 받은후 MedicinDetailActivity 로 이동
     }
+
+
     private void getImage(String name){ // 캐시에서 이미지 불러오기
 
         File file = new File(getCacheDir().toString()); //캐쉬

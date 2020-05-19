@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".alarm.AlarmDetailActivity" />
+        <activity android:name=".medicine.MedicineDetailActivity" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="adc15b958c5d03495cd889d997401566" />

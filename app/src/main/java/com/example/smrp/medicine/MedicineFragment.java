@@ -5,26 +5,37 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smrp.MainActivity;
 import com.example.smrp.R;
+import com.example.smrp.RetrofitHelper;
+import com.example.smrp.RetrofitService;
 import com.example.smrp.home.HomeFragment;
+import com.example.smrp.reponse_medicine;
+import com.example.smrp.response;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MedicineFragment extends Fragment {
     // 배너 ViewPager
     private ViewPagerAdapter adapter;
+    private ListViewAdapter listViewAdapter;
     private ViewPager viewPager;
     private ListView Lst_medicine; // 등록한 약 목록(아직 구현x)
     private TextView Txt_empty; // 등록한 약이 없을 시 text메세지로 알려줌
@@ -34,6 +45,8 @@ public class MedicineFragment extends Fragment {
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
     private Timer timer; // 자동 슬라이드를 위한 변수
+
+    ArrayList<ListViewItem> items = new ArrayList<ListViewItem>();
 
     private int[] images= {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private MedicineViewModel medicineViewModel;
@@ -59,6 +72,10 @@ public class MedicineFragment extends Fragment {
         Lst_medicine.setEmptyView(Txt_empty);
         Img_ic_plus = v.findViewById(R.id.Img_ic_plus);
         //
+
+
+        listViewAdapter=new ListViewAdapter(items,getActivity());
+        Lst_medicine.setAdapter(listViewAdapter);
 
         /* 클릭 이벤트들 */
         //1. +아이콘 클릭시
@@ -96,10 +113,37 @@ public class MedicineFragment extends Fragment {
 
         //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
 
-        ArrayList<ListViewItem> items = new ArrayList<ListViewItem>();
-        items.add(new ListViewItem("https://lh3.googleusercontent.com/proxy/z5m61I7Jz2jDC56-WPtNa2ddl2zFUSasdcyTfqN8migJLE6xOwzbt7AsJv2wWo0B81jFvX0x4UlQKSDe6HZKKu4e7ByOnfTBZf-P9fim6zQ","hh"));
-        items.add(new ListViewItem("https://lh3.googleusercontent.com/proxy/z5m61I7Jz2jDC56-WPtNa2ddl2zFUSasdcyTfqN8migJLE6xOwzbt7AsJv2wWo0B81jFvX0x4UlQKSDe6HZKKu4e7ByOnfTBZf-P9fim6zQ","hh"));
-        Lst_medicine.setAdapter(new ListViewAdapter(items,getActivity()));
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+        //String id  사용자 id를 가져와야함
+        String id ="cc";
+        Call<List<reponse_medicine>> call = networkService.findUserMedicine(id);
+
+        call.enqueue(new Callback<List<reponse_medicine>>() {
+            @Override
+            public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {
+                List<reponse_medicine> reponse_medicines =response.body();
+                items.clear();
+
+                for(int i = 0; i<  reponse_medicines.size(); i++)
+                {
+                    items.add(new ListViewItem(reponse_medicines.get(i).getItemImage(),reponse_medicines.get(i).getItemName()));
+                    /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
+                    Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
+                }
+                listViewAdapter.notifyDataSetChanged();
+                //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {
+                Log.d("ddd",t.toString());
+
+            }
+        });
+
+
+
         return v;
 
 

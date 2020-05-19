@@ -490,11 +490,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems1.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems1.put(position, true);
@@ -555,11 +555,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems2.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                     //   name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                     //   name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems2.put(position, true);
@@ -603,11 +603,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems3.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                    //    name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems3.put(position, true);
@@ -655,11 +655,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems4.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                        name.setTextColor(getResources().getColor(R.color.searchFont));
+                     //   name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems4.put(position, true);
