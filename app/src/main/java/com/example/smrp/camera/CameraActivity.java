@@ -52,6 +52,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import okhttp3.RequestBody;
+
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -458,12 +460,9 @@ public class CameraActivity extends AppCompatActivity {
         File tempFile = new File(storage, fileName);
 
         try {
-
-
             tempFile.createNewFile();//빈 파일을 생성
             FileOutputStream out = new FileOutputStream(tempFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // 스트림에 비트맵을 저장
-
             out.close();
 
         } catch (FileNotFoundException e) {

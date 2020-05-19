@@ -9,9 +9,18 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.smrp.R;
+import com.example.smrp.RetrofitHelper;
+import com.example.smrp.RetrofitService;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ResultActivity extends Activity {
 
@@ -27,7 +36,27 @@ public class ResultActivity extends Activity {
         getImage("med"); // 캐시 이미지 파일 불러오기 호출
 
     }
+    private void sendFile(File tempFile){//서버에게 이미지 전송
 
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"),tempFile);
+            MultipartBody.Part mPart = MultipartBody.Part.createFormData("files","image.jpg",body);
+
+            RetrofitService retrofitCameraService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+            Call<String> call  = retrofitCameraService.uploadImage(mPart);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.d("1234","sdgsdg");
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.d("ddd",t.toString());
+                }
+            });
+
+            //서버에게 약 데이터를 받은후 MedicinDetailActivity 로 이동
+    }
     private void getImage(String name){ // 캐시에서 이미지 불러오기
 
         File file = new File(getCacheDir().toString()); //캐쉬

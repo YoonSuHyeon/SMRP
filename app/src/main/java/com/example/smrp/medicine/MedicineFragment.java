@@ -16,6 +16,7 @@ import com.example.smrp.MainActivity;
 import com.example.smrp.R;
 import com.example.smrp.home.HomeFragment;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -91,6 +92,14 @@ public class MedicineFragment extends Fragment {
         }, DELAY_MS, PERIOD_MS);
 
 
+
+
+        //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
+
+        ArrayList<ListViewItem> items = new ArrayList<ListViewItem>();
+        items.add(new ListViewItem("https://lh3.googleusercontent.com/proxy/z5m61I7Jz2jDC56-WPtNa2ddl2zFUSasdcyTfqN8migJLE6xOwzbt7AsJv2wWo0B81jFvX0x4UlQKSDe6HZKKu4e7ByOnfTBZf-P9fim6zQ","hh"));
+        items.add(new ListViewItem("https://lh3.googleusercontent.com/proxy/z5m61I7Jz2jDC56-WPtNa2ddl2zFUSasdcyTfqN8migJLE6xOwzbt7AsJv2wWo0B81jFvX0x4UlQKSDe6HZKKu4e7ByOnfTBZf-P9fim6zQ","hh"));
+        Lst_medicine.setAdapter(new ListViewAdapter(items,getActivity()));
         return v;
 
 

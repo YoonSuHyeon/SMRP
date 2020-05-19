@@ -3,10 +3,13 @@ package com.example.smrp;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
@@ -41,4 +44,10 @@ public interface RetrofitService {
             @Query("formula") String formula,
             @Query("line") String line
     );
+
+    @Multipart
+    @POST("/medicine1/uploadImage")
+    Call<String> uploadImage(@Part MultipartBody.Part files);
+
+
 }
