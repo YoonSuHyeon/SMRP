@@ -370,6 +370,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         //list_row1 - 모양 결정
         addItem(list_row1,null,
                 "모양\n전체",1, "모양 전체");
+        addItem(list_row1,getDrawable(R.drawable.ic_circle), "원형",0,"원형");
         addItem(list_row1,getDrawable(R.drawable.ic_triangle),
                 "삼각형",0, "삼각형");
         addItem(list_row1,getDrawable(R.drawable.ic_rectangle),
@@ -431,7 +432,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         mSelectedItems2.put(0,true);
         mSelectedItems3.put(0,true);
         mSelectedItems4.put(0,true);
-        for(int i =1 ; i < 8; i++) {mSelectedItems1.put(i,false); mSelectedItems2.put(i,false);}
+        for(int i =1 ; i < 9; i++) {mSelectedItems1.put(i,false); mSelectedItems2.put(i,false);}
         for(int i =1 ; i < 4; i++) mSelectedItems3.put(i,false);
         for(int i =1 ; i < 5; i++) mSelectedItems4.put(i,false);
 
