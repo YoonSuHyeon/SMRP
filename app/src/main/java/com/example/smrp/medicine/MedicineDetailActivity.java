@@ -40,7 +40,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
         //일련번호 ItemSeq 를 Intent로 받는다.  사진촬영이든,검색을 해서 든 .
 
         //Image 등록
-        Glide.with(this).load("https://lh3.googleusercontent.com/proxy/z5m61I7Jz2jDC56-WPtNa2ddl2zFUSasdcyTfqN8migJLE6xOwzbt7AsJv2wWo0B81jFvX0x4UlQKSDe6HZKKu4e7ByOnfTBZf-P9fim6zQ").into(medicineImage);
+        Glide.with(this).load("https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5339%2F2020%2F01%2F26%2F0000200278_002_20200126080217187.jpg&type=b400").override(300,400).fitCenter().into(medicineImage);
 
 
         //뒤로가기 버튼
@@ -57,7 +57,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.  // userId 사용자 id    itemSeq  일련번호
 
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                MedicineUserId medicineUserId = new MedicineUserId("aa","123");
+                MedicineUserId medicineUserId = new MedicineUserId("cc","201503211");
                 Call<response> call = networkService.addMedicine(medicineUserId);
                 call.enqueue(new Callback<response>() {
                     @Override
@@ -65,6 +65,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
                         try{
 
                             Log.d("12345",response.body().getResponse());
+
                         }catch (NullPointerException e){
                             Log.d("d",e.toString());
                         }

@@ -118,7 +118,6 @@ public class MedicineFragment extends Fragment {
         //String id  사용자 id를 가져와야함
         String id ="cc";
         Call<List<reponse_medicine>> call = networkService.findUserMedicine(id);
-
         call.enqueue(new Callback<List<reponse_medicine>>() {
             @Override
             public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {
