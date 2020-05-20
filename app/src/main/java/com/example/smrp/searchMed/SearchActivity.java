@@ -1,17 +1,21 @@
 package com.example.smrp.searchMed;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.MalformedJsonException;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +30,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.smrp.Medicines;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.User;
 import com.example.smrp.medicine.MedicineDetailActivity;
 import com.example.smrp.reponse_medicine;
+import com.example.smrp.response;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +58,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity implements SearchRecyclerAdapter.OnItemClickListener{
+    Boolean scrollStop;
+    TableRow[] tbrow ;
 
     String color="color_all",shape="shape_all",formula="formula_all",line="line_all";
     //Medicines medicines;
@@ -55,14 +71,14 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     RecyclerView Lst_line= null ;
     ImageView iv_back;
 
-    TableRow tbrow;
+    //TableRow tbrow;
 
     SearchRecyclerAdapter adapter_row1 = null ;
     SearchRecyclerAdapter adapter_row2  = null ;
     SearchRecyclerAdapter adapter_row3  = null ;
     SearchRecyclerAdapter adapter_row4 = null ;
     ImageView iv1;
-    ScrollView scrollView,scrollView2;
+    //ScrollView scrollView,scrollView2;
 
     Bitmap bitmap,resized;
     String stringURL;
@@ -71,6 +87,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     ArrayList<ListItem> list_row3 = new ArrayList<ListItem>();
     ArrayList<ListItem> list_row4 = new ArrayList<ListItem>();
 
+    ArrayList<MedicineItem> recyclerItem = null;
     Button Btn_add;
     ArrayList<String> selected_row1 = new ArrayList<String>();
     ArrayList<String> selected_row2 = new ArrayList<String>();
@@ -100,7 +117,8 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         return inSampleSize;
     }*/
-    public void init(final List<reponse_medicine> list){
+    /*public void init(final List<reponse_medicine> list){
+        tbrow = new TableRow[list.size()];
         TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
         tableLayout.removeAllViews();
         TableRow tbrow0 = new TableRow(this);
@@ -143,10 +161,10 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         Log.d("1234","ggigigigigi");
         Log.d("1234",Integer.toString(list.size()));
-        for(int i=0; i<list.size(); i++){
+        /*for(int i=0; i<list.size(); i++){
 
             Log.d("1234543534535","ggigigigigi");
-            tbrow = new TableRow(this);
+            tbrow[i] = new TableRow(this);
             iv1 = new ImageView(this);
             stringURL=list.get(i).getItemImage();
             Log.d("999999",list.get(i).getItemImage());
@@ -156,37 +174,40 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
             Log.d("999999",list.get(i).getItemImage());
 
-            tbrow.addView(iv1);
+            tbrow[i].addView(iv1);
             TextView tv2 = new TextView(this);
             tv2.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
             tv2.setText(list.get(i).getItemName());
             tv2.setTextColor(Color.BLACK);
             tv2.setGravity(Gravity.CENTER);
-            tbrow.addView(tv2);
+            tbrow[i].addView(tv2);
             TextView tv3 = new TextView(this);
             tv3.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
             tv3.setText(list.get(i).getEntpName());
             tv3.setTextColor(Color.BLACK);
             tv3.setGravity(Gravity.CENTER);
-            tbrow.addView(tv3);
+            tbrow[i].addView(tv3);
             TextView tv4 = new TextView(this);
             tv4.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0.7f));
             tv4.setText(list.get(i).getFormCodeName());
             tv4.setTextColor(Color.BLACK);
             tv4.setGravity(Gravity.CENTER);
-            tbrow.addView(tv4);
+            tbrow[i].addView(tv4);
             TextView tv5 = new TextView(this);
             tv5.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0.7f));
             tv5.setText(list.get(i).getEtcOtcName());
             tv5.setTextColor(Color.BLACK);
             tv5.setGravity(Gravity.CENTER);
-            tbrow.addView(tv5);
-            tbrow.setId(i+1);
-            tableLayout.addView(tbrow);
-            String id = Integer.toString(i+1);
+            tbrow[i].addView(tv5);
+            tbrow[i].setId(i);
+            tbrow[i].setTag(i);
+            tableLayout.addView(tbrow[i]);
+            String id = Integer.toString(i);
             int resID = getResources().getIdentifier(id,"id",getPackageName());
 
-            tbrow = findViewById(resID);
+            tbrow[i] = findViewById(resID);
+            tbrow[i].setOnClickListener(this);
+
             tbrow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -194,13 +215,17 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     startActivity(intent);
                 }
             });
+            Log.d("id22 :" ,Integer.toString(tbrow[i].getId()));
+            try{
+                Thread.sleep(100);
+            }
 
         }
 
 
-    }
+    }*/
 
-    @Override
+   /* @Override
     protected void onResume() {
         super.onResume();
 
@@ -215,7 +240,62 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 return false;
             }
         });
-    }
+    }*/
+
+   /* @Override
+    public boolean onLongClick(View v) {
+        if(scrollStop){
+            Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
+            startActivity(intent);
+
+        }
+        return false;
+    }*/
+
+    /*@Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
+        startActivity(intent);
+    }*/
+
+  /*  @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        if(event.getAction() == MotionEvent.ACTION_UP){
+            scrollView2.requestDisallowInterceptTouchEvent(false);
+        }else{
+            scrollView2.requestDisallowInterceptTouchEvent(true);
+        }
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_SCROLL:{
+
+            }
+            case MotionEvent.ACTION_MOVE: {
+                scrollStop = false;
+                break;
+            }
+            case MotionEvent.ACTION_DOWN:{
+                break;
+            }
+            case MotionEvent.ACTION_CANCEL:
+
+
+            case MotionEvent.ACTION_UP:{
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollStop = true;
+                    }
+                },400);
+
+                break;
+            }
+
+        }
+        return false;
+    }*/
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -230,13 +310,19 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         Lst_line = findViewById(R.id.Lst_line);
         Btn_search = findViewById(R.id.Btn_search);
         iv_back = findViewById(R.id.iv_back);
-        scrollView = (ScrollView)findViewById(R.id.scrollView);
+       /* scrollView = (ScrollView)findViewById(R.id.scrollView);
         scrollView2 = (ScrollView)findViewById(R.id.scrollView2);
 
 
+        scrollView2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });*/
+        //scrollView.setOnTouchListener(this);
 
-
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        /*scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
@@ -246,7 +332,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 }
                 return false;
             }
-        });
+        });*/
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         adapter_row1  = new SearchRecyclerAdapter(list_row1,this, Lst_shape) ;
@@ -375,13 +461,28 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                        // Log.d("12312313",response.body().toString());
                         List<reponse_medicine> list = response.body();
                        // int a = list.size();
+                        RecyclerView recyclerView = findViewById(R.id.recycler_medicine);
+
+                        recyclerItem = new ArrayList<MedicineItem>();
+                       try {
+                           for (int i = 0; i < list.size(); i++) {
+                               recyclerItem.add(new MedicineItem(list.get(i).getItemImage(), list.get(i).getItemName(), list.get(i).getEntpName(), list.get(i).getFormCodeName(), list.get(i).getEtcOtcName()));
+                           }
+                       }catch(NullPointerException e){
+                           e.printStackTrace();
+                       }
+
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+                        MedicineAdapter adapter = new MedicineAdapter(recyclerItem);
+                        recyclerView.setAdapter(adapter);
                        // String b = list.get(0).getCompany();
                        // Log.d("1234",Integer.toString(a));
                       //  Log.d("1234",b);
-                        TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
+                       // TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
 
-                        Log.d("1234","ggigigigigi");
-                        init(list);
+                        //Log.d("1234","ggigigigigi");
+                        //init(list);
 
                         //String test = list.get(0).getColor();
                         //Log.d("1234",test);
@@ -490,11 +591,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems1.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems1.put(position, true);
@@ -555,11 +656,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems2.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                     //   name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                     //   name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems2.put(position, true);
@@ -603,11 +704,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems3.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                    //    name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems3.put(position, true);
@@ -655,11 +756,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     mSelectedItems4.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
-                      //  name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                     else{
                         icon.setBackgroundResource(android.R.color.transparent);
-                     //   name.setTextColor(getResources().getColor(R.color.searchFont));
+                        name.setTextColor(getResources().getColor(R.color.searchFont));
                     }
                 } else {
                     mSelectedItems4.put(position, true);
