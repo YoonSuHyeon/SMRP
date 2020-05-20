@@ -379,10 +379,21 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 "마름모",0,"마름모");
         addItem(list_row1,getDrawable(R.drawable.ic_oblong),
                 "장방형",0,"장방형");
+        addItem(list_row1,getDrawable(R.drawable.ic_oval),
+                "타원형",0,"타원형");
+        addItem(list_row1,getDrawable(R.drawable.ic_semicircle),
+                "반원형",0,"반원형");
+
         addItem(list_row1,getDrawable(R.drawable.ic_pentagon),
                 "오각형",0,"오각형");
+
+        addItem(list_row1,getDrawable(R.drawable.ic_hexagon),
+                "육각형",0,"육각형");
+
         addItem(list_row1,getDrawable(R.drawable.ic_octagon),
                 "팔각형",0,"팔각형");
+
+
         addItem(list_row1,getDrawable(R.drawable.ic_etc),
                 "기타",0,"기타");
 
@@ -404,6 +415,27 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 "갈색",0,"갈색");
         addItem(list_row2,getDrawable(R.drawable.ic_yellowgreen),
                 "연두",0,"연두");
+        addItem(list_row2,getDrawable(R.drawable.ic_purple),
+                "보라",0,"보라");
+        addItem(list_row2,getDrawable(R.drawable.ic_bluegreen),
+                "청록",0,"청록");
+        addItem(list_row2,getDrawable(R.drawable.ic_blue),
+                "파랑",0,"파랑");
+        addItem(list_row2,getDrawable(R.drawable.ic_navy),
+                "남색",0,"남색");
+        addItem(list_row2,getDrawable(R.drawable.ic_redviolet),
+                "자주",0,"자주");
+        addItem(list_row2,getDrawable(R.drawable.ic_gray),
+                "회색",0,"회색");
+        addItem(list_row2,getDrawable(R.drawable.ic_black),
+                "검정",0,"검정");
+
+
+
+
+
+
+
 
 
         //list_row3 - 제형
@@ -432,7 +464,8 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         mSelectedItems2.put(0,true);
         mSelectedItems3.put(0,true);
         mSelectedItems4.put(0,true);
-        for(int i =1 ; i < 9; i++) {mSelectedItems1.put(i,false); mSelectedItems2.put(i,false);}
+        for(int i =1 ; i < 12; i++) mSelectedItems1.put(i,false);
+        for(int i =1 ; i < 15; i++) mSelectedItems2.put(i,false);
         for(int i =1 ; i < 4; i++) mSelectedItems3.put(i,false);
         for(int i =1 ; i < 5; i++) mSelectedItems4.put(i,false);
 
