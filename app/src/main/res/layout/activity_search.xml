@@ -206,61 +206,69 @@
                         android:textSize="13dp"
                         />
 
-                    <ScrollView
-                        android:id="@+id/scrollView"
+
+
+
+                    <LinearLayout
+                        android:id="@+id/table"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="6.5">
 
 
-                        <TableLayout
-                            android:id="@+id/table"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="식별/포장"
+                            android:layout_weight="1.5"
+                            android:background="#989898"
+                            android:gravity="center"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="제품명"
+                            android:layout_weight="1.5"
+                            android:background="#989898"
+                            android:gravity="center"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="회사명"
+                            android:layout_weight="1.5"
+                            android:background="#989898"
+                            android:gravity="center"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="제형"
+                            android:layout_weight="1"
+                            android:background="#989898"
+                            android:gravity="center"
+                            />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="구분"
+                            android:layout_weight="1"
+                            android:background="#989898"
+                            android:gravity="center"
+                            />
 
-                            <TableRow>
-                                <TextView
-                                    android:text="식별/포장"
-                                    android:layout_weight="2"
-                                    android:background="#989898"
-                                    android:gravity="center"
-                                    />
-                                <TextView
-                                    android:text="제품명"
-                                    android:layout_weight="1.5"
-                                    android:background="#989898"
-                                    android:gravity="center"
-                                    />
-                                <TextView
-                                    android:text="회사명"
-                                    android:layout_weight="1.5"
+                    </LinearLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="vertical"
+                        android:id="@+id/recycler_medicine">
 
-                                    android:background="#989898"
-                                    android:gravity="center"
-                                    />
-                                <TextView
-                                    android:text="제형"
-                                    android:layout_weight="0.7"
-
-                                    android:background="#989898"
-                                    android:gravity="center"
-                                    />
-                                <TextView
-                                    android:text="구분"
-                                    android:layout_weight="0.7"
-
-                                    android:background="#989898"
-                                    android:gravity="center"
-                                    />
-
-                            </TableRow>
+                    </androidx.recyclerview.widget.RecyclerView>
 
 
 
-                        </TableLayout>
-
-
-                    </ScrollView>
 
 
 
