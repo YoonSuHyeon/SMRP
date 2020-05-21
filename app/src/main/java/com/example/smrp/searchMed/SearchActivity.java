@@ -96,8 +96,13 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     private SparseBooleanArray mSelectedItems3 = new SparseBooleanArray(0);
     private SparseBooleanArray mSelectedItems4 = new SparseBooleanArray(0);
 
-
-   /* public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){
+    //@@@@@@@@@@@@@@@@@
+    private int[] row_images1 = {R.drawable.ic_circle_green,R.drawable.ic_triangle_green, R.drawable.ic_rectangle_green,R.drawable.ic_rhombus_green, R.drawable.ic_oblong_green,R.drawable.ic_oval_green,R.drawable.ic_semicircle_green,R.drawable.ic_hexagon_green,R.drawable.ic_pentagon_green,R.drawable.ic_octagon_green,R.drawable.ic_etc_green};
+    private int[] row_images2 = {R.drawable.ic_white_green,R.drawable.ic_yellow_green,R.drawable.ic_orange_green,R.drawable.ic_pink_green,R.drawable.ic_red_green,R.drawable.ic_brown_green,R.drawable.ic_yellowgreen_green, R.drawable.ic_purple_green,R.drawable.ic_blue_green,R.drawable.ic_blue_green,R.drawable.ic_navy_green,R.drawable.ic_redviolet_green,R.drawable.ic_gray_green,R.drawable.ic_black_green};
+    private int[] row_images3 = {R.drawable.ic_ref_green,R.drawable.ic_hard_cap_green,R.drawable.ic_soft_cap_green};
+    private int[] row_images4 = {R.drawable.ic_empty_green,R.drawable.ic_line_minus_green,R.drawable.ic_line_pluse_green,R.drawable.ic_line_etc_green};
+    //@@@@@@@@@@@@@@@
+   /* public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){;
         final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
@@ -580,6 +585,12 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         TextView name =  v.findViewById(R.id.Txt_name);
         ImageView icon = v.findViewById(R.id.Img_icon);
 
+        //@@@@@@@@@@@@@2
+        //RecyclerView에 있는 item들의 Text부분을 가지고와서 색깔을 변경한다.
+        TextView name2 =(TextView)rList.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.Txt_name);
+        name2.setTextColor(Color.parseColor("#989898"));
+        //@@@@@@@@@@@@@@@222
+
         switch(rList.getId()){
 
             case R.id.Lst_shape : {
@@ -620,7 +631,26 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         break;
                     }
                 }
+                //@@@@@@@@@@@@@@@@@@
+                if (mSelectedItems1.get(position, false) ){
+                    // 어떤 아이템이든 선택된 상태에서 다시 한번 선택(클릭)시 수행
+                    mSelectedItems1.put(position, false); // 그 아이템을 선택 해제한다.
+                }
+                else { // 선택되지 않은 아이템을 클릭 시
+                    mSelectedItems1.put(position, true);//일단 그 선택한 아이템은 선택 상태로 바꿔주기 -> true
+                    if(item.getViewType()==1){ // 선택한 아이템이 00 전체인 경우
+                        for (int i = 1; i < mSelectedItems1.size(); i++)
+                            mSelectedItems1.put(i, false); // 나머지 아이템들은 false로 만든다. 즉, 선택 해제
 
+                    }
+                    else{// 선택한 아이템이 00 전체가 아닌 경우
+                        mSelectedItems1.put(0,false); // 00 전체를 false로 만든다. 즉, 선택 해제
+                    }
+
+
+                }
+                //@@@@@@@@@@@@@@@@@@@@@@@@@@
+                /*
                 if ( mSelectedItems1.get(position, false) ){
                     mSelectedItems1.put(position, false);
                     if(item.getViewType()==1){
@@ -642,7 +672,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;

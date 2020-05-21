@@ -50,6 +50,7 @@
             android:value="false" />
         <activity android:name=".camera.CameraActivity"/>
         <activity android:name=".camera.ResultActivity"/>
+        <activity android:name=".alarm.AlarmDetailActivity"/>
 
 
     </application>

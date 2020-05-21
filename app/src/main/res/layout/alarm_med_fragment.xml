@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginStart="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알람명"
+                    />
+                <EditText
+
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/alarm_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#989898"
+                />
+
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1회 투여량"
+
+                        />
+                    <EditText
+                        android:inputType="number"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:digits="01234"
+                        android:maxLength="1"
+                        android:background="@drawable/alarm_border"/>
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="회"
+
+                        />
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1회 투여횟수"
+
+                        />
+                    <EditText
+                        android:inputType="number"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:digits="01234"
+                        android:maxLength="1"
+                        android:background="@drawable/alarm_border"/>
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="회"
+
+                        />
+
+
+
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="복용 기간"
+
+                        />
+                    <EditText
+                        android:inputType="number"
+                        android:layout_marginStart="20dp"
+                        android:layout_width="50dp"
+                        android:layout_height="25dp"
+                        android:digits="0123456789"
+                        android:maxLength="1"
+                        android:background="@drawable/alarm_border"/>
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_marginStart="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일"
+
+
+                        />
+                    <TextView
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="복용타입"
+
+                        />
+
+                    <Spinner
+                        android:id="@+id/spin_type"
+                        android:layout_marginStart="40dp"
+                        android:layout_width="60dp"
+                        android:layout_height="23dp"
+                        android:background="@drawable/alarm_border">
+
+                    </Spinner>
+
+                 =
+
+
+
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#989898"
+                />
+
+            <TextView
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약 등록"/>
+
+
+            <View
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#989898"
+                />
+
+            <Button
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ 약 추가하기"
+                android:textColor="@color/appBaseColor"
+                android:background="#CECECE"
+                >
+
+
+
+            </Button>
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="알람 설정"
+            android:textColor="#FFFFFF"
+            android:background="@color/appBaseColor"
+            >
+
+
+
+        </Button>
+
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
