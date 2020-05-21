@@ -462,7 +462,7 @@ public class CameraActivity extends AppCompatActivity {
         try {
             tempFile.createNewFile();//빈 파일을 생성
             FileOutputStream out = new FileOutputStream(tempFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // 스트림에 비트맵을 저장
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, out); // 스트림에 비트맵을 저장
             out.close();
 
         } catch (FileNotFoundException e) {

@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ResultActivity extends Activity {
-
+    String path;
     Button btn_ok;
     ArrayList<String> list = new ArrayList<>();
     ImageView img;
@@ -44,7 +44,7 @@ public class ResultActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                sendFile(new File(getCacheDir().toString()));
+                sendFile(new File(path));
                 Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 startActivity(intent);
@@ -53,7 +53,7 @@ public class ResultActivity extends Activity {
         });
     }
     private void sendFile(File tempFile){//서버에게 이미지 전송
-
+            Log.d("dd",tempFile.isFile()+"");
             RequestBody body = RequestBody.create(MediaType.parse("image/*"),tempFile);
             MultipartBody.Part mPart = MultipartBody.Part.createFormData("files","med.jpg",body);
 
@@ -62,7 +62,8 @@ public class ResultActivity extends Activity {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    Log.d("1234","sdgsdg");
+                    Log.d("1234",response.toString());
+
                 }
 
                 @Override
@@ -99,13 +100,14 @@ public class ResultActivity extends Activity {
         if(list.size()>0) // 리스트에 있는 거 가져오기 위해 list position 조절하는 부분
             size = list.size()-1;
 
-        String path = getCacheDir() + "/" + list.get(size);
+        path = getCacheDir() + "/" + list.get(size);
 
         Log.e("PATH", path);
 
 
         //비트맵을 생성
         Bitmap bitmap = BitmapFactory.decodeFile(path);
+
         img.setImageBitmap(bitmap);
 
         //캐시 삭제는 뒤로가기 누를 때마다 삭제를 하고 있음(바뀔 수 있음. 내용도)
