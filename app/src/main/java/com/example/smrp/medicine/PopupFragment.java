@@ -13,7 +13,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.smrp.R;
 
 import com.example.smrp.alarm.AlarmDetailActivity;
-import com.example.smrp.alarm.AlarmSetFragment;
 import com.example.smrp.camera.CameraActivity;
 import com.example.smrp.searchMed.SearchActivity;
 import com.example.smrp.searchPrescription.Search_prescription;
