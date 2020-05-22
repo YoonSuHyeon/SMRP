@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".searchPrescription.Select_Pill"></activity>
         <activity android:name=".searchPrescription.Search_prescription" />
         <activity android:name=".ToSActivity" />
         <activity android:name=".findIdActivity" />
@@ -39,6 +40,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".medicine.MedicineDetailActivity" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="adc15b958c5d03495cd889d997401566" />
@@ -48,11 +50,10 @@
         <meta-data
             android:name="com.kakao.sdk.kakaonavi.useWebView"
             android:value="false" />
-        <activity android:name=".camera.CameraActivity"/>
-        <activity android:name=".camera.ResultActivity"/>
-        <activity android:name=".alarm.AlarmDetailActivity"/>
 
-
+        <activity android:name=".camera.CameraActivity" />
+        <activity android:name=".camera.ResultActivity" />
+        <activity android:name=".alarm.AlarmDetailActivity" />
     </application>
 
 </manifest>

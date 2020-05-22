@@ -9,6 +9,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smrp.Pillname;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
@@ -42,6 +43,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +57,7 @@ public class Search_prescription extends AppCompatActivity {
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
     private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
     private static final int MAX_LABEL_RESULTS = 10;
-    private static final int MAX_DIMENSION = 1080;
+    private static final int MAX_DIMENSION = 1080;//1080
     private Dialog dialog;
     private boolean bool_end = false;
     private RetrofitService_takenpicture json;
@@ -65,6 +67,8 @@ public class Search_prescription extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_prescription);
 
+        ArrayList<String>list = new ArrayList<>(); // pill_name 과 약봉투의 공통 ㅇ단어 각 ArrayList를 만들고 이를 Arrays.sort 오름차순으로 둔다 contains 를 하여 true가 되면
+        // 두 ArrayList삭제
         dialog = new Dialog();
         fb = findViewById(R.id.take_button);
         cameraView = findViewById(R.id.cameraView);
@@ -101,9 +105,10 @@ public class Search_prescription extends AppCompatActivity {
             public void onImage(CameraKitImage cameraKitImage) { //
                 Log.d("TAG", "onImageonImage: ");
                 bitmap = cameraKitImage.getBitmap();
+                cameraView.stop();
                 Uploading_bitmap(bitmap);
                 //Search_text\(bitmap);
-                cameraView.stop();
+
                 dialog.execute();
             }
 
@@ -125,6 +130,8 @@ public class Search_prescription extends AppCompatActivity {
         cameraView.stop();
         super.onPause();
     }
+
+
     public byte[] bitmapToByteArray( Bitmap bitmap ) { // Bitmap을 binary 로 변환 하는 클래스
         ByteArrayOutputStream stream = new ByteArrayOutputStream() ;
         bitmap.compress( Bitmap.CompressFormat.JPEG, 100, stream) ;
@@ -153,6 +160,8 @@ public class Search_prescription extends AppCompatActivity {
     private void Uploading_bitmap(Bitmap bitmap){
         if(bitmap != null){
             bitmap = scaleBitmapDown(bitmap,MAX_DIMENSION);
+            Log.d("TAG", "bitmap width: "+bitmap.getWidth());
+            Log.d("TAG", "bitmap height: "+bitmap.getHeight());
             callCloudVision(bitmap);
         }
         else{
@@ -215,14 +224,24 @@ public class Search_prescription extends AppCompatActivity {
                 //imageDetail.setText(result);
 
                 //st_result.append(result);
-                String[] pill_name = result.split("\n");
-                Log.d("TAG", "size: "+ pill_name.length);
+                ArrayList<String> pill_list = new ArrayList();
 
-                for(int i = 0 ; i<pill_name.length;i++){
-                    Log.d("TAG", "pil_name: ["+i+"]="+pill_name[i]);
+
+                StringTokenizer token = new StringTokenizer(result , "\n");
+                while(token.hasMoreTokens()){
+                    pill_list.add(token.nextToken());
                 }
+                pill_list.remove(pill_list.size() -1); //약 리스트의 마지막 리스트 삭제
+                Log.d("TAG", "onPostExecute: "+result);
+                Log.d("TAG", "size: "+ pill_list.size());
+
+
+                for(int i = 0 ; i<pill_list.size();i++){
+                    Log.d("TAG", "pil_name: ["+i+"]="+pill_list.get(i));
+                }
+                Pillname pillname = new Pillname(pill_list);
                 retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class); //아래부터는 약품명을 서버에 요청하기 위한 코드
-                Call<List<reponse_medicine>> call = retrofitService.findList("string","string","string","string");
+                Call<List<reponse_medicine>> call = retrofitService.getPill(pillname);
                 call.enqueue(new Callback<List<reponse_medicine>>() {
                     @Override
                     public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {//접속에 성공하였을때
@@ -234,28 +253,9 @@ public class Search_prescription extends AppCompatActivity {
 
                     }
                 });
-                /*StringTokenizer token  = new StringTokenizer(result,"\n");
-                int i = 0;
-                String list[] = new String[token.countTokens()];
-                while(token.hasMoreTokens()){
-                    list[i] = token.nextToken();
-                    i++;
-                }
-                Log.d("TAG", "list.size: "+list.length);
-
-                for(i = 0; i < list.length ; i++){
-                    Log.d("TAG", "result: ["+i+"]="+list[i]);
-                }
-                st_result.append(result);
-                Log.d("TAG", "st_result: "+st_result);*/
 
                 bool_end = true;
-                /*Intent intent = new Intent(activity,SelectPillActivity.class);
-                intent.putExtra("state",state);
-                intent.putExtra("st_result",st_result.toString());
 
-                startActivity(intent);
-                finish();*/
             }
         }
     }
@@ -354,7 +354,7 @@ public class Search_prescription extends AppCompatActivity {
         if (labels != null) {
             for (EntityAnnotation label : labels) {
 
-                message.append(String.format(Locale.KOREA, "%s", label.getDescription()));//%.3f: , label.getScore()
+                message.append(String.format(Locale.KOREAN, "%s", label.getDescription()));//%.3f: , label.getScore()
                 //message.append("\n");
             }
         } else {
