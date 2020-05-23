@@ -587,8 +587,8 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         //@@@@@@@@@@@@@2
         //RecyclerView에 있는 item들의 Text부분을 가지고와서 색깔을 변경한다.
-        TextView name2 =(TextView)rList.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.Txt_name);
-        name2.setTextColor(Color.parseColor("#989898"));
+        //TextView name2 =(TextView)rList.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.Txt_name);
+       // name2.setTextColor(Color.parseColor("#989898"));
         //@@@@@@@@@@@@@@@222
 
         switch(rList.getId()){
@@ -632,7 +632,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
                 }
                 //@@@@@@@@@@@@@@@@@@
-                if (mSelectedItems1.get(position, false) ){
+               /* if (mSelectedItems1.get(position, false) ){
                     // 어떤 아이템이든 선택된 상태에서 다시 한번 선택(클릭)시 수행
                     mSelectedItems1.put(position, false); // 그 아이템을 선택 해제한다.
                 }
@@ -648,9 +648,9 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
 
 
-                }
+                }*/
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@
-                /*
+
                 if ( mSelectedItems1.get(position, false) ){
                     mSelectedItems1.put(position, false);
                     if(item.getViewType()==1){
@@ -672,7 +672,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }*/
+                }
 
 
                 break;
