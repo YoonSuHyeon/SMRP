@@ -46,6 +46,11 @@ public interface RetrofitService {
             @Query("email") String email
     );
 
+    @GET("/medicine2/findItemId")
+    Call<reponse_medicine2> findmedicine(
+            @Query("itemSeq") String itemSeq
+    );
+
     @GET("/medicine1/find")
     Call<List<reponse_medicine>> findList( // 약 찾가
             @Query("shape") String shape,
@@ -53,10 +58,10 @@ public interface RetrofitService {
             @Query("formula") String formula,
             @Query("line") String line
     );
-    @POST("/medicine1/find2")
-    Call<List<reponse_medicine>> getPill(
-            @Body Pillname pillname
-    );
+    //@POST("/medicine1/find2")
+   // Call<List<reponse_medicine>> getPill(
+   //         @Body Pillname pillname
+   // );
     @Multipart
     @POST("/medicine1/uploadImage")
     Call<String> uploadImage(@Part MultipartBody.Part files);

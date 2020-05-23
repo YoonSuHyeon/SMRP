@@ -9,7 +9,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.smrp.Pillname;
+//import com.example.smrp.Pillname;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
@@ -239,22 +239,22 @@ public class Search_prescription extends AppCompatActivity {
                 for(int i = 0 ; i<pill_list.size();i++){
                     Log.d("TAG", "pil_name: ["+i+"]="+pill_list.get(i));
                 }
-                Pillname pillname = new Pillname(pill_list);
-                retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class); //아래부터는 약품명을 서버에 요청하기 위한 코드
-                Call<List<reponse_medicine>> call = retrofitService.getPill(pillname);
-                call.enqueue(new Callback<List<reponse_medicine>>() {
-                    @Override
-                    public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {//접속에 성공하였을때
+             //  Pillname pillname = new Pillname(pill_list);
+              //  retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class); //아래부터는 약품명을 서버에 요청하기 위한 코드
+               // Call<List<reponse_medicine>> call = retrofitService.getPill(pillname);
+                //call.enqueue(new Callback<List<reponse_medicine>>() {
+                 //   @Override
+                  //  public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {//접속에 성공하였을때
+//
+  //                  }
+//
+  //                  @Override
+    //                public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {// 접속실패했을때
+//
+  //                  }
+    //            });
 
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {// 접속실패했을때
-
-                    }
-                });
-
-                bool_end = true;
+      //          bool_end = true;
 
             }
         }
