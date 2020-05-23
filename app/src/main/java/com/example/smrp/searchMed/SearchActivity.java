@@ -97,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     private SparseBooleanArray mSelectedItems4 = new SparseBooleanArray(0);
 
     //@@@@@@@@@@@@@@@@@
-    private int[] row_images1 = {R.drawable.ic_circle_green,R.drawable.ic_triangle_green, R.drawable.ic_rectangle_green,R.drawable.ic_rhombus_green, R.drawable.ic_oblong_green,R.drawable.ic_oval_green,R.drawable.ic_semicircle_green,R.drawable.ic_hexagon_green,R.drawable.ic_pentagon_green,R.drawable.ic_octagon_green,R.drawable.ic_etc_green};
+    private int[] row_images1 = {R.drawable.ic_circle_green,R.drawable.ic_triangle_green, R.drawable.ic_rectangle_green,R.drawable.ic_rhombus_green, R.drawable.ic_oblong_green,R.drawable.ic_oval_green,R.drawable.ic_semicircle_green,R.drawable.ic_pentagon_green,R.drawable.ic_hexagon_green,R.drawable.ic_octagon_green,R.drawable.ic_etc_green};
     private int[] row_images2 = {R.drawable.ic_white_green,R.drawable.ic_yellow_green,R.drawable.ic_orange_green,R.drawable.ic_pink_green,R.drawable.ic_red_green,R.drawable.ic_brown_green,R.drawable.ic_yellowgreen_green, R.drawable.ic_purple_green,R.drawable.ic_blue_green,R.drawable.ic_blue_green,R.drawable.ic_navy_green,R.drawable.ic_redviolet_green,R.drawable.ic_gray_green,R.drawable.ic_black_green};
     private int[] row_images3 = {R.drawable.ic_ref_green,R.drawable.ic_hard_cap_green,R.drawable.ic_soft_cap_green};
     private int[] row_images4 = {R.drawable.ic_empty_green,R.drawable.ic_line_minus_green,R.drawable.ic_line_pluse_green,R.drawable.ic_line_etc_green};
@@ -340,10 +340,10 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         });*/
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        adapter_row1  = new SearchRecyclerAdapter(list_row1,this, Lst_shape) ;
-        adapter_row2  = new SearchRecyclerAdapter(list_row2,this, Lst_color) ;
-        adapter_row3  = new SearchRecyclerAdapter(list_row3,this, Lst_dosageForm) ;
-        adapter_row4  = new SearchRecyclerAdapter(list_row4,this,Lst_line) ;
+        adapter_row1  = new SearchRecyclerAdapter(list_row1,this, Lst_shape,12, row_images1) ;
+        adapter_row2  = new SearchRecyclerAdapter(list_row2,this, Lst_color,15,row_images2) ;
+        adapter_row3  = new SearchRecyclerAdapter(list_row3,this, Lst_dosageForm,4,row_images3) ;
+        adapter_row4  = new SearchRecyclerAdapter(list_row4,this,Lst_line,5,row_images4) ;
 
 
         Lst_shape .setAdapter(adapter_row1);
@@ -474,7 +474,10 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         for(int i =1 ; i < 4; i++) mSelectedItems3.put(i,false);
         for(int i =1 ; i < 5; i++) mSelectedItems4.put(i,false);
 
-
+        Lst_shape.getItemAnimator().setChangeDuration(0);
+        Lst_color.getItemAnimator().setChangeDuration(0);
+        Lst_dosageForm.getItemAnimator().setChangeDuration(0);
+        Lst_line.getItemAnimator().setChangeDuration(0);
         adapter_row3.notifyDataSetChanged();
 
 
@@ -632,7 +635,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
                 }
                 //@@@@@@@@@@@@@@@@@@
-               /* if (mSelectedItems1.get(position, false) ){
+                // 이 코드는 각 case문 아래에 반복됩니다.
+                //mSelectedItems1은 리스트 shape의 각 요소가 선택되었는지(true) 안되었는지(false) 관리하는 SparseBooleanArray입니다.
+                //다른 mSelectedItems2, 3, 4는 각각 컬러, 제형, 라인을 관리합니다.
+                // 이 밑은 제가 아이템이 클릭된 경우 테두리를 변환하는 코드입니다.
+                if (mSelectedItems1.get(position, false) ){ // 아이템ㅁ이 선택된 경우
                     // 어떤 아이템이든 선택된 상태에서 다시 한번 선택(클릭)시 수행
                     mSelectedItems1.put(position, false); // 그 아이템을 선택 해제한다.
                 }
@@ -648,10 +655,10 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
 
 
-                }*/
+                }
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-                if ( mSelectedItems1.get(position, false) ){
+               /* if ( mSelectedItems1.get(position, false) ){
                     mSelectedItems1.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -672,7 +679,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;
@@ -716,7 +723,23 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
 
                 }
-                if ( mSelectedItems2.get(position, false) ){
+                if (mSelectedItems2.get(position, false) ){
+                    mSelectedItems2.put(position, false);
+                }
+                else {
+                    mSelectedItems2.put(position, true);
+                    if(item.getViewType()==1){
+                        for (int i = 1; i < mSelectedItems2.size(); i++)
+                            mSelectedItems2.put(i, false);
+
+                    }
+                    else{
+                        mSelectedItems2.put(0,false);
+                    }
+
+
+                }
+                /*if ( mSelectedItems2.get(position, false) ){
                     mSelectedItems2.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -737,7 +760,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;
@@ -764,7 +787,23 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
 
                 }
-                if ( mSelectedItems3.get(position, false) ){
+                if (mSelectedItems3.get(position, false) ){
+                    mSelectedItems3.put(position, false);
+                }
+                else {
+                    mSelectedItems3.put(position, true);
+                    if(item.getViewType()==1){
+                        for (int i = 1; i < mSelectedItems3.size(); i++)
+                            mSelectedItems3.put(i, false);
+
+                    }
+                    else{
+                        mSelectedItems3.put(0,false);
+                    }
+
+
+                }
+                /*if ( mSelectedItems3.get(position, false) ){
                     mSelectedItems3.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -785,7 +824,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;
@@ -816,7 +855,23 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
 
                 }
-                if ( mSelectedItems4.get(position, false) ){
+                if (mSelectedItems4.get(position, false) ){
+                    mSelectedItems4.put(position, false);
+                }
+                else {
+                    mSelectedItems4.put(position, true);
+                    if(item.getViewType()==1){
+                        for (int i = 1; i < mSelectedItems4.size(); i++)
+                            mSelectedItems4.put(i, false);
+
+                    }
+                    else{
+                        mSelectedItems4.put(0,false);
+                    }
+
+
+                }
+                /*if ( mSelectedItems4.get(position, false) ){
                     mSelectedItems4.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -837,7 +892,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;
