@@ -44,7 +44,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
         //일련번호 ItemSeq 를 Intent로 받는다.  사진촬영이든,검색을 해서 든 .
         Intent intent =getIntent();
         String itemSeq =intent.getStringExtra("itemSeq");
-        Log.d("Zxcbzxcb",itemSeq);
+        //Log.d("Zxcbzxcb",itemSeq);
 
 
 

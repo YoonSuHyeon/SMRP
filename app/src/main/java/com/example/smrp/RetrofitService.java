@@ -1,6 +1,8 @@
 package com.example.smrp;
 
 
+import com.example.smrp.searchMed.SelectedItem;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -51,12 +53,18 @@ public interface RetrofitService {
             @Query("itemSeq") String itemSeq
     );
 
+
     @GET("/medicine1/find")
-    Call<List<reponse_medicine>> findList( // 약 찾가
+    Call<List<reponse_medicine2>> findList( // 약 찾가
             @Query("shape") String shape,
             @Query("color") String color,
             @Query("formula") String formula,
             @Query("line") String line
+    );
+
+    @POST("/medicine2/find")
+    Call<List<reponse_medicine2>> findList2(
+            @Body SelectedItem selectedItem
     );
     //@POST("/medicine1/find2")
    // Call<List<reponse_medicine>> getPill(
