@@ -1,6 +1,9 @@
 package com.example.smrp.searchPrescription;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,13 +16,24 @@ import java.util.ArrayList;
 public class Select_Pill extends AppCompatActivity { //사진을 찍은 후에 약 목록들을 보여주는 클래스
 
     private  ArrayList<Prescriptionitem> intent_list ,list1;
+    Button back_button;
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pill);
 
+
         intent_list = (ArrayList<Prescriptionitem>) getIntent().getSerializableExtra("list");
 
+        back_button = findViewById(R.id.back_btn);
+
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         RecyclerView recyclerView = findViewById(R.id.recycler_pill);
         list1 = new ArrayList<Prescriptionitem>();
