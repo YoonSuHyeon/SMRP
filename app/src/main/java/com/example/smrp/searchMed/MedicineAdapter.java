@@ -25,7 +25,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView medicine_img;
         TextView medicine_tv1,medicine_tv2,medicine_tv3,medicine_tv4;
-        ViewHolder(View itemView){
+        ViewHolder(final View itemView){
             super(itemView);
 
             medicine_img = itemView.findViewById(R.id.medicine_img);
@@ -40,8 +40,8 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHo
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(context.getApplicationContext(), MedicineDetailActivity.class);
+                        intent.putExtra("itemSeq",mData.get(pos).getItemSeq());
                         context.startActivity(intent);
-
                     }
                 }
             });

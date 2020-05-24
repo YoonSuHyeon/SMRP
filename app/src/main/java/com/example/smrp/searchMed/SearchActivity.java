@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -42,6 +43,7 @@ import com.example.smrp.RetrofitService;
 import com.example.smrp.User;
 import com.example.smrp.medicine.MedicineDetailActivity;
 import com.example.smrp.reponse_medicine;
+import com.example.smrp.reponse_medicine2;
 import com.example.smrp.response;
 
 import org.w3c.dom.Text;
@@ -61,6 +63,10 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     Boolean scrollStop;
     TableRow[] tbrow ;
 
+    ArrayList<String> shape1 = new ArrayList<String>();
+    ArrayList<String> formula1 = new ArrayList<String>();
+    ArrayList<String> line1 = new ArrayList<String>();
+    ArrayList<String> color1 = new ArrayList<String>();
     String color="color_all",shape="shape_all",formula="formula_all",line="line_all";
     //Medicines medicines;
     Button Btn_search;
@@ -87,6 +93,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     ArrayList<ListItem> list_row3 = new ArrayList<ListItem>();
     ArrayList<ListItem> list_row4 = new ArrayList<ListItem>();
 
+    EditText et_findMedicine;
     ArrayList<MedicineItem> recyclerItem = null;
     Button Btn_add;
     ArrayList<String> selected_row1 = new ArrayList<String>();
@@ -97,210 +104,12 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     private SparseBooleanArray mSelectedItems4 = new SparseBooleanArray(0);
 
     //@@@@@@@@@@@@@@@@@
-    private int[] row_images1 = {R.drawable.ic_circle_green,R.drawable.ic_triangle_green, R.drawable.ic_rectangle_green,R.drawable.ic_rhombus_green, R.drawable.ic_oblong_green,R.drawable.ic_oval_green,R.drawable.ic_semicircle_green,R.drawable.ic_hexagon_green,R.drawable.ic_pentagon_green,R.drawable.ic_octagon_green,R.drawable.ic_etc_green};
+    private int[] row_images1 = {R.drawable.ic_circle_green,R.drawable.ic_triangle_green, R.drawable.ic_rectangle_green,R.drawable.ic_rhombus_green, R.drawable.ic_oblong_green,R.drawable.ic_oval_green,R.drawable.ic_semicircle_green,R.drawable.ic_pentagon_green,R.drawable.ic_hexagon_green,R.drawable.ic_octagon_green,R.drawable.ic_etc_green};
     private int[] row_images2 = {R.drawable.ic_white_green,R.drawable.ic_yellow_green,R.drawable.ic_orange_green,R.drawable.ic_pink_green,R.drawable.ic_red_green,R.drawable.ic_brown_green,R.drawable.ic_yellowgreen_green, R.drawable.ic_purple_green,R.drawable.ic_blue_green,R.drawable.ic_blue_green,R.drawable.ic_navy_green,R.drawable.ic_redviolet_green,R.drawable.ic_gray_green,R.drawable.ic_black_green};
     private int[] row_images3 = {R.drawable.ic_ref_green,R.drawable.ic_hard_cap_green,R.drawable.ic_soft_cap_green};
     private int[] row_images4 = {R.drawable.ic_empty_green,R.drawable.ic_line_minus_green,R.drawable.ic_line_pluse_green,R.drawable.ic_line_etc_green};
     //@@@@@@@@@@@@@@@
-   /* public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight){;
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
 
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }*/
-    /*public void init(final List<reponse_medicine> list){
-        tbrow = new TableRow[list.size()];
-        TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
-        tableLayout.removeAllViews();
-        TableRow tbrow0 = new TableRow(this);
-        TextView t1 = new TextView(this);
-        //t1.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,2f));
-        t1.setBackgroundColor(Color.BLUE);
-        t1.setTextColor(Color.WHITE);
-        t1.setText("식별/포장");
-        t1.setGravity(Gravity.CENTER);
-        tbrow0.addView(t1);
-        TextView t2 = new TextView(this);
-        t2.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
-        t2.setBackgroundColor(Color.BLUE);
-        t2.setTextColor(Color.WHITE);
-        t2.setText("제품명");
-        t2.setGravity(Gravity.CENTER);
-        tbrow0.addView(t2);
-        TextView t3 = new TextView(this);
-        t3.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
-        t3.setBackgroundColor(Color.BLUE);
-        t3.setTextColor(Color.WHITE);
-        t3.setText("회사명");
-        t3.setGravity(Gravity.CENTER);
-        tbrow0.addView(t3);
-        TextView t4 = new TextView(this);
-        t4.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0.7f));
-        t4.setBackgroundColor(Color.BLUE);
-        t4.setTextColor(Color.WHITE);
-        t4.setText("제형");
-        t4.setGravity(Gravity.CENTER);
-        tbrow0.addView(t4);
-        TextView t5 = new TextView(this);
-        t5.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0.7f));
-        t5.setBackgroundColor(Color.BLUE);
-        t5.setTextColor(Color.WHITE);
-        t5.setText("구분");
-        t5.setGravity(Gravity.CENTER);
-        tbrow0.addView(t5);
-        tableLayout.addView(tbrow0);
-
-        Log.d("1234","ggigigigigi");
-        Log.d("1234",Integer.toString(list.size()));
-        /*for(int i=0; i<list.size(); i++){
-
-            Log.d("1234543534535","ggigigigigi");
-            tbrow[i] = new TableRow(this);
-            iv1 = new ImageView(this);
-            stringURL=list.get(i).getItemImage();
-            Log.d("999999",list.get(i).getItemImage());
-
-            Glide.with(this).load(stringURL).override(800,100).fitCenter().into(iv1);
-            Log.d("list1",Integer.toString(i));
-
-            Log.d("999999",list.get(i).getItemImage());
-
-            tbrow[i].addView(iv1);
-            TextView tv2 = new TextView(this);
-            tv2.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
-            tv2.setText(list.get(i).getItemName());
-            tv2.setTextColor(Color.BLACK);
-            tv2.setGravity(Gravity.CENTER);
-            tbrow[i].addView(tv2);
-            TextView tv3 = new TextView(this);
-            tv3.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,1.5f));
-            tv3.setText(list.get(i).getEntpName());
-            tv3.setTextColor(Color.BLACK);
-            tv3.setGravity(Gravity.CENTER);
-            tbrow[i].addView(tv3);
-            TextView tv4 = new TextView(this);
-            tv4.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0.7f));
-            tv4.setText(list.get(i).getFormCodeName());
-            tv4.setTextColor(Color.BLACK);
-            tv4.setGravity(Gravity.CENTER);
-            tbrow[i].addView(tv4);
-            TextView tv5 = new TextView(this);
-            tv5.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,0.7f));
-            tv5.setText(list.get(i).getEtcOtcName());
-            tv5.setTextColor(Color.BLACK);
-            tv5.setGravity(Gravity.CENTER);
-            tbrow[i].addView(tv5);
-            tbrow[i].setId(i);
-            tbrow[i].setTag(i);
-            tableLayout.addView(tbrow[i]);
-            String id = Integer.toString(i);
-            int resID = getResources().getIdentifier(id,"id",getPackageName());
-
-            tbrow[i] = findViewById(resID);
-            tbrow[i].setOnClickListener(this);
-
-            tbrow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
-                    startActivity(intent);
-                }
-            });
-            Log.d("id22 :" ,Integer.toString(tbrow[i].getId()));
-            try{
-                Thread.sleep(100);
-            }
-
-        }
-
-
-    }*/
-
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    scrollView2.requestDisallowInterceptTouchEvent(false);
-                }else{
-                    scrollView2.requestDisallowInterceptTouchEvent(true);
-                }
-                return false;
-            }
-        });
-    }*/
-
-   /* @Override
-    public boolean onLongClick(View v) {
-        if(scrollStop){
-            Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
-            startActivity(intent);
-
-        }
-        return false;
-    }*/
-
-    /*@Override
-    public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
-        startActivity(intent);
-    }*/
-
-  /*  @Override
-    public boolean onTouch(View v, MotionEvent event) {
-
-        if(event.getAction() == MotionEvent.ACTION_UP){
-            scrollView2.requestDisallowInterceptTouchEvent(false);
-        }else{
-            scrollView2.requestDisallowInterceptTouchEvent(true);
-        }
-
-        switch (event.getAction()){
-            case MotionEvent.ACTION_SCROLL:{
-
-            }
-            case MotionEvent.ACTION_MOVE: {
-                scrollStop = false;
-                break;
-            }
-            case MotionEvent.ACTION_DOWN:{
-                break;
-            }
-            case MotionEvent.ACTION_CANCEL:
-
-
-            case MotionEvent.ACTION_UP:{
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollStop = true;
-                    }
-                },400);
-
-                break;
-            }
-
-        }
-        return false;
-    }*/
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -309,41 +118,25 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        et_findMedicine = findViewById(R.id.et_findMedicine);
         Lst_shape = findViewById(R.id.Lst_shape);
         Lst_color = findViewById(R.id.Lst_color);
         Lst_dosageForm = findViewById(R.id.Lst_dosageForm);
         Lst_line = findViewById(R.id.Lst_line);
         Btn_search = findViewById(R.id.Btn_search);
         iv_back = findViewById(R.id.iv_back);
-       /* scrollView = (ScrollView)findViewById(R.id.scrollView);
-        scrollView2 = (ScrollView)findViewById(R.id.scrollView2);
 
+        shape1.add("모양전체");
+        color1.add("색상전체");
+        formula1.add("제형전체");
+        line1.add("분할선전체");
 
-        scrollView2.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });*/
-        //scrollView.setOnTouchListener(this);
-
-        /*scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    scrollView2.requestDisallowInterceptTouchEvent(false);
-                }else{
-                    scrollView2.requestDisallowInterceptTouchEvent(true);
-                }
-                return false;
-            }
-        });*/
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        adapter_row1  = new SearchRecyclerAdapter(list_row1,this, Lst_shape) ;
-        adapter_row2  = new SearchRecyclerAdapter(list_row2,this, Lst_color) ;
-        adapter_row3  = new SearchRecyclerAdapter(list_row3,this, Lst_dosageForm) ;
-        adapter_row4  = new SearchRecyclerAdapter(list_row4,this,Lst_line) ;
+        adapter_row1  = new SearchRecyclerAdapter(list_row1,this, Lst_shape,12, row_images1) ;
+        adapter_row2  = new SearchRecyclerAdapter(list_row2,this, Lst_color,15,row_images2) ;
+        adapter_row3  = new SearchRecyclerAdapter(list_row3,this, Lst_dosageForm,4,row_images3) ;
+        adapter_row4  = new SearchRecyclerAdapter(list_row4,this,Lst_line,5,row_images4) ;
 
 
         Lst_shape .setAdapter(adapter_row1);
@@ -374,7 +167,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         //list_row1 - 모양 결정
         addItem(list_row1,null,
-                "모양\n전체",1, "모양 전체");
+                "모양\n전체",1, "모양전체");
         addItem(list_row1,getDrawable(R.drawable.ic_circle), "원형",0,"원형");
         addItem(list_row1,getDrawable(R.drawable.ic_triangle),
                 "삼각형",0, "삼각형");
@@ -405,7 +198,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         //list_row2 - 색상
         addItem(list_row2,null,
-                "색상\n전체",1, "색상 전체");
+                "색상\n전체",1, "색상전체");
         addItem(list_row2,getDrawable(R.drawable.ic_white),
                 "하양",0, "하양");
         addItem(list_row2,getDrawable(R.drawable.ic_yellow),
@@ -445,7 +238,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         //list_row3 - 제형
         addItem(list_row3,null,
-                "제형\n전체",1,"제형 전체");
+                "제형\n전체",1,"제형전체");
         addItem(list_row3,getDrawable(R.drawable.ic_ref),
                 "정제류",0,"정제류");
         addItem(list_row3,getDrawable(R.drawable.ic_hard_cap),
@@ -474,7 +267,10 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         for(int i =1 ; i < 4; i++) mSelectedItems3.put(i,false);
         for(int i =1 ; i < 5; i++) mSelectedItems4.put(i,false);
 
-
+        Lst_shape.getItemAnimator().setChangeDuration(0);
+        Lst_color.getItemAnimator().setChangeDuration(0);
+        Lst_dosageForm.getItemAnimator().setChangeDuration(0);
+        Lst_line.getItemAnimator().setChangeDuration(0);
         adapter_row3.notifyDataSetChanged();
 
 
@@ -486,26 +282,41 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             }
         });
 
+      //  RecyclerView recyclerView = findViewById(R.id.recycler_medicine);
+        recyclerItem = new ArrayList<MedicineItem>();
+
         Btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for(int i = 0; i <shape1.size(); i++){
+                    Log.d("TEST",shape1.get(i));
+                }
+                if(shape1.size()==0){
+                    Log.d("FAIL","FAIL");
+                }
+
                 RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
                 //medicines = new Medicines(shape,color,formula,line);
                 //Call<List<com.example.smrp.reponse_medicine>> call = networkService.findList(shape,color,formula,line);
-                Log.d("???",shape+color+formula+line);
-                Call<List<reponse_medicine>> call = networkService.findList(shape,color,formula,line);
-                call.enqueue(new Callback<List<reponse_medicine>>() {
+                //Log.d("???",shape+color+formula+line);
+                SelectedItem selectedItem = new SelectedItem(et_findMedicine.getText().toString(),shape1,color1,formula1,line1);
+                Call<List<reponse_medicine2>> call = networkService.findList2(selectedItem);
+
+
+                call.enqueue(new Callback<List<reponse_medicine2>>() {
                     @Override
-                    public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {
+                    public void onResponse(Call<List<reponse_medicine2>> call, Response<List<reponse_medicine2>> response) {
                        // Log.d("12312313",response.body().toString());
-                        List<reponse_medicine> list = response.body();
+                        List<reponse_medicine2> list = response.body();
                        // int a = list.size();
                         RecyclerView recyclerView = findViewById(R.id.recycler_medicine);
-
-                        recyclerItem = new ArrayList<MedicineItem>();
+                        if(recyclerItem.size()!=0){
+                            recyclerItem.clear();
+                        }
+                       // recyclerItem = new ArrayList<MedicineItem>();
                        try {
                            for (int i = 0; i < list.size(); i++) {
-                               recyclerItem.add(new MedicineItem(list.get(i).getItemImage(), list.get(i).getItemName(), list.get(i).getEntpName(), list.get(i).getFormCodeName(), list.get(i).getEtcOtcName()));
+                               recyclerItem.add(new MedicineItem(list.get(i).getItemSeq(),list.get(i).getItemImage(), list.get(i).getItemName(), list.get(i).getEntpName(), list.get(i).getFormCodeName(), list.get(i).getEtcOtcName()));
                            }
                        }catch(NullPointerException e){
                            e.printStackTrace();
@@ -515,23 +326,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         MedicineAdapter adapter = new MedicineAdapter(recyclerItem);
                         recyclerView.setAdapter(adapter);
-                       // String b = list.get(0).getCompany();
-                       // Log.d("1234",Integer.toString(a));
-                      //  Log.d("1234",b);
-                       // TableLayout tableLayout = (TableLayout)findViewById(R.id.table);
 
-                        //Log.d("1234","ggigigigigi");
-                        //init(list);
-
-                        //String test = list.get(0).getColor();
-                        //Log.d("1234",test);
-                        //if(response.body() != null){
-                          //  Log.d("12312313",response.body().toString());
-                        //}
                     }
 
                     @Override
-                    public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {
+                    public void onFailure(Call<List<reponse_medicine2>> call, Throwable t) {
                         Log.d("12312312312312313",t.toString());
                     }
                 });
@@ -587,8 +386,8 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
         //@@@@@@@@@@@@@2
         //RecyclerView에 있는 item들의 Text부분을 가지고와서 색깔을 변경한다.
-        TextView name2 =(TextView)rList.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.Txt_name);
-        name2.setTextColor(Color.parseColor("#989898"));
+        //TextView name2 =(TextView)rList.findViewHolderForAdapterPosition(2).itemView.findViewById(R.id.Txt_name);
+       // name2.setTextColor(Color.parseColor("#989898"));
         //@@@@@@@@@@@@@@@222
 
         switch(rList.getId()){
@@ -597,9 +396,13 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                 item= list_row1.get(position) ;
                 Toast.makeText(this,  item.getName(), Toast.LENGTH_SHORT).show();
-                switch(item.getName()){
+               /* switch(item.getName()){
                     case "모양전체" : {
                         shape = "shape_all";
+                        break;
+                    }
+                    case "원형" : {
+                        shape = "";
                         break;
                     }
                     case "삼각형" : {
@@ -618,8 +421,20 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         shape = "oblong";
                         break;
                     }
+                    case "타원형" : {
+                        shape = "oblong";
+                        break;
+                    }
+                    case "반원형" : {
+                        shape = "oblong";
+                        break;
+                    }
                     case "오각형" : {
                         shape = "pentagon";
+                        break;
+                    }
+                    case "육각형" : {
+                        shape = "oblong";
                         break;
                     }
                     case "팔각형" : {
@@ -630,9 +445,13 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         shape = "shape_etc";
                         break;
                     }
-                }
+                }*/
                 //@@@@@@@@@@@@@@@@@@
-                if (mSelectedItems1.get(position, false) ){
+                // 이 코드는 각 case문 아래에 반복됩니다.
+                //mSelectedItems1은 리스트 shape의 각 요소가 선택되었는지(true) 안되었는지(false) 관리하는 SparseBooleanArray입니다.
+                //다른 mSelectedItems2, 3, 4는 각각 컬러, 제형, 라인을 관리합니다.
+                // 이 밑은 제가 아이템이 클릭된 경우 테두리를 변환하는 코드입니다.
+                if (mSelectedItems1.get(position, false) ){ // 아이템이 선택된 경우
                     // 어떤 아이템이든 선택된 상태에서 다시 한번 선택(클릭)시 수행
                     mSelectedItems1.put(position, false); // 그 아이템을 선택 해제한다.
                 }
@@ -649,9 +468,17 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
 
                 }
+                for(int i=0; i <mSelectedItems1.size(); i++){
+                    if(i==0)shape1.clear();
+                    item = list_row1.get(i);
+                    if(mSelectedItems1.get(i)){
+                        shape1.add(item.getText());
+                    }
+                }
+
                 //@@@@@@@@@@@@@@@@@@@@@@@@@@
-                /*
-                if ( mSelectedItems1.get(position, false) ){
+
+               /* if ( mSelectedItems1.get(position, false) ){
                     mSelectedItems1.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -681,7 +508,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 item= list_row2.get(position);
                 Toast.makeText(this,  item.getName(), Toast.LENGTH_SHORT).show();
 
-                switch(item.getName()){
+                /*switch(item.getName()){
                     case "색상전체" : {
                         color = "color_all";
                         break;
@@ -710,13 +537,58 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         color = "brown";
                         break;
                     }
-                    case "연두" : {
+                    case "보라" : {
+                        color = "yellowgreen";
+                        break;
+                    }
+                    case "청록" : {
+                        color = "yellowgreen";
+                        break;
+                    }
+                    case "파랑" : {
+                        color = "yellowgreen";
+                        break;
+                    }
+                    case "자주" : {
+                        color = "yellowgreen";
+                        break;
+                    }
+                    case "회색" : {
+                        color = "yellowgreen";
+                        break;
+                    }
+                    case "검정" : {
                         color = "yellowgreen";
                         break;
                     }
 
+
+                }*/
+                if (mSelectedItems2.get(position, false) ){
+                    mSelectedItems2.put(position, false);
                 }
-                if ( mSelectedItems2.get(position, false) ){
+                else {
+                    mSelectedItems2.put(position, true);
+                    if(item.getViewType()==1){
+                        for (int i = 1; i < mSelectedItems2.size(); i++)
+                            mSelectedItems2.put(i, false);
+
+                    }
+                    else{
+                        mSelectedItems2.put(0,false);
+                    }
+
+
+                }
+                for(int i=0; i <mSelectedItems2.size(); i++){
+                    if(i==0)color1.clear();
+                    item = list_row2.get(i);
+
+                    if(mSelectedItems2.get(i)){
+                        color1.add(item.getName());
+                    }
+                }
+                /*if ( mSelectedItems2.get(position, false) ){
                     mSelectedItems2.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -737,7 +609,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;
@@ -745,7 +617,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             case R.id.Lst_dosageForm : {
                 item= list_row3.get(position) ;
                 Toast.makeText(this,  item.getName(), Toast.LENGTH_SHORT).show();
-                switch(item.getName()){
+                /*switch(item.getName()){
                     case "제형전체" : {
                         formula = "formula_all";
                         break;
@@ -763,8 +635,34 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         break;
                     }
 
+                }*/
+                if (mSelectedItems3.get(position, false) ){
+                    mSelectedItems3.put(position, false);
                 }
-                if ( mSelectedItems3.get(position, false) ){
+                else {
+                    mSelectedItems3.put(position, true);
+                    if(item.getViewType()==1){
+                        for (int i = 1; i < mSelectedItems3.size(); i++)
+                            mSelectedItems3.put(i, false);
+
+                    }
+                    else{
+                        mSelectedItems3.put(0,false);
+                    }
+
+
+                }
+
+                for(int i=0; i <mSelectedItems3.size(); i++){
+                    if(i==0)formula1.clear();
+
+                    item = list_row3.get(i);
+
+                    if(mSelectedItems3.get(i)){
+                        formula1.add(item.getName());
+                    }
+                }
+                /*if ( mSelectedItems3.get(position, false) ){
                     mSelectedItems3.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -785,7 +683,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;
@@ -793,7 +691,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             case R.id.Lst_line : {
                 item= list_row4.get(position) ;
                 Toast.makeText(this,  item.getName(), Toast.LENGTH_SHORT).show();
-                switch(item.getName()){
+                /*switch(item.getName()){
                     case "분할설전체" : {
                         line = "line_all";
                         break;
@@ -815,8 +713,31 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                         break;
                     }
 
+                }*/
+                if (mSelectedItems4.get(position, false) ){
+                    mSelectedItems4.put(position, false);
                 }
-                if ( mSelectedItems4.get(position, false) ){
+                else {
+                    mSelectedItems4.put(position, true);
+                    if(item.getViewType()==1){
+                        for (int i = 1; i < mSelectedItems4.size(); i++)
+                            mSelectedItems4.put(i, false);
+
+                    }
+                    else{
+                        mSelectedItems4.put(0,false);
+                    }
+
+
+                }
+                for(int i=0; i <mSelectedItems4.size(); i++){
+                    if(i==0)line1.clear();
+                    item = list_row4.get(i);
+                    if(mSelectedItems4.get(i)){
+                        line1.add(item.getName());
+                    }
+                }
+                /*if ( mSelectedItems4.get(position, false) ){
                     mSelectedItems4.put(position, false);
                     if(item.getViewType()==1){
                         name.setBackgroundResource(android.R.color.transparent);
@@ -837,7 +758,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                         name.setTextColor(Color.rgb(0,119,63));
                     }
-                }
+                }*/
 
 
                 break;

@@ -21,7 +21,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet, container, false);
         Lay_delete = (LinearLayout) view.findViewById(R.id.Lay_delete);
         Lay_cancel = (LinearLayout) view.findViewById(R.id.Lay_cancel);
@@ -31,13 +31,15 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "delete", Toast.LENGTH_SHORT).show();
+
+                getActivity().onBackPressed();
             }
         });
         Lay_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
-
+                getActivity().onBackPressed();
             }
         });
 

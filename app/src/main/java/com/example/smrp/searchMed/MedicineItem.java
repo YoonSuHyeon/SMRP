@@ -1,15 +1,20 @@
 package com.example.smrp.searchMed;
 
 public class MedicineItem {
-    private String stringURL;
+    private String stringURL,itemSeq;
     private String text1,text2,text3,text4;
 
-    public MedicineItem(String stringURL, String text1, String text2, String text3, String text4) {
+    public MedicineItem(String itemSeq,String stringURL, String text1, String text2, String text3, String text4) {
+        this.itemSeq = itemSeq;
         this.stringURL = stringURL;
         this.text1 = text1;
         this.text2 = text2;
         this.text3 = text3;
         this.text4 = text4;
+    }
+
+    public String getItemSeq() {
+        return itemSeq;
     }
 
     public String getStringURL() {

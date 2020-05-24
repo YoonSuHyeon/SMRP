@@ -2,6 +2,8 @@ package com.example.smrp.medicine;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.example.smrp.MedicineUserId;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.reponse_medicine2;
 import com.example.smrp.response;
 
 import retrofit2.Call;
@@ -20,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MedicineDetailActivity extends AppCompatActivity {
-
+    Context context;
     ImageView medicineImage;//약 사진
     ImageView iv_back; //뒤로가기 이미지뷰
 
@@ -31,6 +34,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medicine_detail);
 
         //Init
+        context=this;
         addMedicine=findViewById(R.id.btn_add);
         medicineImage=findViewById(R.id.iv_medicine);
         iv_back=findViewById(R.id.iv_back);
@@ -38,9 +42,30 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
 
         //일련번호 ItemSeq 를 Intent로 받는다.  사진촬영이든,검색을 해서 든 .
+        Intent intent =getIntent();
+        String itemSeq =intent.getStringExtra("itemSeq");
+        //Log.d("Zxcbzxcb",itemSeq);
 
-        //Image 등록
-        Glide.with(this).load("https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5339%2F2020%2F01%2F26%2F0000200278_002_20200126080217187.jpg&type=b400").override(300,400).fitCenter().into(medicineImage);
+
+
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+        Call<reponse_medicine2> call = networkService.findmedicine(itemSeq);
+        call.enqueue(new Callback<reponse_medicine2>() { //약 의 내용을 서버에서 가져오는 과정
+            @Override
+            public void onResponse(Call<reponse_medicine2> call, Response<reponse_medicine2> response) {
+                reponse_medicine2 reponse_medicine2 =response.body();
+                //Image 등록
+                Glide.with(context).load(reponse_medicine2.getItemImage()).override(300,400).fitCenter().into(medicineImage);
+
+            }
+
+            @Override
+            public void onFailure(Call<reponse_medicine2> call, Throwable t) {
+                Log.d("ddd",t.toString());
+
+            }
+        });
 
 
         //뒤로가기 버튼
