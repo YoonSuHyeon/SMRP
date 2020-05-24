@@ -44,8 +44,9 @@ public class ResultActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                sendFile(new File(path));
+                sendFile(new File(path)); //보낸후 서버에게 일련번호 받아오기
                 Intent intent = new Intent(getApplicationContext(), MedicineDetailActivity.class);
+                intent.putExtra("itemSeq","196000001"); //임의로 아이템 번호 보내준것... 수정 요망
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 startActivity(intent);
 

@@ -54,6 +54,7 @@
                     >
 
                     <EditText
+                        android:id="@+id/et_findMedicine"
                         android:layout_width="0dp"
                         android:layout_height="49dp"
                         android:layout_marginStart="18dp"

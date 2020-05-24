@@ -16,4 +16,3 @@ public class Pillname {
     public void setList(ArrayList list) {
         this.list = list;
     }
-}

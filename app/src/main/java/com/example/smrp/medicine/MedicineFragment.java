@@ -126,7 +126,7 @@ public class MedicineFragment extends Fragment {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    items.add(new ListViewItem(reponse_medicines.get(i).getItemImage(),reponse_medicines.get(i).getItemName()));
+                    items.add(new ListViewItem(reponse_medicines.get(i).getItemImage(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq()));
                     /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
                     Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
                 }
