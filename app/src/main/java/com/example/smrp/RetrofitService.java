@@ -53,7 +53,7 @@ public interface RetrofitService {
             @Query("formula") String formula,
             @Query("line") String line
     );
-    @POST("/medicine1/find2")
+    @POST("/medicine2/getStringList")
     Call<List<reponse_medicine>> getPill(
             @Body Pillname pillname
     );
