@@ -40,7 +40,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHo
                     int pos = getAdapterPosition();
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(context.getApplicationContext(), MedicineDetailActivity.class);
-                        intent.putExtra("itemSeq",mData.get(pos).getItemSeq());
+                        intent.putExtra("itemSeq",mData.get(pos).getItemSeq().toString());
                         context.startActivity(intent);
                     }
                 }

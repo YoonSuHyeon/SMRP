@@ -252,9 +252,9 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         addItem(list_row4,getDrawable(R.drawable.ic_empty),
                 "없음",0,"없음");
         addItem(list_row4,getDrawable(R.drawable.ic_minus),
-                "(-)형",0,"(-)형");
+                "(-)형",0,"-");
         addItem(list_row4,getDrawable(R.drawable.ic_line_plus),
-                "(+)형",0,"(+)형");
+                "(+)형",0,"+");
         addItem(list_row4,getDrawable(R.drawable.ic_line_etc),
                 "기타",0,"기타");
 
@@ -291,6 +291,9 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 for(int i = 0; i <shape1.size(); i++){
                     Log.d("TEST",shape1.get(i));
                 }
+                for(int i = 0; i <line1.size(); i++){
+                    Log.d("TEST2",line1.get(i));
+                }
                 if(shape1.size()==0){
                     Log.d("FAIL","FAIL");
                 }
@@ -307,6 +310,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     @Override
                     public void onResponse(Call<List<reponse_medicine2>> call, Response<List<reponse_medicine2>> response) {
                        // Log.d("12312313",response.body().toString());
+                        //Log.d("asdadadsasd",response.body().get(0).getItemName());
                         List<reponse_medicine2> list = response.body();
                        // int a = list.size();
                         RecyclerView recyclerView = findViewById(R.id.recycler_medicine);
@@ -585,7 +589,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     item = list_row2.get(i);
 
                     if(mSelectedItems2.get(i)){
-                        color1.add(item.getName());
+                        color1.add(item.getText());
                     }
                 }
                 /*if ( mSelectedItems2.get(position, false) ){
@@ -659,7 +663,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     item = list_row3.get(i);
 
                     if(mSelectedItems3.get(i)){
-                        formula1.add(item.getName());
+                        formula1.add(item.getText());
                     }
                 }
                 /*if ( mSelectedItems3.get(position, false) ){
@@ -734,7 +738,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     if(i==0)line1.clear();
                     item = list_row4.get(i);
                     if(mSelectedItems4.get(i)){
-                        line1.add(item.getName());
+                        line1.add(item.getText());
                     }
                 }
                 /*if ( mSelectedItems4.get(position, false) ){
