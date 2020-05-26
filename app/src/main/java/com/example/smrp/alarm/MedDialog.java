@@ -1,8 +1,6 @@
 package com.example.smrp.alarm;
 
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,9 +16,6 @@ import androidx.fragment.app.DialogFragment;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.medicine.Medicine;
-import com.example.smrp.medicine.PopupFragment;
-import com.example.smrp.reponse_medicine;
 import com.example.smrp.reponse_medicine3;
 
 import java.util.ArrayList;
@@ -41,7 +35,7 @@ public class MedDialog extends DialogFragment { // 약 등록하기 Fragment에�
     ListViewAdapter adapter;
     ArrayList<ListViewItem> items = new ArrayList<>();
     ArrayList<String> s = new ArrayList<>();
-     @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.alarm_med_dialog, container, false);
 
@@ -55,7 +49,7 @@ public class MedDialog extends DialogFragment { // 약 등록하기 Fragment에�
 
         //builder.setView(view);
 
-       // final AlertDialog dialog = builder.create();
+        // final AlertDialog dialog = builder.create();
 
         adapter = new ListViewAdapter(items, getActivity());
         Lst_medicine.setAdapter(adapter);
@@ -64,41 +58,41 @@ public class MedDialog extends DialogFragment { // 약 등록하기 Fragment에�
         //items.add(new ListViewItem(getActivity().getDrawable(R.drawable.slide1), "dfgdf","dgdfgfd"));
 
 
-         //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
+        //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
 
-         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-         //String id  사용자 id를 가져와야함
-         String id ="cc";
-         Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
-         call.enqueue(new Callback<List<reponse_medicine3>>() {
-             @Override
-             public void onResponse(Call<List<reponse_medicine3>> call, Response<List<reponse_medicine3>> response) {
-                 List<reponse_medicine3> reponse_medicines =response.body();
-                 items.clear();
+        //String id  사용자 id를 가져와야함
+        String id ="cc";
+        Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
+        call.enqueue(new Callback<List<reponse_medicine3>>() {
+            @Override
+            public void onResponse(Call<List<reponse_medicine3>> call, Response<List<reponse_medicine3>> response) {
+                List<reponse_medicine3> reponse_medicines =response.body();
+                items.clear();
 
-                 for(int i = 0; i<  reponse_medicines.size(); i++)
-                 {
-                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
+                for(int i = 0; i<  reponse_medicines.size(); i++)
+                {
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
                     /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
                     Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
-                 }
-                 adapter.notifyDataSetChanged();
-                 //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
-             }
+                }
+                adapter.notifyDataSetChanged();
+                //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
+            }
 
-             @Override
-             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
-                 Log.d("ddd",t.toString());
+            @Override
+            public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
+                Log.d("ddd",t.toString());
 
-             }
-         });
+            }
+        });
 
-         Lst_medicine.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        Lst_medicine.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // view.setBackgroundColor(Color.parseColor("#000000"));
+                // view.setBackgroundColor(Color.parseColor("#000000"));
                 Toast.makeText(getContext(), "a",Toast.LENGTH_SHORT).show();
 
 
@@ -118,16 +112,16 @@ public class MedDialog extends DialogFragment { // 약 등록하기 Fragment에�
         });
 
         // dialog.setCancelable(false);
-      //  dialog.show();
+        //  dialog.show();
 
 
         /* 클릭 이벤트 */
-       Btn_ok.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+        Btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-           }
-       });
+            }
+        });
         return view;
     }
 

@@ -1,13 +1,7 @@
 package com.example.smrp.alarm;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +13,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.reponse_medicine;
 import com.example.smrp.reponse_medicine3;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,8 +65,8 @@ public class AlarmFragment extends Fragment {
         Btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // MedDialog p = new MedDialog(); //
-               // p.show(getActivity().getSupportFragmentManager(),"popup");
+                // MedDialog p = new MedDialog(); //
+                // p.show(getActivity().getSupportFragmentManager(),"popup");
                 showAlertDialog();
             }
         });
@@ -92,7 +88,7 @@ public class AlarmFragment extends Fragment {
         ListView Lst_medicine = view.findViewById(R.id.Lst_medicine);
         final AlertDialog dialog = builder.create();
 
-       final ListViewAdapter adapter = new ListViewAdapter(items, getActivity());
+        final ListViewAdapter adapter = new ListViewAdapter(items, getActivity());
         Lst_medicine.setAdapter(adapter);
 
 
@@ -141,7 +137,7 @@ public class AlarmFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-               // dialog.dismiss();
+                // dialog.dismiss();
             }
         });
 
@@ -149,4 +145,3 @@ public class AlarmFragment extends Fragment {
         dialog.show();
     }
 }
-
