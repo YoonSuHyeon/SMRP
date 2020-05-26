@@ -22,8 +22,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
+    private   String userId;
+    private   String itemSeq;
+    public  static BottomSheetDialog getInstance() {
+        return new BottomSheetDialog();
+    }
+    public void init(String userId,String itemSeq){
+        this.userId=userId;
+        this.itemSeq=itemSeq;
+    }
 
-    public static BottomSheetDialog getInstance() { return new BottomSheetDialog(); }
 
     private LinearLayout Lay_delete;
     private LinearLayout Lay_cancel;
@@ -44,7 +52,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
 
                 RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-                Call<String> call = networkService.deleteRegister("cc","201503211");
+                Call<String> call = networkService.deleteRegister(userId,itemSeq);
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

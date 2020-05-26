@@ -81,9 +81,9 @@ public class ListViewAdapter extends BaseAdapter {
 
         // 아이템 내 각 위젯에 데이터 반영
         //iconImageView.setImageDrawable(listViewItem.getUrl());
-        Glide.with(activity).load(listViewItem.getUrl()).into(iconImageView);
+        Glide.with(activity).load(listViewItem.getUrl()).override(500, 100).fitCenter().into(iconImageView);
         titleTextView.setText(listViewItem.getName());
-        descTextView.setText(listViewItem.getName());
+        descTextView.setText(listViewItem.getTime());
 
         return convertView;
 

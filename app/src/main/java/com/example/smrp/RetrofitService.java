@@ -37,7 +37,7 @@ public interface RetrofitService {
     );
 
     @GET("/medicineRegister")
-    Call<List<reponse_medicine>>findUserMedicine(
+    Call<List<reponse_medicine3>>findUserMedicine(
             @Query("userId")String userId
     );
 

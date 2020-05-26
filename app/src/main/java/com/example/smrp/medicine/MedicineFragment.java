@@ -20,6 +20,7 @@ import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
 import com.example.smrp.home.HomeFragment;
 import com.example.smrp.reponse_medicine;
+import com.example.smrp.reponse_medicine3;
 import com.example.smrp.response;
 
 import java.util.ArrayList;
@@ -117,16 +118,16 @@ public class MedicineFragment extends Fragment {
 
         //String id  사용자 id를 가져와야함
         String id ="cc";
-        Call<List<reponse_medicine>> call = networkService.findUserMedicine(id);
-        call.enqueue(new Callback<List<reponse_medicine>>() {
+        Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
+        call.enqueue(new Callback<List<reponse_medicine3>>() {
             @Override
-            public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {
-                List<reponse_medicine> reponse_medicines =response.body();
+            public void onResponse(Call<List<reponse_medicine3>> call, Response<List<reponse_medicine3>> response) {
+                List<reponse_medicine3> reponse_medicines =response.body();
                 items.clear();
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    items.add(new ListViewItem(reponse_medicines.get(i).getItemImage(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq()));
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
                     /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
                     Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
                 }
@@ -135,7 +136,7 @@ public class MedicineFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {
+            public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
                 Log.d("ddd",t.toString());
 
             }
@@ -147,7 +148,6 @@ public class MedicineFragment extends Fragment {
 
 
     }
-
 
 
 

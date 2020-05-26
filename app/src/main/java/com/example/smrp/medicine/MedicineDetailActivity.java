@@ -66,15 +66,19 @@ public class MedicineDetailActivity extends AppCompatActivity {
             public void onResponse(Call<reponse_medicine2> call, Response<reponse_medicine2> response) {
                 reponse_medicine2 reponse_medicine2 =response.body();
                 //약에 대한 정보들을 넣어준다
-                Glide.with(context).load(reponse_medicine2.getItemImage()).override(300,400).fitCenter().into(medicineImage);//이미지 등록
-                medicineName.setText(reponse_medicine2.getItemName());
-                medicineChart.setText(reponse_medicine2.getChart());
-                medicineEntpName.setText(reponse_medicine2.getEntpName());
-                medicineClassName.setText(reponse_medicine2.getClassName());
-                medicineEtcOtcName.setText(reponse_medicine2.getEtcOtcName());
-                medicineEffect.setText(reponse_medicine2.getEffect());
-                medicineUsage.setText(reponse_medicine2.getUsage());
+                if(reponse_medicine2 == null){
 
+                    medicineName.setText("다시 시도 해주세요");
+                }else {
+                    Glide.with(context).load(reponse_medicine2.getItemImage()).override(300, 400).fitCenter().into(medicineImage);//이미지 등록
+                    medicineName.setText(reponse_medicine2.getItemName());
+                    medicineChart.setText(reponse_medicine2.getChart());
+                    medicineEntpName.setText(reponse_medicine2.getEntpName());
+                    medicineClassName.setText(reponse_medicine2.getClassName());
+                    medicineEtcOtcName.setText(reponse_medicine2.getEtcOtcName());
+                    medicineEffect.setText(reponse_medicine2.getEffect());
+                    medicineUsage.setText(reponse_medicine2.getUsage());
+                }
             }
 
             @Override
