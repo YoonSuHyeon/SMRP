@@ -7,10 +7,19 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.pdf.PdfDocument;
+import android.graphics.pdf.PdfRenderer;
 import android.icu.util.ICUUncheckedIOException;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.content.Context;
@@ -25,6 +34,7 @@ import android.widget.Toast;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.example.smrp.medicine.ViewPagerAdapter;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -105,8 +115,10 @@ public class StartActivity extends AppCompatActivity{
             }
         }, DELAY_MS, PERIOD_MS);
 
+
+
     }
-}
+  }
 
 
 

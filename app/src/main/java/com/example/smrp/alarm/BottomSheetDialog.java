@@ -1,6 +1,7 @@
 package com.example.smrp.alarm;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.smrp.R;
+import com.example.smrp.RetrofitHelper;
+import com.example.smrp.RetrofitService;
+import com.example.smrp.reponse_medicine2;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
 
@@ -31,6 +40,25 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "delete", Toast.LENGTH_SHORT).show();
+
+
+                RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+                Call<String> call = networkService.deleteRegister("cc","201503211");
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d("zbekqj","성공");
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("ddd",t.toString());
+
+                    }
+                });
+
 
                 getActivity().onBackPressed();
             }

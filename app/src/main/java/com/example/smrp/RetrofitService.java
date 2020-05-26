@@ -1,11 +1,14 @@
 package com.example.smrp;
 
 
+import com.example.smrp.searchMed.SelectedItem;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -17,6 +20,11 @@ public interface RetrofitService {
     @GET("/userId")
     Call<response> getId(
             @Query("id") String id
+    );
+
+    @POST("/medicine2/find")
+    Call<List<reponse_medicine2>> findList2(
+            @Body SelectedItem selectedItem
     );
 
     @POST("/userRegister")
@@ -47,12 +55,21 @@ public interface RetrofitService {
     );
 
     @GET("/medicine1/find")
-    Call<List<reponse_medicine>> findList( // 약 찾가
+    Call<List<reponse_medicine2>> findList( // 약 찾가
             @Query("shape") String shape,
             @Query("color") String color,
             @Query("formula") String formula,
             @Query("line") String line
     );
+    @DELETE("/medicineRegister/delete")
+    Call<String> deleteRegister(
+            @Query("userId") String userId,
+            @Query("itemSeq") String itemSeq
+    );
+    //@POST("/medicine1/find2")
+   // Call<List<reponse_medicine>> getPill(
+   //         @Body Pillname pillname
+   // );
     @POST("/medicine1/find2")
     Call<List<reponse_medicine>> getPill(
             @Body Pillname pillname
@@ -61,5 +78,9 @@ public interface RetrofitService {
     @POST("/medicine1/uploadImage")
     Call<String> uploadImage(@Part MultipartBody.Part files);
 
+    @GET("/medicine2/findItemId")
+    Call<reponse_medicine2> findmedicine(
+            @Query("itemSeq") String itemSeq
+    );
 
 }
