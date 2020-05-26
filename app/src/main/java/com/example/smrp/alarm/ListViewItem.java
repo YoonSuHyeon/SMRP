@@ -3,6 +3,22 @@ package com.example.smrp.alarm;
 public class ListViewItem {
     private String url;
     private String name;
+    private String itemSeq;
+    private String time;
+
+    public ListViewItem(String url, String name,String itemSeq,String time) {
+        this.url = url;
+        this.name = name;
+        this.itemSeq=itemSeq;
+        this.time=time;
+    }
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getItemSeq() {
         return itemSeq;
@@ -12,12 +28,8 @@ public class ListViewItem {
         this.itemSeq = itemSeq;
     }
 
-    private String itemSeq;
-    public ListViewItem(String url, String name,String itemSeq) {
-        this.url = url;
-        this.name = name;
-        this.itemSeq=itemSeq;
-    }
+
+
 
     public String getUrl() {
         return url;

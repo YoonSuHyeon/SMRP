@@ -22,6 +22,7 @@ import com.example.smrp.RetrofitService;
 import com.example.smrp.medicine.Medicine;
 import com.example.smrp.medicine.PopupFragment;
 import com.example.smrp.reponse_medicine;
+import com.example.smrp.reponse_medicine3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,37 +64,37 @@ public class MedDialog extends DialogFragment { // 약 등록하기 Fragment에�
         //items.add(new ListViewItem(getActivity().getDrawable(R.drawable.slide1), "dfgdf","dgdfgfd"));
 
 
-        //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
+         //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
 
-        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
+         //String id  사용자 id를 가져와야함
+         String id ="cc";
+         Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
+         call.enqueue(new Callback<List<reponse_medicine3>>() {
+             @Override
+             public void onResponse(Call<List<reponse_medicine3>> call, Response<List<reponse_medicine3>> response) {
+                 List<reponse_medicine3> reponse_medicines =response.body();
+                 items.clear();
 
-        //String id  사용자 id를 가져와야함
-        String id ="cc";
-        Call<List<reponse_medicine>> call = networkService.findUserMedicine(id);
-        call.enqueue(new Callback<List<reponse_medicine>>() {
-            @Override
-            public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {
-                List<reponse_medicine> reponse_medicines =response.body();
-                items.clear();
-
-                for(int i = 0; i<  reponse_medicines.size(); i++)
-                {
-                    items.add(new ListViewItem(reponse_medicines.get(i).getItemImage(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq()));
+                 for(int i = 0; i<  reponse_medicines.size(); i++)
+                 {
+                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
                     /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
                     Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
-                }
-                adapter.notifyDataSetChanged();
-                //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
-            }
+                 }
+                 adapter.notifyDataSetChanged();
+                 //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
+             }
 
-            @Override
-            public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {
-                Log.d("ddd",t.toString());
+             @Override
+             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
+                 Log.d("ddd",t.toString());
 
-            }
-        });
-        Lst_medicine.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+             }
+         });
+
+         Lst_medicine.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
