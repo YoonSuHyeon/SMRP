@@ -2,6 +2,7 @@ package com.example.smrp;
 
 
 import com.example.smrp.searchMed.SelectedItem;
+import com.example.smrp.searchPrescription.User_Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,23 +45,23 @@ public interface RetrofitService {
 
     @GET("/findId")
     Call<response> findId( //아이디 검색
-            @Query("name") String id,
-            @Query("email") String email
+                           @Query("name") String id,
+                           @Query("email") String email
     );
 
     @GET("/findPassword")
     Call<response> findPassword( //패스워드 검색
-            @Query("name") String name,
-            @Query("id") String id,
-            @Query("email") String email
+                                 @Query("name") String name,
+                                 @Query("id") String id,
+                                 @Query("email") String email
     );
 
     @GET("/medicine1/find")
     Call<List<reponse_medicine>> findList( // 약 찾가
-            @Query("shape") String shape,
-            @Query("color") String color,
-            @Query("formula") String formula,
-            @Query("line") String line
+                                           @Query("shape") String shape,
+                                           @Query("color") String color,
+                                           @Query("formula") String formula,
+                                           @Query("line") String line
     );
     @DELETE("/medicineRegister/delete")
     Call<String> deleteRegister(
@@ -68,9 +69,9 @@ public interface RetrofitService {
             @Query("itemSeq") String itemSeq
     );
     //@POST("/medicine1/find2")
-   // Call<List<reponse_medicine>> getPill(
-   //         @Body Pillname pillname
-   // );
+    // Call<List<reponse_medicine>> getPill(
+    //         @Body Pillname pillname
+    // );
     @POST("/medicine2/getStringList")
     Call<ArrayList<reponse_medicine>> getPill(
             @Body Pillname pillname
@@ -82,6 +83,11 @@ public interface RetrofitService {
     @GET("/medicine2/findItemId")
     Call<reponse_medicine2> findmedicine(
             @Query("itemSeq") String itemSeq
+    );
+
+    @POST("/medicineRegister")
+    Call<response>addSelectMedicine(
+            @Body User_Select user_select
     );
 
 }
