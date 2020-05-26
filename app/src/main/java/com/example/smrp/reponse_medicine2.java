@@ -63,6 +63,30 @@ public class reponse_medicine2 {
     @Expose
     private String formCodeName;
 
+    @SerializedName("effect")
+    @Expose
+    private String effect; //효과 효능
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public void setEffect(String effect) {
+        this.effect = effect;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+
+    @SerializedName("usage")
+    @Expose
+    private String usage;
+
     public String getItemSeq() {
         return itemSeq;
     }

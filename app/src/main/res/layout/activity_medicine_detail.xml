@@ -36,6 +36,7 @@
             android:textSize="23dp" />
     </LinearLayout>
     <ImageView
+        android:layout_gravity="center"
         android:id="@+id/iv_medicine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -70,11 +71,12 @@
                 />
 
             <TextView
+                android:id="@+id/tv_entpName"
                 android:textColor="#000000"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="현대약품(주)"/>
+                />
             <View
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -90,11 +92,12 @@
                 android:textStyle="bold"
                 />
             <TextView
+                android:id="@+id/tv_chart"
                 android:textColor="#000000"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="띠 모양 할선이 있는 황백색 원형 정제이다."/>
+                />
             <View
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -109,11 +112,12 @@
                 android:layout_height="wrap_content"
                 android:text="분류"/>
             <TextView
+                android:id="@+id/tv_className"
                 android:textColor="#000000"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="기타의 알레르기용약"/>
+               />
             <View
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -129,11 +133,12 @@
                 android:layout_height="wrap_content"
                 android:text="구분"/>
             <TextView
+                android:id="@+id/tv_etcOtcName"
                 android:textColor="#000000"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="전문 의약품"/>
+                />
             <View
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -148,11 +153,12 @@
                 android:layout_height="wrap_content"
                 android:text="효능효과"/>
             <TextView
+                android:id="@+id/tv_effect"
                 android:textColor="#000000"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="좋습니다."/>
+                />
             <View
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -167,11 +173,12 @@
                 android:layout_height="wrap_content"
                 android:text="용법용량"/>
             <TextView
+                android:id="@+id/tv_usage"
                 android:textColor="#000000"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/detail_content"/>
+                />
 
             <Button
                 android:textStyle="bold"

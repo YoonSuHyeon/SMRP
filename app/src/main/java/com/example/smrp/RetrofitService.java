@@ -37,7 +37,7 @@ public interface RetrofitService {
     );
 
     @GET("/medicineRegister")
-    Call<List<reponse_medicine>>findUserMedicine(
+    Call<List<reponse_medicine3>>findUserMedicine(
             @Query("userId")String userId
     );
 
@@ -55,7 +55,7 @@ public interface RetrofitService {
     );
 
     @GET("/medicine1/find")
-    Call<List<reponse_medicine2>> findList( // 약 찾가
+    Call<List<reponse_medicine>> findList( // 약 찾가
             @Query("shape") String shape,
             @Query("color") String color,
             @Query("formula") String formula,
