@@ -9,14 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.smrp.R;
 import com.example.smrp.alarm.AlarmDetailActivity;
-import com.example.smrp.camera.CameraActivity;
 
 import java.util.ArrayList;
 
@@ -80,8 +78,8 @@ public class ListViewAdapter extends BaseAdapter {
 
 
         // 아이템 내 각 위젯에 데이터 반영
-        //iconImageView.setImageDrawable(listViewItem.getUrl());
-        Glide.with(activity).load(listViewItem.getUrl()).override(500, 100).fitCenter().into(iconImageView);
+        //iconImageView.setImageDrawable(listViewItem.getUrl());//500,100
+        Glide.with(activity).load(listViewItem.getUrl()).override(500, 150).fitCenter().into(iconImageView);
         titleTextView.setText(listViewItem.getName());
         descTextView.setText(listViewItem.getTime());
 

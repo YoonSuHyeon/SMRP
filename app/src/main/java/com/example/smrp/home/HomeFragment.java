@@ -62,8 +62,8 @@ public class HomeFragment extends Fragment {
     SimpleDateFormat sdfNow = new SimpleDateFormat("a hh : mm");
     // nowDate 변수에 값을 저장한다.
     String formatDate = sdfNow.format(date);
-    private TextView time,pm_textview,humidity_textView,temp_textview , min_max_textview, feel_textview;
-    private ImageView weather_imageview;
+    private static TextView time,pm_textview,humidity_textView,temp_textview , min_max_textview, feel_textview;
+    private static ImageView weather_imageview;
 
     private Location location;
     private double latitude, longitude;
@@ -74,6 +74,7 @@ public class HomeFragment extends Fragment {
 
     private Thread thread;
     private boolean therad_satue = false;
+    private static RetrofitService_home json;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if(container.getChildCount() > 0)
@@ -123,9 +124,6 @@ public class HomeFragment extends Fragment {
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.add(R.id.Frg_med_alarm, new HomeAlarmFragment()); // parameter1 : activity 내에서 fragment 를 삽입할 Layout id
         fragmentTransaction.commit();                                        // parameter2 : 삽입할 fragment
-
-
-
 
 
         CircleIndicator indicator = root.findViewById(R.id.indicator_home); // 인디케이터
@@ -202,7 +200,7 @@ public class HomeFragment extends Fragment {
 
 
         //배너2 자동스크롤
-        RetrofitService_home json = new RetrofitFactory_home().create();
+        json = new RetrofitFactory_home().create();
         json.getList(latitude,longitude).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, final retrofit2.Response<Response> response) {

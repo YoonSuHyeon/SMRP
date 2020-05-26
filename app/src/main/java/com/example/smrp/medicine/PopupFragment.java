@@ -11,8 +11,6 @@ import android.widget.Toast;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.smrp.R;
-
-import com.example.smrp.alarm.AlarmDetailActivity;
 import com.example.smrp.camera.CameraActivity;
 import com.example.smrp.searchMed.SearchActivity;
 import com.example.smrp.searchPrescription.Search_prescription;
@@ -61,7 +59,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
         Img_envelope.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(getContext().getApplicationContext(), AlarmDetailActivity.class);
+                intent = new Intent(getContext().getApplicationContext(), Search_prescription.class);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "envelope", Toast.LENGTH_LONG).show(); // 임시 메세지
                 dismiss();

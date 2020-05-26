@@ -1,6 +1,7 @@
 package com.example.smrp.searchPrescription;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.wonderkiln.camerakit.CameraView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Search_prescription extends AppCompatActivity {
+public class Search_prescription extends AppCompatActivity implements Serializable {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyAh8cQhRUiXMB5bUmjqnyWcFDMlrhEHySk";//구글 인증키
     private FloatingActionButton fb;
     private CameraView cameraView;
@@ -109,7 +111,7 @@ public class Search_prescription extends AppCompatActivity {
                 Uploading_bitmap(bitmap);
                 //Search_text\(bitmap);
 
-                dialog.execute();
+                //dialog.execute();
             }
 
             @Override
@@ -241,16 +243,36 @@ public class Search_prescription extends AppCompatActivity {
                 }
                 Pillname pillname = new Pillname(pill_list);
                 retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class); //아래부터는 약품명을 서버에 요청하기 위한 코드
-                Call<List<reponse_medicine>> call = retrofitService.getPill(pillname);
-                call.enqueue(new Callback<List<reponse_medicine>>() {
+                Call<ArrayList<reponse_medicine>> call = retrofitService.getPill(pillname);
+                call.enqueue(new Callback<ArrayList<reponse_medicine>>() {
                     @Override
-                    public void onResponse(Call<List<reponse_medicine>> call, Response<List<reponse_medicine>> response) {//접속에 성공하였을때
+                    public void onResponse(Call<ArrayList<reponse_medicine>> call, Response<ArrayList<reponse_medicine>> response) {//접속에 성공하였을때
+                        Log.d("TAG", "onResponseonResponseonResponseonResponse: ");
+                        ArrayList<reponse_medicine>list = response.body();
+                        Log.d("TAG", "list.size(): "+list.size());
+                        for(int i= 0; i < list.size();i++){
+                            Log.d("TAG", "list: "+list.get(i).getId()+","+list.get(i).getItemName()+","+list.get(i).getDrugShape()+"\n");
+                        }
 
+                        Intent intent = new Intent(getApplicationContext(),Select_Pill.class);
+                        intent.putExtra("list",list);
+                        Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
+
+                        //dialog.cancel(true);
+                        startActivity(intent);
+
+                        finish();
                     }
 
                     @Override
-                    public void onFailure(Call<List<reponse_medicine>> call, Throwable t) {// 접속실패했을때
+                    public void onFailure(Call<ArrayList<reponse_medicine>> call, Throwable t) {// 접속실패했을때
+                        Log.d("TAG", "onFailureonFailureonFailure: ");
+                        Intent intent = new Intent(getApplicationContext(),Select_Pill.class);
+                        Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
 
+                        startActivity(intent);
+                        dialog.cancel(true);
+                        finish();
                     }
                 });
 
@@ -400,5 +422,11 @@ public class Search_prescription extends AppCompatActivity {
 
             super.onPostExecute(result);
         }
+        @Override
+        protected void onCancelled() {
+            // TODO 작업이 취소된후에 호출된다.
+            super.onCancelled();
+        }
     }
+
 }

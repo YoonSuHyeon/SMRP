@@ -4,7 +4,9 @@ package com.example.smrp;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class reponse_medicine {
+import java.io.Serializable;
+
+public class reponse_medicine implements Serializable {
 
     @SerializedName("id")
     @Expose

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.smrp.R;
-import com.example.smrp.home.RecyclerAdapter;
 import com.example.smrp.medicine.MedicineDetailActivity;
 
 import java.util.ArrayList;
@@ -49,11 +48,12 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         String text2 = list.get(position).getText2();
         String text3 = list.get(position).getText3();
         String text4 = list.get(position).getText4();
+        //holder.img.setImageBitmap(stringURL);
         holder.t1.setText(text1);
         holder.t2.setText(text2);
         holder.t3.setText(text3);
         holder.t4.setText(text4);
-        Glide.with(context).load(stringURL).override(500,100).fitCenter().into(holder.img);
+        Glide.with(context).load(stringURL).override(500,150).fitCenter().into(holder.img);
     }
 
     @Override
@@ -79,7 +79,6 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                     if(pos != RecyclerView.NO_POSITION){
                         Intent intent = new Intent(context.getApplicationContext(), MedicineDetailActivity.class);
                         context.startActivity(intent);
-
                     }
                 }
             });

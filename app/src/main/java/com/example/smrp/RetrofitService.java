@@ -3,6 +3,7 @@ package com.example.smrp;
 
 import com.example.smrp.searchMed.SelectedItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -70,8 +71,8 @@ public interface RetrofitService {
    // Call<List<reponse_medicine>> getPill(
    //         @Body Pillname pillname
    // );
-    @POST("/medicine1/find2")
-    Call<List<reponse_medicine>> getPill(
+    @POST("/medicine2/getStringList")
+    Call<ArrayList<reponse_medicine>> getPill(
             @Body Pillname pillname
     );
     @Multipart

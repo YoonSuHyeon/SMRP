@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Pillname {
     private ArrayList<String> list;
 
-    public Pillname(ArrayList list){
+    public Pillname(ArrayList<String> list) {
         this.list = list;
     }
 
@@ -16,3 +16,4 @@ public class Pillname {
     public void setList(ArrayList list) {
         this.list = list;
     }
+}
