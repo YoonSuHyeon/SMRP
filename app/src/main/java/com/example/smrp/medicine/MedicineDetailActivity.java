@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.smrp.MedicineUserId;
@@ -26,7 +27,8 @@ public class MedicineDetailActivity extends AppCompatActivity {
     Context context;
     ImageView medicineImage;//약 사진
     ImageView iv_back; //뒤로가기 이미지뷰
-
+    TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
+    String itemSeq;
     Button addMedicine; //추가하기 버튼
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +37,23 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
         //Init
         context=this;
-        addMedicine=findViewById(R.id.btn_add);
-        medicineImage=findViewById(R.id.iv_medicine);
-        iv_back=findViewById(R.id.iv_back);
+        medicineName=findViewById(R.id.tv_medicine_name) ;    //약이름
+        medicineEntpName=findViewById(R.id.tv_entpName);//약 제조사
+        medicineChart=findViewById(R.id.tv_chart);//약성상
+        medicineClassName=findViewById(R.id.tv_className);//약분류
+        medicineEtcOtcName=findViewById(R.id.tv_etcOtcName);//약구분
+        medicineEffect=findViewById(R.id.tv_effect);//약효능효과
+        medicineUsage=findViewById(R.id.tv_usage);//약용법용량
+
+        addMedicine=findViewById(R.id.btn_add);//추가버튼
+        medicineImage=findViewById(R.id.iv_medicine); //약이미지
+        iv_back=findViewById(R.id.iv_back);//뒤로가기 버튼
 
 
 
         //일련번호 ItemSeq 를 Intent로 받는다.  사진촬영이든,검색을 해서 든 .
         Intent intent =getIntent();
-        String itemSeq =intent.getStringExtra("itemSeq");
+        itemSeq =intent.getStringExtra("itemSeq");
         //Log.d("Zxcbzxcb",itemSeq);
 
 
@@ -55,8 +65,15 @@ public class MedicineDetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<reponse_medicine2> call, Response<reponse_medicine2> response) {
                 reponse_medicine2 reponse_medicine2 =response.body();
-                //Image 등록
-                Glide.with(context).load(reponse_medicine2.getItemImage()).override(300,400).fitCenter().into(medicineImage);
+                //약에 대한 정보들을 넣어준다
+                Glide.with(context).load(reponse_medicine2.getItemImage()).override(300,400).fitCenter().into(medicineImage);//이미지 등록
+                medicineName.setText(reponse_medicine2.getItemName());
+                medicineChart.setText(reponse_medicine2.getChart());
+                medicineEntpName.setText(reponse_medicine2.getEntpName());
+                medicineClassName.setText(reponse_medicine2.getClassName());
+                medicineEtcOtcName.setText(reponse_medicine2.getEtcOtcName());
+                medicineEffect.setText(reponse_medicine2.getEffect());
+                medicineUsage.setText(reponse_medicine2.getUsage());
 
             }
 
@@ -82,7 +99,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.  // userId 사용자 id    itemSeq  일련번호
 
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                MedicineUserId medicineUserId = new MedicineUserId("cc","201503211");
+                MedicineUserId medicineUserId = new MedicineUserId("cc",itemSeq);
                 Call<response> call = networkService.addMedicine(medicineUserId);
                 call.enqueue(new Callback<response>() {
                     @Override
@@ -102,7 +119,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<response> call, Throwable t) {
                         Log.d("dddd",t.toString());
-                        //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -110,4 +127,6 @@ public class MedicineDetailActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
