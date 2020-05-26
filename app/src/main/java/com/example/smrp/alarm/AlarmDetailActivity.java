@@ -104,8 +104,8 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 BottomSheetDialog bottomSheetDialog = BottomSheetDialog.getInstance();
                 bottomSheetDialog.init("cc",itemSeq);
                 bottomSheetDialog.show(getSupportFragmentManager(),"bottomSheet");
-            }
-        });
+    }
+});
 
     }
 }
