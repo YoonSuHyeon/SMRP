@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
     private Location location;
     private double latitude, longitude;
     private Bitmap bitmap;
-    private int[] images= {R.drawable.img_home_p1, R.drawable.img_self,R.drawable.img_home_p3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
+    private int[] images= {R.drawable.img_search, R.drawable.img_self,R.drawable.img_hos}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
 
 

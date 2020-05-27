@@ -19,8 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".alarm.AlarmDetailActivity2"></activity>
-        <activity android:name=".searchPrescription.Select_Pill" />
+        <activity android:name=".searchPrescription.Select_Pill"></activity>
         <activity android:name=".searchPrescription.Search_prescription" />
         <activity android:name=".ToSActivity" />
         <activity android:name=".findIdActivity" />
@@ -55,6 +54,7 @@
         <activity android:name=".camera.CameraActivity" />
         <activity android:name=".camera.ResultActivity" />
         <activity android:name=".alarm.AlarmDetailActivity" />
+        <activity android:name=".alarm.AlarmSetActivity"/>
     </application>
 
 </manifest>

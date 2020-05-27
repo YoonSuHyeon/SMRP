@@ -6,11 +6,12 @@
 
     <TextView
         android:id="@+id/Txt_symptom"
+        android:paddingLeft="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center|left"
         android:text="New Text Symptom"
         android:textSize="20sp"
-        android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
 
 

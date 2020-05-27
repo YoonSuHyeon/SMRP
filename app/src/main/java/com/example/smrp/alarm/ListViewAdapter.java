@@ -24,7 +24,7 @@ public class ListViewAdapter extends BaseAdapter {
     private ArrayList<ListViewItem> listViewItemArrayList ;
     private ArrayList<Integer> tempViewItemArrayList=new ArrayList<>();
     private FragmentActivity activity;
-    private AlertDialog dialog;
+  //  private AlertDialog dialog;
     private int recent_pos;
     public ArrayList<ListViewItem> res(){
         ArrayList<ListViewItem> arrayList=new ArrayList<>() ;
@@ -34,10 +34,10 @@ public class ListViewAdapter extends BaseAdapter {
         return arrayList;
     }
 
-    public ListViewAdapter(ArrayList<ListViewItem> listViewItemArrayList, FragmentActivity activity, AlertDialog dialog){
+    public ListViewAdapter(ArrayList<ListViewItem> listViewItemArrayList, FragmentActivity activity){
         this.listViewItemArrayList=listViewItemArrayList;
         this.activity=activity;
-        this.dialog=dialog;
+       // this.dialog=dialog;
     }
     @Override
     public int getCount() {
