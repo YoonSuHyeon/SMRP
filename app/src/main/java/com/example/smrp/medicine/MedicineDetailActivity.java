@@ -110,10 +110,16 @@ public class MedicineDetailActivity extends AppCompatActivity {
                     public void onResponse(Call<response> call, Response<response> response) {
                         try{
 
-                            Log.d("12345",response.body().getResponse());
+                            Log.d("123466665",response.body().getResponse());
+
+                            if(response.body().getResponse().equals("ok")){
+                                Log.d("zzzqqqq","okokok");
+                            }else{
+                                Log.d("Noqqqqqq","no");
+                            }
 
                         }catch (NullPointerException e){
-                            Log.d("d",e.toString());
+                            Log.d("nulle",e.toString());
                         }
                         onBackPressed();
                         finish();

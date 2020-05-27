@@ -4,10 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -31,7 +27,7 @@
                         android:text="알람명"
                         />
                     <EditText
-
+                        android:id="@+id/et_alramName"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/alarm_border"
@@ -72,6 +68,7 @@
 
                             />
                         <EditText
+                            android:id="@+id/et_oneTimeDose"
                             android:inputType="number"
                             android:layout_marginStart="12dp"
                             android:layout_width="50dp"
@@ -94,10 +91,11 @@
                             android:layout_marginStart="16dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1회 투여횟수"
+                            android:text="1일 투여횟수"
 
                             />
                         <EditText
+                            android:id="@+id/et_oneTimeCapacity"
                             android:inputType="number"
                             android:layout_marginStart="12dp"
                             android:layout_width="50dp"
@@ -136,6 +134,7 @@
 
                             />
                         <EditText
+                            android:id="@+id/et_dosingPeriod"
                             android:inputType="number"
                             android:layout_marginStart="20dp"
                             android:layout_width="50dp"
@@ -172,12 +171,6 @@
 
                         </Spinner>
 
-                        =
-
-
-
-
-
 
                     </LinearLayout>
 
@@ -192,13 +185,15 @@
                     />
 
                 <TextView
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
+                    android:id="@+id/tv_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="약 등록"/>
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="약 등록"
+                    android:textColor="#000000"
+                    android:textSize="16dp" />
+
 
 
                 <View
@@ -209,21 +204,6 @@
                     android:layout_height="1dp"
                     android:background="#989898"
                     />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <View
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#989898"
-                    />
-
                 <Button
                     android:id="@+id/Btn_add"
                     android:layout_marginTop="8dp"
@@ -235,16 +215,36 @@
                     android:textColor="@color/appBaseColor"
                     android:background="#CECECE"
                     >
-
-
-
                 </Button>
+                <ListView
+                    android:id="@+id/Lst_medicine2"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    />
+
+
+                <View
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#989898"
+                    />
+
+
 
             </LinearLayout>
 
 
 
             <Button
+                android:id="@+id/btn_set_alarm"
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -262,7 +262,7 @@
         </RelativeLayout>
 
 
-    </androidx.core.widget.NestedScrollView>
+
 
 
 

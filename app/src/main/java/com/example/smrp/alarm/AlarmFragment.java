@@ -4,23 +4,28 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.reponse_medicine3;
+import com.example.smrp.response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +35,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AlarmFragment extends Fragment {
-
+    private NestedScrollView nsv_View;
     private AlarmViewModel alarmViewModel;
     private Spinner spin_type;
     ArrayList<String> typeList; // 식전, 식후 담는 리스트
     ArrayAdapter<String> arrayAdapter; // 배열 어댑터
-    Button Btn_add;
-
+    Button Btn_add,btn_Set_Alarm;
+    ArrayList<com.example.smrp.medicine.ListViewItem> alarmMedicineList=new ArrayList<>(); // 약추가한 리스트
+    AlarmListViewAdapter alarmListViewAdapter; //알람에 약을 추가한 어댑터
+    ListView Lst_medicine;
+    EditText et_oneTimeCapacity,et_alramName,et_dosingPeriod,et_oneTimeDose;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         alarmViewModel =
@@ -45,6 +53,16 @@ public class AlarmFragment extends Fragment {
 
         spin_type = root.findViewById(R.id.spin_type);
         Btn_add = root.findViewById(R.id.Btn_add);
+        Lst_medicine=root.findViewById(R.id.Lst_medicine2);
+
+        btn_Set_Alarm= root.findViewById(R.id.btn_set_alarm);
+        et_oneTimeCapacity= root.findViewById(R.id.et_oneTimeCapacity);
+
+        et_alramName=root.findViewById(R.id.et_alramName);
+        et_dosingPeriod=root.findViewById(R.id.et_dosingPeriod);
+        et_oneTimeDose=root.findViewById(R.id.et_oneTimeDose);
+
+
         typeList = new ArrayList<>();
         typeList.add("식전");
         typeList.add("식후");
@@ -62,6 +80,10 @@ public class AlarmFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,getActivity());
+        Lst_medicine.setAdapter(alarmListViewAdapter);
+
         Btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +93,45 @@ public class AlarmFragment extends Fragment {
             }
         });
 
+        btn_Set_Alarm.setOnClickListener(new View.OnClickListener() {//알람설정을 누른경우
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> temp = new ArrayList<String>(); //일련번호 리스트를 만드는과정
+                for(ListViewItem i :alarmMedicineList){
+                    temp.add(i.getItemSeq());
+                }
 
+                RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                AlarmMedicine alarmMedicine = new AlarmMedicine("cc",et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
+                        ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
+
+
+                Call<response> call = networkService.addAlram(alarmMedicine);
+                call.enqueue(new Callback<response>() {
+                    @Override
+                    public void onResponse(Call<response> call, Response<response> response) {
+                        try{
+                            String respon = response.body().getResponse();
+                            Log.d("12345",respon);
+                        }catch (NullPointerException e){
+                            Log.d("d",e.toString());
+                        }
+
+
+                        Toast.makeText(getContext(),"성공",Toast.LENGTH_SHORT).show();
+
+                        //Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                        //startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<response> call, Throwable t) {
+                        Log.d("dddd",t.toString());
+                        //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         return root;
     }
@@ -88,7 +148,7 @@ public class AlarmFragment extends Fragment {
         ListView Lst_medicine = view.findViewById(R.id.Lst_medicine);
         final AlertDialog dialog = builder.create();
 
-        final ListViewAdapter adapter = new ListViewAdapter(items, getActivity());
+        final ListViewAdapter adapter = new ListViewAdapter(items, getActivity(),dialog);
         Lst_medicine.setAdapter(adapter);
 
 
@@ -96,8 +156,13 @@ public class AlarmFragment extends Fragment {
 
         Btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), adapter.res()+"", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) { // 확인 버튼 누르기
+                Toast.makeText(getContext(), "추가 되었습니다.", Toast.LENGTH_SHORT).show();
+                alarmMedicineList.addAll(adapter.res());
+                Log.d("dddzxcb",alarmMedicineList.size()+"");
+
+                alarmListViewAdapter.notifyDataSetChanged();
+                dialog.dismiss();
             }
         });
 
@@ -132,14 +197,14 @@ public class AlarmFragment extends Fragment {
 
 
 
-        Lst_medicine.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+       /* Lst_medicine.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // dialog.dismiss();
+                dialog.dismiss();
             }
-        });
+        });*/
 
         //ialog.setCancelable(true);
         dialog.show();

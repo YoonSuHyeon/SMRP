@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".alarm.AlarmDetailActivity">
+    tools:context=".alarm.AlarmDetailActivity2">
 
     <LinearLayout
 
@@ -40,15 +40,6 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorWhite"
                 android:textSize="23dp" />
-
-            <ImageView
-                android:layout_alignParentEnd="true"
-                android:id="@+id/ic_dot"
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:src="@drawable/dot"
-                android:layout_marginEnd="12dp"
-                />
 
         </RelativeLayout>
 
@@ -200,15 +191,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
-            <Button
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="#FFFFFF"
-                android:id="@+id/btn_set"
-                android:text="알람설정"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/appBaseColor"/>
         </LinearLayout>
     </ScrollView>
 

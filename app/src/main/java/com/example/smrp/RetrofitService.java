@@ -1,6 +1,7 @@
 package com.example.smrp;
 
 
+import com.example.smrp.alarm.AlarmMedicine;
 import com.example.smrp.searchMed.SelectedItem;
 import com.example.smrp.searchPrescription.User_Select;
 
@@ -22,6 +23,11 @@ public interface RetrofitService {
     @GET("/userId")
     Call<response> getId(
             @Query("id") String id
+    );
+
+    @POST("medicine2/addAlram") //알람 추가
+    Call<response> addAlram(
+            @Body AlarmMedicine alarmMedicine
     );
 
     @POST("/medicine2/find")

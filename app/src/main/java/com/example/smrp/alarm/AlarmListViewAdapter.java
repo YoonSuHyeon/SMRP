@@ -1,9 +1,7 @@
 package com.example.smrp.alarm;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,24 +18,13 @@ import com.example.smrp.medicine.ListViewItem;
 
 import java.util.ArrayList;
 
-public class ListViewAdapter extends BaseAdapter {
+public class AlarmListViewAdapter extends BaseAdapter {
     private ArrayList<ListViewItem> listViewItemArrayList ;
-    private ArrayList<Integer> tempViewItemArrayList=new ArrayList<>();
     private FragmentActivity activity;
-    private AlertDialog dialog;
-    private int recent_pos;
-    public ArrayList<ListViewItem> res(){
-        ArrayList<ListViewItem> arrayList=new ArrayList<>() ;
-        for(int i : tempViewItemArrayList){
-           arrayList.add(listViewItemArrayList.get(i));
-        }
-        return arrayList;
-    }
 
-    public ListViewAdapter(ArrayList<ListViewItem> listViewItemArrayList, FragmentActivity activity, AlertDialog dialog){
+    public AlarmListViewAdapter(ArrayList<ListViewItem> listViewItemArrayList, FragmentActivity activity){
         this.listViewItemArrayList=listViewItemArrayList;
         this.activity=activity;
-        this.dialog=dialog;
     }
     @Override
     public int getCount() {
@@ -67,7 +54,7 @@ public class ListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조
-        final LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
+        LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
         TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
@@ -79,32 +66,21 @@ public class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                if(!tempViewItemArrayList.contains(pos)){
-                    tempViewItemArrayList.add(pos);
-                    linearLayout.setBackgroundColor(Color.LTGRAY);
-                }else{
-                    linearLayout.setBackgroundColor(Color.WHITE);
-                    tempViewItemArrayList.remove(Integer.valueOf(pos));
-                }
-                //linearLayout.setBackgroundColor(Color.parseColor("#000000"));
-
-               // Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmDetailActivity.class);
+                Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmDetailActivity2.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
-               // intent.putExtra("itemSeq",listViewItem.getItemSeq());
-                //activity. startActivity(intent);
+                intent.putExtra("itemSeq",listViewItem.getItemSeq());
+                activity. startActivity(intent);
                 //Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
-
 
             }
         });
 
 
-
-       // iconImageView.setImageDrawable(listViewItem.getUrl());
-        Glide.with(activity).load(listViewItem.getUrl()).override(400,150).fitCenter().into(iconImageView);
-//        iconImageView.setImageDrawable(listViewItem.getIcon());
+        // 아이템 내 각 위젯에 데이터 반영
+        //iconImageView.setImageDrawable(listViewItem.getUrl());//500,100
+        Glide.with(activity).load(listViewItem.getUrl()).override(500, 150).fitCenter().into(iconImageView);
         titleTextView.setText(listViewItem.getName());
-        descTextView.setText(listViewItem.getName());
+        descTextView.setText(listViewItem.getTime());
 
         return convertView;
 

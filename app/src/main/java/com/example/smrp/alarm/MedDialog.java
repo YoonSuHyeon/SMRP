@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.reponse_medicine3;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class MedDialog extends DialogFragment { // 약 등록하기 Fragment에�
 
         // final AlertDialog dialog = builder.create();
 
-        adapter = new ListViewAdapter(items, getActivity());
+        //adapter = new ListViewAdapter(items, getActivity(),);
         Lst_medicine.setAdapter(adapter);
 
         //items.add(new ListViewItem(getActivity().getDrawable(R.drawable.slide3), "dfgdf","dgdfgfd"));
