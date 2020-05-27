@@ -1,9 +1,6 @@
 package com.example.smrp.medicine;
-import androidx.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,16 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.MainActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.home.HomeFragment;
-import com.example.smrp.reponse_medicine;
 import com.example.smrp.reponse_medicine3;
-import com.example.smrp.response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +44,7 @@ public class MedicineFragment extends Fragment {
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
     private Timer timer; // 자동 슬라이드를 위한 변수
-
+    private String id ="cc";
     ArrayList<ListViewItem> items = new ArrayList<ListViewItem>();
 
     private int[] images= {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
@@ -114,10 +112,23 @@ public class MedicineFragment extends Fragment {
 
         //서버에게 사용자 ID를 보낸후  등록된 약들을 받아서 Adapter에 등록한다.
 
-        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
         //String id  사용자 id를 가져와야함
-        String id ="cc";
+
+
+
+
+
+        return v;
+
+
+    }
+
+    public void onStart() {
+        super.onStart();
+        Log.d("TAG", "11111111111111111111111111: ");
+
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
         Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
         call.enqueue(new Callback<List<reponse_medicine3>>() {
             @Override
@@ -141,14 +152,7 @@ public class MedicineFragment extends Fragment {
 
             }
         });
-
-
-
-        return v;
-
-
     }
-
 
 
 }

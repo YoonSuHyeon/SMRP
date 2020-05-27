@@ -1,8 +1,6 @@
 package com.example.smrp.alarm;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +83,7 @@ public class ListViewAdapter extends BaseAdapter {
 
 
        // iconImageView.setImageDrawable(listViewItem.getUrl());
-        Glide.with(activity).load(listViewItem.getUrl()).into(iconImageView);
+        Glide.with(activity).load(listViewItem.getUrl()).override(400,150).fitCenter().into(iconImageView);
 //        iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getName());
         descTextView.setText(listViewItem.getName());

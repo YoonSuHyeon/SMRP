@@ -85,7 +85,7 @@ public interface RetrofitService {
             @Query("itemSeq") String itemSeq
     );
 
-    @POST("/medicineRegister")
+    @POST("/medicineRegister/ListType")
     Call<response>addSelectMedicine(
             @Body User_Select user_select
     );

@@ -61,7 +61,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
             public void onResponse(Call<reponse_medicine2> call, Response<reponse_medicine2> response) {
                 reponse_medicine2 reponse_medicine2 =response.body();
                 //Image 등록
-                Glide.with(context).load(reponse_medicine2.getItemImage()).override(300,400).fitCenter().into(medicineImage);//이미지 등록
+                Glide.with(context).load(reponse_medicine2.getItemImage()).override(1200,700).fitCenter().into(medicineImage);//이미지 등록
                 medicineName.setText(reponse_medicine2.getItemName());
                 medicineChart.setText(reponse_medicine2.getChart());
                 medicineEntpName.setText(reponse_medicine2.getEntpName());

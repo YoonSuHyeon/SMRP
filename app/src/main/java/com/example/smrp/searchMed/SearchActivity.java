@@ -2,56 +2,33 @@ package com.example.smrp.searchMed;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.MalformedJsonException;
 import android.util.SparseBooleanArray;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.smrp.Medicines;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.User;
-import com.example.smrp.medicine.MedicineDetailActivity;
-import com.example.smrp.reponse_medicine;
 import com.example.smrp.reponse_medicine2;
-import com.example.smrp.response;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +87,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
     private int[] row_images4 = {R.drawable.ic_empty_green,R.drawable.ic_line_minus_green,R.drawable.ic_line_pluse_green,R.drawable.ic_line_etc_green};
     //@@@@@@@@@@@@@@@
 
-
+    private InputMethodManager imm;
     @SuppressLint("ClickableViewAccessibility")
     @Override
 
@@ -285,9 +262,11 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
       //  RecyclerView recyclerView = findViewById(R.id.recycler_medicine);
         recyclerItem = new ArrayList<MedicineItem>();
 
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         Btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imm.hideSoftInputFromWindow(et_findMedicine.getWindowToken(), 0);
                 for(int i = 0; i <shape1.size(); i++){
                     Log.d("TEST",shape1.get(i));
                 }

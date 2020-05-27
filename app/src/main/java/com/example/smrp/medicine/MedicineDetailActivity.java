@@ -1,7 +1,5 @@
 package com.example.smrp.medicine;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.smrp.MedicineUserId;
@@ -70,7 +70,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
                     medicineName.setText("다시 시도 해주세요");
                 }else {
-                    Glide.with(context).load(reponse_medicine2.getItemImage()).override(300, 400).fitCenter().into(medicineImage);//이미지 등록
+                    Glide.with(context).load(reponse_medicine2.getItemImage()).override(1200, 700).fitCenter().into(medicineImage);//이미지 등록
                     medicineName.setText(reponse_medicine2.getItemName());
                     medicineChart.setText(reponse_medicine2.getChart());
                     medicineEntpName.setText(reponse_medicine2.getEntpName());
@@ -115,6 +115,8 @@ public class MedicineDetailActivity extends AppCompatActivity {
                         }catch (NullPointerException e){
                             Log.d("d",e.toString());
                         }
+                        onBackPressed();
+                        finish();
 
                         //Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                         //startActivity(intent);

@@ -72,7 +72,6 @@ public class ListViewAdapter extends BaseAdapter {
                 activity. startActivity(intent);
                 //Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
 
-
             }
         });
 

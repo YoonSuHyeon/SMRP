@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -111,7 +112,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                 Uploading_bitmap(bitmap);
                 //Search_text\(bitmap);
 
-                //dialog.execute();
+                dialog.execute();
             }
 
             @Override
@@ -259,9 +260,13 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                         Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
 
                         //dialog.cancel(true);
-                        startActivity(intent);
-
-                        finish();
+                        if(list.size()>0) {
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            dialog = new Dialog();
+                            Toast.makeText(getApplicationContext(),"검색 결과 없음.",Toast.LENGTH_SHORT).show();
+                            cameraView.start();                        }
                     }
 
                     @Override

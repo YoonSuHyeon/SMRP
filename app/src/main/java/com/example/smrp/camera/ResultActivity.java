@@ -3,14 +3,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
@@ -49,6 +46,7 @@ public class ResultActivity extends Activity {
                 intent.putExtra("itemSeq","201503211"); //임의로 아이템 번호 보내준것... 수정 요망
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 startActivity(intent);
+                finish();
 
             }
         });

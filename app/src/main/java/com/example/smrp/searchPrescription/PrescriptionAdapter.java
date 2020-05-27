@@ -1,7 +1,6 @@
 package com.example.smrp.searchPrescription;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.smrp.R;
-import com.example.smrp.medicine.MedicineDetailActivity;
 
 import java.util.ArrayList;
 
@@ -97,7 +95,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                             v.setBackgroundColor(Color.WHITE);
                         } else {
                             mSelectedItems.put(pos, true);
-                            v.setBackgroundColor(Color.GREEN);
+                            v.setBackgroundColor(Color.LTGRAY);
                         }
 
                     }
