@@ -36,7 +36,7 @@ import me.relex.circleindicator.CircleIndicator;
 public class AlarmFragment extends Fragment {
     // 배너 ViewPager
     private ViewPagerAdapter adapter;
-    private com.example.smrp.medicine.ListViewAdapter listViewAdapter;
+    private ListViewAdapter2 listViewAdapter;
     private ViewPager viewPager;
     private ListView Lst_medicine; // 등록한 약 목록(아직 구현x)
     private TextView Txt_empty; // 등록한 약이 없을 시 text메세지로 알려줌
@@ -73,7 +73,7 @@ public class AlarmFragment extends Fragment {
         //
 
 
-        listViewAdapter= new com.example.smrp.medicine.ListViewAdapter(items,getActivity());
+        listViewAdapter= new ListViewAdapter2(items,getActivity());
         Lst_medicine.setAdapter(listViewAdapter);
 
         /* 클릭 이벤트들 */
