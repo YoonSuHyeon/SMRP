@@ -56,6 +56,7 @@
         <activity android:name=".alarm.AlarmDetailActivity" />
         <activity android:name=".alarm.AlarmSetActivity"/>
         <activity android:name=".report.ReportResultActivity"/>
+        <activity android:name=".report.DetailActivity"/>
     </application>
 
 </manifest>
