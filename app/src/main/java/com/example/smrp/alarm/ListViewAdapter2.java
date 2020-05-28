@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 
 public class ListViewAdapter2 extends BaseAdapter {
-    private ArrayList<ListViewItem> listViewItemArrayList ;
+    private ArrayList<ListViewAlarmItem> listViewItemArrayList ;
     private FragmentActivity activity;
 
-    public ListViewAdapter2(ArrayList<ListViewItem> listViewItemArrayList, FragmentActivity activity){
+    public ListViewAdapter2(ArrayList<ListViewAlarmItem> listViewItemArrayList, FragmentActivity activity){
         this.listViewItemArrayList=listViewItemArrayList;
         this.activity=activity;
     }
@@ -61,7 +61,7 @@ public class ListViewAdapter2 extends BaseAdapter {
         TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        final ListViewItem listViewItem = listViewItemArrayList.get(position);
+        final ListViewAlarmItem listViewAlarmItemI = listViewItemArrayList.get(position);
 
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +71,7 @@ public class ListViewAdapter2 extends BaseAdapter {
 
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmInformActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
-                intent.putExtra("itemSeq",listViewItem.getItemSeq());
+                intent.putExtra("itemSeq",listViewAlarmItemI.getAlramGroupId());
                 activity. startActivity(intent);
                 //Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
 
@@ -81,9 +81,8 @@ public class ListViewAdapter2 extends BaseAdapter {
 
         // 아이템 내 각 위젯에 데이터 반영
         //iconImageView.setImageDrawable(listViewItem.getUrl());//500,100
-        Glide.with(activity).load(listViewItem.getUrl()).override(500, 150).fitCenter().into(iconImageView);
-        titleTextView.setText(listViewItem.getName());
-        descTextView.setText(listViewItem.getTime());
+        titleTextView.setText(listViewAlarmItemI.getAlramName());
+        descTextView.setText(listViewAlarmItemI.getStartAlram().toString());
 
         return convertView;
 

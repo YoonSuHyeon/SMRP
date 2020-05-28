@@ -2,6 +2,7 @@ package com.example.smrp;
 
 
 import com.example.smrp.alarm.AlarmMedicine;
+import com.example.smrp.alarm.Response_AlarmMedicine;
 import com.example.smrp.searchMed.SelectedItem;
 import com.example.smrp.searchPrescription.User_Select;
 
@@ -43,6 +44,13 @@ public interface RetrofitService {
     Call<response>addMedicine(
             @Body MedicineUserId medicineUserId
     );
+
+    @GET("medicine2/getAlramList")
+    Call<ArrayList<Response_AlarmMedicine>> getList(
+            @Query("userId") String userId
+
+    );
+
 
     @GET("/medicineRegister")
     Call<List<reponse_medicine3>>findUserMedicine(

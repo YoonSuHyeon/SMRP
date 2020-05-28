@@ -25,6 +25,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity {
     Context context;
     ImageView medicineImage;//약 사진
     ImageView iv_back; //뒤로가기 이미지뷰
+    ImageView ic_dot;
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq;
     @Override
@@ -35,6 +36,8 @@ public class AlarmDetailActivity2 extends AppCompatActivity {
         //Init
         medicineImage=findViewById(R.id.iv_medicine);
         iv_back=findViewById(R.id.iv_back);
+
+        ic_dot = findViewById(R.id.ic_dot);
 
         medicineName=findViewById(R.id.tv_medicine_name) ;    //약이름
         medicineEntpName=findViewById(R.id.tv_entpName);//약 제조사
@@ -86,7 +89,14 @@ public class AlarmDetailActivity2 extends AppCompatActivity {
             }
         });
 
-
+        ic_dot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { // dialog를 띄울 Activity에서 구현
+                BottomSheetDialog2 bottomSheetDialog2 = BottomSheetDialog2.getInstance();
+                bottomSheetDialog2.init("cc",itemSeq);
+                bottomSheetDialog2.show(getSupportFragmentManager(),"bottomSheet");
+            }
+        });
 
 
 
