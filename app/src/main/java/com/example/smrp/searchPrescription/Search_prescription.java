@@ -1,21 +1,36 @@
 package com.example.smrp.searchPrescription;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.example.smrp.Pillname;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
 import com.example.smrp.reponse_medicine;
+import com.example.smrp.response;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -40,10 +55,14 @@ import com.wonderkiln.camerakit.CameraKitVideo;
 import com.wonderkiln.camerakit.CameraView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
@@ -65,6 +84,10 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     private boolean bool_end = false;
     private RetrofitService_takenpicture json;
     private RetrofitService retrofitService;
+    private ImageView imageView;
+    private String imageFilePath;
+    private Uri photoUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +98,10 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         dialog = new Dialog();
         fb = findViewById(R.id.take_button);
         cameraView = findViewById(R.id.cameraView);
+        imageView = findViewById(R.id.imageView);
+        sendTakePhotoIntent();
         //button = findViewById(R.id.button);
-        fb.setOnClickListener(new View.OnClickListener() {
+        /*fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -85,6 +110,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
             }
         });
 
+
        /* button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +118,10 @@ public class Search_prescription extends AppCompatActivity implements Serializab
             }
         });*/
 
-        cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS);//자동 포커스
-        cameraView.addCameraKitListener(new CameraKitEventListener() {
+        /*cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS);//자동 포커스
+        cameraView.setJpegQuality(100);*/
+
+       /* cameraView.addCameraKitListener(new CameraKitEventListener() {
             @Override
             public void onEvent(CameraKitEvent cameraKitEvent) {
 
@@ -108,21 +136,23 @@ public class Search_prescription extends AppCompatActivity implements Serializab
             public void onImage(CameraKitImage cameraKitImage) { //
                 Log.d("TAG", "onImageonImage: ");
                 bitmap = cameraKitImage.getBitmap();
-                cameraView.stop();
+                //cameraView.stop();
                 Uploading_bitmap(bitmap);
                 //Search_text\(bitmap);
+                //download(bitmap);
 
-                dialog.execute();
+                //dialog.execute();
             }
 
             @Override
             public void onVideo(CameraKitVideo cameraKitVideo) {
 
             }
-        });
+        });*/
+
 
     }
-    @Override
+   /* @Override
     protected void onResume() {
         super.onResume();
         cameraView.start();
@@ -132,16 +162,136 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     protected void onPause() {
         cameraView.stop();
         super.onPause();
+    }*/
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 672 && resultCode == RESULT_OK) {
+
+            try {
+                imageView.setImageURI(photoUri);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Uploading_bitmap(bitmap);
+        }
+    }
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "TEST_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,      /* prefix */
+                ".jpg",         /* suffix */
+                storageDir          /* directory */
+        );
+        //imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+    private void sendTakePhotoIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/com.example.smrp/files/Pictures");//Android/data/com.raonstudio.cameratest/files
+            Log.d("TAG", "sendTakePhotoIntent: "+Environment.getExternalStorageDirectory().getAbsolutePath());
+            if(!file.exists()){
+                Log.d("TAG", "file not exists(): ");
+                file.mkdir();
+
+            }
+            Log.d("TAG", "file.exists()file.exists(): "+file.exists());
+            File photoFile = null;
+
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(takePictureIntent, 672);
+            }
+        }
     }
 
+    private void download(Bitmap bitmap){
+        cameraView.setVisibility(View.GONE);
+        imageView.setImageBitmap(bitmap);
+        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            Log.d("TAG", "READ_EXTERNAL_STORAGE: ");
+        }
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+            Log.d("TAG", "WRITE_EXTERNAL_STORAGE: ");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Log.d("TAG", "rootroot: "+root);
+        File file = new File(root+"/dirdir1");
+        Log.d("TAG", "!file.exists(): "+file.exists());
+        if(!file.exists()){
+            file.mkdirs();
+            Log.d("TAG", "file.exists()file.exists()file.exists(): ");
+        }
 
-    public byte[] bitmapToByteArray( Bitmap bitmap ) { // Bitmap을 binary 로 변환 하는 클래스
-        ByteArrayOutputStream stream = new ByteArrayOutputStream() ;
-        bitmap.compress( Bitmap.CompressFormat.JPEG, 100, stream) ;
-        byte[] byteArray = stream.toByteArray() ;
-        return byteArray ;
+
+        String fname = "Image-test.jpg";
+        File file1 = new File(file, fname);
+        try {
+
+            if(file1.exists()){
+                file1.delete();
+                Log.d("TAG", "file1.exists()file1.exists()file1.exists(): ");
+            }
+
+            file1.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file1);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MediaScannerConnection.scanFile(this, new String[]{file.toString()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
+
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse(
+                "file://"+file.getPath()+fname
+        )));
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file1));
+        sendBroadcast(intent);
+
+        MediaScanner media_scanner = MediaScanner .newInstance(getApplicationContext());
+        try {
+
+            media_scanner.mediaScanning(root + fname + ".jpg"); // 경로 + 제목 + .jpg
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            //System.out.println(":::: Media Scan ERROR:::: = " + e);
+        }*/
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (Build.VERSION.SDK_INT >= 23) {
+            if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                Log.v("TAG","Permission: "+permissions[0]+ "was "+grantResults[0]);
+                //resume tasks needing this permission
+            }
+        }
+    }
     private String Search_text(Bitmap bitmap){
 
         if(json == null){
@@ -160,11 +310,15 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         });
         return "";
     }
+
     private void Uploading_bitmap(Bitmap bitmap){
         if(bitmap != null){
-            bitmap = scaleBitmapDown(bitmap,MAX_DIMENSION);
             Log.d("TAG", "bitmap width: "+bitmap.getWidth());
             Log.d("TAG", "bitmap height: "+bitmap.getHeight());
+            bitmap = scaleBitmapDown(bitmap,MAX_DIMENSION);
+
+            //cameraView.setVisibility(View.GONE);
+            //imageView.setImageBitmap(bitmap);
             callCloudVision(bitmap);
         }
         else{
@@ -265,7 +419,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                             startActivity(intent);
                             finish();
                         }else{
-                            dialog = new Dialog();
+                            dialog = new Search_prescription.Dialog();
                             Toast.makeText(getApplicationContext(),"검색 결과 없음.",Toast.LENGTH_SHORT).show();
                             cameraView.start();                        }
                     }
@@ -364,6 +518,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
 
     }*/
     private void callCloudVision(final Bitmap bitmap) {
+        Log.d("TAG", "callCloudVision: ");
         // Switch text to loading
         //mImageDetails.setText(R.string.loading_message);
 
