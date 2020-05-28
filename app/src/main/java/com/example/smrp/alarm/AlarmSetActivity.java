@@ -130,6 +130,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
 
                         Toast.makeText(getApplicationContext(),"성공",Toast.LENGTH_SHORT).show();
+                        onBackPressed();
 
                         //Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                         //startActivity(intent);
