@@ -53,7 +53,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Search_prescription extends AppCompatActivity implements Serializable {
-    private static final String CLOUD_VISION_API_KEY = "AIzaSyAh8cQhRUiXMB5bUmjqnyWcFDMlrhEHySk";//구글 인증키
+    private static final String CLOUD_VISION_API_KEY = "AIzaSyDZfaBD1mddJVfGxgrhnUh0Lg02Mfc38KA";//구글 인증키
     private FloatingActionButton fb;
     private CameraView cameraView;
     private Bitmap bitmap;
@@ -248,6 +248,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                 call.enqueue(new Callback<ArrayList<reponse_medicine>>() {
                     @Override
                     public void onResponse(Call<ArrayList<reponse_medicine>> call, Response<ArrayList<reponse_medicine>> response) {//접속에 성공하였을때
+                        bool_end = true;
                         Log.d("TAG", "onResponseonResponseonResponseonResponse: ");
                         ArrayList<reponse_medicine>list = response.body();
                         Log.d("TAG", "list.size(): "+list.size());
@@ -271,6 +272,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
 
                     @Override
                     public void onFailure(Call<ArrayList<reponse_medicine>> call, Throwable t) {// 접속실패했을때
+                        bool_end = true;
                         Log.d("TAG", "onFailureonFailureonFailure: ");
                         Intent intent = new Intent(getApplicationContext(),Select_Pill.class);
                         Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
@@ -377,7 +379,8 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
         StringBuilder message = new StringBuilder();
 
-        List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
+        List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();//Texts에 들어있는 값들을 하나씩 꺼내 Text에 대입
+        Log.d("TAG", "convertResponseToString: "+ response.getResponses().get(0).getFullTextAnnotation());
         if (labels != null) {
             for (EntityAnnotation label : labels) {
 
@@ -408,14 +411,14 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
+            /*try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            /*while(!bool_end)
-                ;*/
+            }*/
+            while(!bool_end)
+                ;
             bool_end = false;
             return null;
         }
