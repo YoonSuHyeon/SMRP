@@ -39,10 +39,11 @@ public class AlarmInformActivity extends AppCompatActivity {
 
         //itemSeq 받는 과정
         Intent intent =getIntent();
-        itemSeq =intent.getStringExtra("itemSeq");
-        Log.d("Zxcbzxcb",itemSeq);
 
-        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+      //  itemSeq =intent.getStringExtra("itemSeq");
+      //  Log.d("Zxcbzxcb",itemSeq);
+
+        /*(RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
         Call<reponse_medicine2> call = networkService.findmedicine(itemSeq);
         call.enqueue(new Callback<reponse_medicine2>() {
@@ -57,7 +58,7 @@ public class AlarmInformActivity extends AppCompatActivity {
                 Log.d("ddd",t.toString());
 
             }
-        });
+        });*/
 
 
 
@@ -76,8 +77,8 @@ public class AlarmInformActivity extends AppCompatActivity {
         ic_dot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
-                BottomSheetDialog bottomSheetDialog = BottomSheetDialog.getInstance();
-                bottomSheetDialog.init("cc",itemSeq);
+                BottomSheetDialog2 bottomSheetDialog = BottomSheetDialog2.getInstance();
+              //  bottomSheetDialog.init("cc",itemSeq);
                 bottomSheetDialog.show(getSupportFragmentManager(),"bottomSheet");
             }
         });

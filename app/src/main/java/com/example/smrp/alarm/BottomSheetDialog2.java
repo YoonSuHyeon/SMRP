@@ -1,5 +1,6 @@
 package com.example.smrp.alarm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,14 +34,14 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
 
     private LinearLayout Lay_delete;
     private LinearLayout Lay_cancel;
-
+    private LinearLayout Lay_edit;
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.bottom_sheet, container, false);
+        View view = inflater.inflate(R.layout.bottom_sheet_ver_alarm, container, false);
         Lay_delete = (LinearLayout) view.findViewById(R.id.Lay_delete);
         Lay_cancel = (LinearLayout) view.findViewById(R.id.Lay_cancel);
-
+        Lay_edit = (LinearLayout) view.findViewById(R.id.Lay_edit);
 
         Lay_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +60,20 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
                 getActivity().onBackPressed();
+            }
+        });
+        Lay_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), AlarmEditActivity.class);
+                //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
+
+                startActivity(intent);
+
+
+
+                    //  getActivity().onBackPressed();
             }
         });
 
