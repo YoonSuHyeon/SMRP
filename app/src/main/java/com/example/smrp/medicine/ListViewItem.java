@@ -1,12 +1,14 @@
 package com.example.smrp.medicine;
 
-public class ListViewItem {
-    private String url;
-    private String name;
-    private String itemSeq;
-    private String time;
+import java.io.Serializable;
 
-    public ListViewItem(String url, String name,String itemSeq,String time) {
+public class ListViewItem implements Serializable {
+    private String url; //약 이미지
+    private String name; //약 이름
+    private String itemSeq; //약 식별번호
+    private String time; //시간
+
+    public ListViewItem(String url, String name,String itemSeq,String time){
         this.url = url;
         this.name = name;
         this.itemSeq=itemSeq;

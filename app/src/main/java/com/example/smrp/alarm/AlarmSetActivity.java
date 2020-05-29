@@ -1,12 +1,14 @@
 package com.example.smrp.alarm;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -48,6 +50,8 @@ public class AlarmSetActivity extends AppCompatActivity {
     ListView Lst_medicine;
     EditText et_oneTimeCapacity,et_alramName,et_dosingPeriod,et_oneTimeDose;
     ImageView iv_back;
+    private InputMethodManager imm;
+    ArrayList<ListViewItem>list = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_med_fragment);
@@ -56,10 +60,12 @@ public class AlarmSetActivity extends AppCompatActivity {
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
 
 
+        Intent intent = getIntent();
+        list = (ArrayList<ListViewItem>) intent.getSerializableExtra("list");
+
         iv_back = findViewById(R.id.iv_back);
         spin_type = findViewById(R.id.spin_type);
         Btn_add = findViewById(R.id.Btn_add);
-        Lst_medicine=findViewById(R.id.Lst_medicine2);
 
         btn_Set_Alarm= findViewById(R.id.btn_set_alarm);
         et_oneTimeCapacity= findViewById(R.id.et_oneTimeCapacity);
@@ -69,6 +75,8 @@ public class AlarmSetActivity extends AppCompatActivity {
         et_oneTimeDose=findViewById(R.id.et_oneTimeDose);
 
 
+        Lst_medicine = findViewById(R.id.Lst_medicine2);
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         typeList = new ArrayList<>();
         typeList.add("식전");
         typeList.add("식후");
@@ -87,8 +95,15 @@ public class AlarmSetActivity extends AppCompatActivity {
             }
         });
 
-        alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this);
-        Lst_medicine.setAdapter(alarmListViewAdapter);
+        alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this); //alarmMedicineList =ArrayList
+        Lst_medicine.setAdapter(alarmListViewAdapter);  //Lst_medicine: listView
+
+        if(list!=null&&list.size()>0) {
+            Log.d("TAG", "onCreateonCreateonCreate: ");
+            alarmMedicineList.addAll(list);
+            alarmListViewAdapter.notifyDataSetChanged();
+        }
+
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +121,8 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         btn_Set_Alarm.setOnClickListener(new View.OnClickListener() {//알람설정을 누른경우
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // 알람설정
+                imm.hideSoftInputFromWindow(et_alramName.getWindowToken(), 0);
                 ArrayList<String> temp = new ArrayList<String>(); //일련번호 리스트를 만드는과정
                 for(ListViewItem i :alarmMedicineList){
                     temp.add(i.getItemSeq());
@@ -147,7 +163,8 @@ public class AlarmSetActivity extends AppCompatActivity {
 
        // return root;
     }
-    private void showAlertDialog()
+
+    private void showAlertDialog() //약 추가하기 팝업창
     {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -157,18 +174,18 @@ public class AlarmSetActivity extends AppCompatActivity {
         final Button Btn_ok = view.findViewById(R.id.Btn_ok);
         final ArrayList<ListViewItem> items = new ArrayList<>();
 
-        ListView Lst_medicine = view.findViewById(R.id.Lst_medicine);
+        ListView Lst_medicine = view.findViewById(R.id.Lst_medicine); //약 추가하기 팝업 창 내가 등록한 약
         final AlertDialog dialog = builder.create();
 
         final ListViewAdapter adapter = new ListViewAdapter(items, this);
-        Lst_medicine.setAdapter(adapter);
+        Lst_medicine.setAdapter(adapter); //
 
 
 
 
         Btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { // 확인 버튼 누르기
+            public void onClick(View v) { // 확인 버튼 누르기(약추가하기 기능에서)
                 Toast.makeText(getApplicationContext(), "추가 되었습니다.", Toast.LENGTH_SHORT).show();
                 alarmMedicineList.addAll(adapter.res());
                 Log.d("dddzxcb",alarmMedicineList.size()+"");
@@ -191,7 +208,13 @@ public class AlarmSetActivity extends AppCompatActivity {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
+                    //items:ArrayList
                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
+                    Log.d("TAG", "getImageUrl: "+reponse_medicines.get(i).getImageUrl());
+
+                    Log.d("TAG", "getItemName: "+reponse_medicines.get(i).getItemName());
+                    Log.d("TAG", "getItemSeq: "+reponse_medicines.get(i).getItemSeq());
+                    Log.d("TAG", "getCreatedAt: "+reponse_medicines.get(i).getCreatedAt());
                     /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
                     Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
                 }

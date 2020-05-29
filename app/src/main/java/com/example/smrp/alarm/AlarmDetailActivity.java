@@ -11,11 +11,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.bumptech.glide.Glide;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.reponse_medicine2;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +33,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
     Button Btn_set;
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq;
+    private String str_image, str_name, str_seq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,10 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 medicineEtcOtcName.setText(reponse_medicine2.getEtcOtcName());
                 medicineEffect.setText(reponse_medicine2.getEffect());
                 medicineUsage.setText(reponse_medicine2.getUsage());
+
+                str_image = reponse_medicine2.getItemImage();
+                str_name = reponse_medicine2.getItemName();
+                str_seq = reponse_medicine2.getItemSeq();
             }
 
             @Override
@@ -94,7 +103,16 @@ public class AlarmDetailActivity extends AppCompatActivity {
         Btn_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.
+                Log.d("TAG", "onClickonClickonClick: ");
+                ArrayList<ListViewItem>list = new ArrayList<>();
+                list.add(new ListViewItem(str_image,str_name,str_seq,"0000-00-00"));
+                Log.d("TAG", "str_image: "+str_image);
+                Log.d("TAG", "str_name: "+str_name);
+                Log.d("TAG", "str_seq: "+str_seq);
 
+                Intent intent1= new Intent(getApplicationContext(),AlarmSetActivity.class);
+                intent1.putExtra("list",list);
+                startActivity(intent1);
             }
         });
 
