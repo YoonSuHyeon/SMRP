@@ -66,19 +66,19 @@
                         android:paddingLeft="17dp"
 
                         />
+
                     <Button
                         android:id="@+id/Btn_search"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="16dp"
                         android:layout_weight="1.7"
                         android:background="@drawable/btn_shape"
                         android:text="검색"
                         android:textColor="@color/colorWhite"
-                        android:textStyle="bold"
                         android:textSize="16dp"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="16dp"
-                        />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smrp.Pillname;
 import com.example.smrp.R;
@@ -46,13 +50,7 @@ import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
 import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
-import com.wonderkiln.camerakit.CameraKit;
-import com.wonderkiln.camerakit.CameraKitError;
-import com.wonderkiln.camerakit.CameraKitEvent;
-import com.wonderkiln.camerakit.CameraKitEventListener;
-import com.wonderkiln.camerakit.CameraKitImage;
-import com.wonderkiln.camerakit.CameraKitVideo;
-import com.wonderkiln.camerakit.CameraView;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,8 +61,10 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import retrofit2.Call;
@@ -74,7 +74,6 @@ import retrofit2.Response;
 public class Search_prescription extends AppCompatActivity implements Serializable {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyDZfaBD1mddJVfGxgrhnUh0Lg02Mfc38KA";//구글 인증키
     private FloatingActionButton fb;
-    private CameraView cameraView;
     private Bitmap bitmap;
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
     private static final String ANDROID_PACKAGE_HEADER = "X-Android-Package";
@@ -84,85 +83,100 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     private boolean bool_end = false;
     private RetrofitService_takenpicture json;
     private RetrofitService retrofitService;
-    private ImageView imageView;
-    private String imageFilePath;
+
+
+    private ArrayList<Prescriptionitem> list;
+    private ArrayList<String> itemseq_list;
+    private Button add_Btn;
+    private PrescriptionAdapter adapter;
+    private HashMap<Integer,String> select_pill_list; //사용자 선택한 약 정보를 담는 hashmap
+    private String id ="cc";
+    private ImageView back_imgView;
     private Uri photoUri;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_prescription);
+        setContentView(R.layout.activity_select_pill);//activity_search_prescription
+        add_Btn = findViewById(R.id.add_btn);
+        back_imgView = findViewById(R.id.back_btn);
+        select_pill_list = new HashMap<Integer, String>();
+        itemseq_list = new ArrayList<String>();
+        list = new ArrayList<Prescriptionitem>();
+        adapter = new PrescriptionAdapter(list);
+        recyclerView = findViewById(R.id.recycler_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(adapter);
 
-        ArrayList<String>list = new ArrayList<>(); // pill_name 과 약봉투의 공통 ㅇ단어 각 ArrayList를 만들고 이를 Arrays.sort 오름차순으로 둔다 contains 를 하여 true가 되면
-        // 두 ArrayList삭제
-        dialog = new Dialog();
-        fb = findViewById(R.id.take_button);
-        cameraView = findViewById(R.id.cameraView);
-        imageView = findViewById(R.id.imageView);
-        sendTakePhotoIntent();
-        //button = findViewById(R.id.button);
-        /*fb.setOnClickListener(new View.OnClickListener() {
+
+        add_Btn.setOnClickListener(new View.OnClickListener() { //추가하기 버튼 누를시
             @Override
             public void onClick(View v) {
+                if(select_pill_list.size()==0){
+                    Toast.makeText(getApplicationContext(),"약을 선택해 주세요.",Toast.LENGTH_SHORT).show();
+                }else{
+                    for(Map.Entry<Integer,String>elem : select_pill_list.entrySet())
+                        itemseq_list.add(elem.getValue());
+                    //Log.d("TAG", "==>: "+elem.getKey()+","+elem.getValue()+"\n");
+                    RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                    User_Select user_select = new User_Select(id,itemseq_list);
+                    Call<response> call = networkService.addSelectMedicine(user_select);
+                    call.enqueue(new Callback<response>() {
+                        @Override
+                        public void onResponse(Call<response> call, Response<response> response) {
+                            Log.d("TAG", "add_Btn_Success: ");
+                            onBackPressed();
+                        }
 
-                cameraView.captureImage();
+                        @Override
+                        public void onFailure(Call<response> call, Throwable t) {
+                            Log.d("TAG", "add_Btn_Fail: ");
+                            onBackPressed();
+                        }
+                    });
+                }
+
 
             }
         });
-
-
-       /* button.setOnClickListener(new View.OnClickListener() {
+        back_imgView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cameraView.captureImage();;
+                onBackPressed();
             }
-        });*/
-
-        /*cameraView.setFocus(CameraKit.Constants.FOCUS_CONTINUOUS);//자동 포커스
-        cameraView.setJpegQuality(100);*/
-
-       /* cameraView.addCameraKitListener(new CameraKitEventListener() {
+        });
+        adapter.setOnClickListener(new PrescriptionAdapter.OnItemClickListener() {
             @Override
-            public void onEvent(CameraKitEvent cameraKitEvent) {
+            public void onItemClick(PrescriptionAdapter.ViewHolder holder, View v, int position) {
+                Log.d("TAG", "onItemClick: "+list.get(position).getText1());
+
+                if(select_pill_list.size()==0){//초기
+                    select_pill_list.put(position,list.get(position).getItemSeq());
+                    Log.d("TAG", "select_pill_list.size()==0: "+list.get(position).getItemSeq()+"."+list.get(position).getText1());
+                }else{
+                    if(select_pill_list.get(position)==null){ //선택한 약이 hashmap에 없을경우
+                        select_pill_list.put(position,list.get(position).getItemSeq());
+                    }else{ //선택한 약이 hashmap에 있을경우 삭제 : 사용자가 2번 누른것
+                        select_pill_list.remove(position);
+                    }
+                }
 
             }
 
-            @Override
-            public void onError(CameraKitError cameraKitError) {
 
-            }
+        });
 
-            @Override
-            public void onImage(CameraKitImage cameraKitImage) { //
-                Log.d("TAG", "onImageonImage: ");
-                bitmap = cameraKitImage.getBitmap();
-                //cameraView.stop();
-                Uploading_bitmap(bitmap);
-                //Search_text\(bitmap);
-                //download(bitmap);
 
-                //dialog.execute();
-            }
 
-            @Override
-            public void onVideo(CameraKitVideo cameraKitVideo) {
 
-            }
-        });*/
+
+        sendTakePhotoIntent();
+
 
 
     }
-   /* @Override
-    protected void onResume() {
-        super.onResume();
-        cameraView.start();
-    }
 
-    @Override
-    protected void onPause() {
-        cameraView.stop();
-        super.onPause();
-    }*/
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -170,7 +184,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         if (requestCode == 672 && resultCode == RESULT_OK) {
 
             try {
-                imageView.setImageURI(photoUri);
+                //imageView.setImageURI(photoUri);
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -219,68 +233,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         }
     }
 
-    private void download(Bitmap bitmap){
-        cameraView.setVisibility(View.GONE);
-        imageView.setImageBitmap(bitmap);
-        /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            Log.d("TAG", "READ_EXTERNAL_STORAGE: ");
-        }
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            Log.d("TAG", "WRITE_EXTERNAL_STORAGE: ");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-        }
-        String root = Environment.getExternalStorageDirectory().getAbsolutePath();
-        Log.d("TAG", "rootroot: "+root);
-        File file = new File(root+"/dirdir1");
-        Log.d("TAG", "!file.exists(): "+file.exists());
-        if(!file.exists()){
-            file.mkdirs();
-            Log.d("TAG", "file.exists()file.exists()file.exists(): ");
-        }
 
-
-        String fname = "Image-test.jpg";
-        File file1 = new File(file, fname);
-        try {
-
-            if(file1.exists()){
-                file1.delete();
-                Log.d("TAG", "file1.exists()file1.exists()file1.exists(): ");
-            }
-
-            file1.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file1);
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        MediaScannerConnection.scanFile(this, new String[]{file.toString()}, null,
-                new MediaScannerConnection.OnScanCompletedListener() {
-                    public void onScanCompleted(String path, Uri uri) {
-                        Log.i("ExternalStorage", "Scanned " + path + ":");
-                        Log.i("ExternalStorage", "-> uri=" + uri);
-                    }
-                });
-
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.parse(
-                "file://"+file.getPath()+fname
-        )));
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        intent.setData(Uri.fromFile(file1));
-        sendBroadcast(intent);
-
-        MediaScanner media_scanner = MediaScanner .newInstance(getApplicationContext());
-        try {
-
-            media_scanner.mediaScanning(root + fname + ".jpg"); // 경로 + 제목 + .jpg
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            //System.out.println(":::: Media Scan ERROR:::: = " + e);
-        }*/
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -292,27 +245,11 @@ public class Search_prescription extends AppCompatActivity implements Serializab
             }
         }
     }
-    private String Search_text(Bitmap bitmap){
 
-        if(json == null){
-            json = new RetrofitFactory_takenpicture().create();
-        }
-        json.getList(12.0,12.5).enqueue(new Callback<Text_Response>() {
-            @Override
-            public void onResponse(Call<Text_Response> call, Response<Text_Response> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<Text_Response> call, Throwable t) {
-
-            }
-        });
-        return "";
-    }
 
     private void Uploading_bitmap(Bitmap bitmap){
         if(bitmap != null){
+
             Log.d("TAG", "bitmap width: "+bitmap.getWidth());
             Log.d("TAG", "bitmap height: "+bitmap.getHeight());
             bitmap = scaleBitmapDown(bitmap,MAX_DIMENSION);
@@ -349,7 +286,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     private class LableDetectionTask extends AsyncTask<Object, Void, String> {
         private final WeakReference<Search_prescription> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
-
+        ProgressDialog progressDialog = new ProgressDialog(Search_prescription.this);
         LableDetectionTask(Search_prescription activity, Vision.Images.Annotate annotate) {
             mActivityWeakReference = new WeakReference<>(activity);
             mRequest = annotate;
@@ -372,7 +309,18 @@ public class Search_prescription extends AppCompatActivity implements Serializab
 
             return "Cloud Vision API request failed. Check logs for details.";
         }
+        @Override
+        protected void onPreExecute() {
+            /*ViewGroup group = (ViewGroup) root.getParent();
+            if(group!=null)
+                group.removeView(root);*/
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setMessage("로딩중입니다..");
 
+            // show dialog
+            progressDialog.show();
+            super.onPreExecute();
+        }
         protected void onPostExecute(String result) { // 객체에서 문자 추출한 결과: result
             Search_prescription activity = mActivityWeakReference.get();
             StringBuilder st_result = new StringBuilder();
@@ -402,26 +350,27 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                 call.enqueue(new Callback<ArrayList<reponse_medicine>>() {
                     @Override
                     public void onResponse(Call<ArrayList<reponse_medicine>> call, Response<ArrayList<reponse_medicine>> response) {//접속에 성공하였을때
-                        bool_end = true;
+                        progressDialog.dismiss();
                         Log.d("TAG", "onResponseonResponseonResponseonResponse: ");
-                        ArrayList<reponse_medicine>list = response.body();
-                        Log.d("TAG", "list.size(): "+list.size());
-                        for(int i= 0; i < list.size();i++){
-                            Log.d("TAG", "list: "+list.get(i).getId()+","+list.get(i).getItemName()+","+list.get(i).getDrugShape()+"\n");
-                        }
+                        ArrayList<reponse_medicine>list1 = response.body();
 
-                        Intent intent = new Intent(getApplicationContext(),Select_Pill.class);
-                        intent.putExtra("list",list);
-                        Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
-
-                        //dialog.cancel(true);
-                        if(list.size()>0) {
-                            startActivity(intent);
+                        if(list1.size()==0){
+                            Toast.makeText(getApplicationContext(),"인식 문자 없음.",Toast.LENGTH_SHORT).show();
+                            onBackPressed();
                             finish();
                         }else{
-                            dialog = new Search_prescription.Dialog();
-                            Toast.makeText(getApplicationContext(),"검색 결과 없음.",Toast.LENGTH_SHORT).show();
-                            cameraView.start();                        }
+                            for(int i =0 ; i< list1.size();i++){
+                                list.add(new Prescriptionitem(list1.get(i).getItemSeq(),list1.get(i).getItemImage(),list1.get(i).getItemName(),list1.get(i).getEntpName(),
+                                        list1.get(i).getFormCodeName(),list1.get(i).getEtcOtcName()));
+                            }
+
+                            LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
+                            recyclerView.addItemDecoration(dividerItemDecoration);
+                        }
+
+
+
                     }
 
                     @Override
@@ -431,9 +380,10 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                         Intent intent = new Intent(getApplicationContext(),Select_Pill.class);
                         Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
 
-                        startActivity(intent);
-                        dialog.cancel(true);
+                        progressDialog.dismiss();
+                        onBackPressed();
                         finish();
+
                     }
                 });
 
@@ -551,17 +501,17 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     }
 
     private class Dialog extends AsyncTask<Void,Void,Void>{
-        ProgressDialog progressDialog = new ProgressDialog(Search_prescription.this);
+        ProgressDialog progressDialog1 = new ProgressDialog(Search_prescription.this);
         @Override
         protected void onPreExecute() {
             /*ViewGroup group = (ViewGroup) root.getParent();
             if(group!=null)
                 group.removeView(root);*/
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setMessage("로딩중입니다..");
+            progressDialog1.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog1.setMessage("로딩중입니다..");
 
             // show dialog
-            progressDialog.show();
+            progressDialog1.show();
             super.onPreExecute();
         }
         @Override
@@ -579,7 +529,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         }
         @Override
         protected void onPostExecute(Void result) {
-            progressDialog.dismiss();
+            progressDialog1.dismiss();
 
             //finish();
 

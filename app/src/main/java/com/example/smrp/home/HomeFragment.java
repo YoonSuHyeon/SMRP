@@ -72,8 +72,7 @@ public class HomeFragment extends Fragment {
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
 
 
-    private Thread thread;
-    private boolean therad_satue = false;
+
     private static RetrofitService_home json;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -238,25 +237,8 @@ public class HomeFragment extends Fragment {
         });
         return root;
 
-
-//
     }
-    private Bitmap getIcon(String str_url){
-        try{
-            Log.d("TAG", "getIcon: "+str_url);
-            URL url = new URL(str_url);
-            URLConnection urlConnection = url.openConnection();
-            urlConnection.setDoInput(true);
-            urlConnection.connect();
 
-            InputStream is = urlConnection.getInputStream();
-            Bitmap bitmap = BitmapFactory.decodeStream(is);
-
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
 
     private class Url_Connection extends AsyncTask<String,Void,String>{
         @Override
