@@ -187,7 +187,18 @@ public class AlarmSetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { // 확인 버튼 누르기(약추가하기 기능에서)
                 Toast.makeText(getApplicationContext(), "추가 되었습니다.", Toast.LENGTH_SHORT).show();
-                alarmMedicineList.addAll(adapter.res());
+                Log.d("TAG", "adapter.res(): "+adapter.res().size());
+                Log.d("TAG", "alarmMedicineList.size(): "+alarmMedicineList.size());
+                ArrayList<ListViewItem>list = adapter.res();
+                if(alarmMedicineList.size()==1){//등록된 약 기능에서 알람추가시 중복제거
+                    Log.d("TAG", "alarmMedicineList.size(): "+alarmMedicineList.get(0).getName());
+                    for(int i =0;i<list.size();i++){
+                        if(alarmMedicineList.get(0).getItemSeq().equals(list.get(i).getItemSeq()))
+                            list.remove(i);
+                    }
+                }
+
+                alarmMedicineList.addAll(list);
                 Log.d("dddzxcb",alarmMedicineList.size()+"");
 
                 alarmListViewAdapter.notifyDataSetChanged();
