@@ -43,10 +43,18 @@ public class Response_AlarmMedicine {
     @Expose
     private String doseType; //복용타입
 
-    /*@SerializedName("itemSeqs")
+    @SerializedName("itemSeqs")
     @Expose
     private ArrayList<String> itemSeqs; //약들의 일련번호
-*/
+
+    public ArrayList<String> getItemSeqs() {
+        return itemSeqs;
+    }
+
+    public void setItemSeqs(ArrayList<String> itemSeqs) {
+        this.itemSeqs = itemSeqs;
+    }
+
     public Long getAlramGroupId() {
         return alramGroupId;
     }

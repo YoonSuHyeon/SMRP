@@ -24,8 +24,8 @@ public class AlarmInformActivity extends AppCompatActivity {
     Context context;
     ImageView iv_back; //뒤로가기 이미지뷰
     ImageView ic_dot;
-
-    String itemSeq;
+    TextView Txt_alarmName,Txt_oneTimeDose,Txt_oneTimeCapacity,Txt_dosingPeriod,Txt_type;
+    Long alramGroupId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,30 +35,40 @@ public class AlarmInformActivity extends AppCompatActivity {
 
         iv_back=findViewById(R.id.iv_back);
         ic_dot = findViewById(R.id.ic_dot);
-
+        Txt_alarmName=findViewById(R.id.Txt_alarmName);
+        Txt_oneTimeDose=findViewById(R.id.Txt_oneTimeDose);
+        Txt_oneTimeCapacity=findViewById(R.id.Txt_oneTimeCapacity);
+        Txt_dosingPeriod=findViewById(R.id.Txt_dosingPeriod);
+        Txt_type=findViewById(R.id.Txt_type);
 
         //itemSeq 받는 과정
         Intent intent =getIntent();
+        alramGroupId=intent.getLongExtra("alramGroupId",0);
 
-      //  itemSeq =intent.getStringExtra("itemSeq");
-      //  Log.d("Zxcbzxcb",itemSeq);
+        Log.d("sucess",alramGroupId.toString());
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
-        /*(RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
-
-        Call<reponse_medicine2> call = networkService.findmedicine(itemSeq);
-        call.enqueue(new Callback<reponse_medicine2>() {
+        Call<Response_AlarmMedicine> call = networkService.getAlram(alramGroupId);
+        call.enqueue(new Callback<Response_AlarmMedicine>() {
             @Override
-            public void onResponse(Call<reponse_medicine2> call, Response<reponse_medicine2> response) {
-                reponse_medicine2 reponse_medicine2 =response.body();
+            public void onResponse(Call<Response_AlarmMedicine> call, Response<Response_AlarmMedicine> response) {
+                Response_AlarmMedicine response_alarmMedicine =response.body();
+                Log.d("sucess",response_alarmMedicine.getAlramName());
+                Txt_alarmName.setText(response_alarmMedicine.getAlramName());
+                Txt_oneTimeDose.setText(response_alarmMedicine.getOneTimeDose().toString());
+                Txt_oneTimeCapacity.setText(response_alarmMedicine.getOneTimeCapacity().toString());
+                Txt_dosingPeriod.setText(response_alarmMedicine.getDosingPeriod().toString());
+                Txt_type.setText(response_alarmMedicine.getDoseType());
+
 
             }
 
             @Override
-            public void onFailure(Call<reponse_medicine2> call, Throwable t) {
+            public void onFailure(Call<Response_AlarmMedicine> call, Throwable t) {
                 Log.d("ddd",t.toString());
 
             }
-        });*/
+        });
 
 
 
@@ -79,6 +89,7 @@ public class AlarmInformActivity extends AppCompatActivity {
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
                 BottomSheetDialog2 bottomSheetDialog = BottomSheetDialog2.getInstance();
               //  bottomSheetDialog.init("cc",itemSeq);
+                bottomSheetDialog.init(alramGroupId);
                 bottomSheetDialog.show(getSupportFragmentManager(),"bottomSheet");
             }
         });

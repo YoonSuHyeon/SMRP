@@ -23,6 +23,7 @@ import retrofit2.Response;
 public class BottomSheetDialog2 extends BottomSheetDialogFragment {
     private   String userId;
     private   String itemSeq;
+    private   long groupId;
     public  static BottomSheetDialog2 getInstance() {
         return new BottomSheetDialog2();
     }
@@ -30,7 +31,9 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
         this.userId=userId;
         this.itemSeq=itemSeq;
     }
-
+    public void init(Long groupId){
+        this.groupId=groupId;
+    }
 
     private LinearLayout Lay_delete;
     private LinearLayout Lay_cancel;
@@ -50,7 +53,19 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
 
 
            // AlarmSetActivity 의 List 에서 삭제
+                RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                Call<String> call = networkService.deleteAlram(groupId);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d("sudhjchdj","크크크");
+                    }
 
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Log.d("tat",t.toString());
+                    }
+                });
 
                 getActivity().onBackPressed();
             }
@@ -59,6 +74,7 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
+
                 getActivity().onBackPressed();
             }
         });

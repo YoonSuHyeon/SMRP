@@ -19,7 +19,7 @@ import com.example.smrp.medicine.ListViewItem;
 import java.util.ArrayList;
 
 
-public class ListViewAdapter2 extends BaseAdapter {
+public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 어댑터  유저의 모든 알람을 보여주는데 사용
     private ArrayList<ListViewAlarmItem> listViewItemArrayList ;
     private FragmentActivity activity;
 
@@ -71,7 +71,7 @@ public class ListViewAdapter2 extends BaseAdapter {
 
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmInformActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
-                intent.putExtra("itemSeq",listViewAlarmItemI.getAlramGroupId());
+                intent.putExtra("alramGroupId",listViewAlarmItemI.getAlramGroupId());
                 activity. startActivity(intent);
                 //Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
 

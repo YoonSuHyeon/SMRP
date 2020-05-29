@@ -45,12 +45,20 @@ public interface RetrofitService {
             @Body MedicineUserId medicineUserId
     );
 
-    @GET("medicine2/getAlramList")
+    @GET("medicine2/getAlramList") //유저 알람 가져오기
     Call<ArrayList<Response_AlarmMedicine>> getList(
             @Query("userId") String userId
 
     );
 
+    @GET("medicine2/getAlram") //알람 가져오기
+    Call<Response_AlarmMedicine>getAlram(
+            @Query("groupId") Long groupId
+    );
+    @DELETE("medicine2/deleteAlram")//알람삭제
+    Call<String>deleteAlram(
+            @Query("groupId") Long groupId
+    );
 
     @GET("/medicineRegister")
     Call<List<reponse_medicine3>>findUserMedicine(
