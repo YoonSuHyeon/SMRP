@@ -3,6 +3,8 @@
     package="com.example.smrp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -21,7 +23,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".searchPrescription.Select_Pill"></activity>
+
         <activity android:name=".searchPrescription.Search_prescription" />
         <activity android:name=".ToSActivity" />
         <activity android:name=".findIdActivity" />
@@ -62,6 +64,7 @@
         <activity android:name=".report.DetailActivity"/>
         <activity android:name=".alarm.AlarmInformActivity"/>
         <activity android:name=".alarm.AlarmEditActivity"/>
+        <receiver android:name=".alarm.Alarm_Reciver"></receiver>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.smrp"

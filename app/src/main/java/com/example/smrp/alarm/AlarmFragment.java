@@ -142,7 +142,7 @@ public class AlarmFragment extends Fragment {
             public void onResponse(Call<ArrayList<Response_AlarmMedicine>> call, Response<ArrayList<Response_AlarmMedicine>> response) {
                 List<Response_AlarmMedicine> reponse_medicines =response.body();
                 items.clear();
-                Log.d("dfsdazxcv",reponse_medicines.get(0).getAlramName());
+                //Log.d("dfsdazxcv",reponse_medicines.get(0).getAlramName());
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
                     items.add(new ListViewAlarmItem(reponse_medicines.get(i).getAlramName(),reponse_medicines.get(i).getStartAlram(),reponse_medicines.get(i).getAlramGroupId()));

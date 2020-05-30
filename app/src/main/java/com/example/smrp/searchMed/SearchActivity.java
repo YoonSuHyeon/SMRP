@@ -151,7 +151,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
         addItem(list_row1,getDrawable(R.drawable.ic_rectangle),
                 "사각형",0,"사각형");
         addItem(list_row1,getDrawable(R.drawable.ic_rhombus),
-                "마름모",0,"마름모");
+                "마름모",0,"마름모형");
         addItem(list_row1,getDrawable(R.drawable.ic_oblong),
                 "장방형",0,"장방형");
         addItem(list_row1,getDrawable(R.drawable.ic_oval),

@@ -1,7 +1,15 @@
 package com.example.smrp.alarm;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +25,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.smrp.LoginActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
@@ -28,6 +38,7 @@ import com.example.smrp.reponse_medicine3;
 import com.example.smrp.response;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,6 +46,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AlarmSetActivity extends AppCompatActivity {
+
+    public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private NestedScrollView nsv_View;
     private AlarmViewModel alarmViewModel;
     private Spinner spin_type;
@@ -46,6 +59,10 @@ public class AlarmSetActivity extends AppCompatActivity {
     ListView Lst_medicine;
     EditText et_oneTimeCapacity,et_alramName,et_dosingPeriod,et_oneTimeDose;
     ImageView iv_back;
+    int count=0;
+
+    Context context;
+    AlarmManager alarmManager;
     private InputMethodManager imm;
     ArrayList<ListViewItem>list = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +71,13 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
+
+        this.context=this;
+        alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
+
+        final Intent my_intent = new Intent(this.context,Alarm_Reciver.class);
+        final Calendar calendar = Calendar.getInstance();
+
 
 
         Intent intent = getIntent();
@@ -126,6 +150,8 @@ public class AlarmSetActivity extends AppCompatActivity {
                     temp.add(i.getItemSeq());
                 }
 
+
+
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
                 Log.d("TAG", "et_alramName.getText().toString(): "+et_alramName.getText().toString());
                 Log.d("TAG", "et_dosingPeriod.getText().toString(): "+et_dosingPeriod.getText().toString());
@@ -147,11 +173,66 @@ public class AlarmSetActivity extends AppCompatActivity {
                         }catch (NullPointerException e){
                             Log.d("d",e.toString());
                         }
+                       // PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,0,my_intent,0);
 
+                        if(Integer.parseInt(et_oneTimeCapacity.getText().toString())==1){
+                            if(spin_type.getSelectedItem().toString()=="식전"){
+                                calendar.set(Calendar.HOUR_OF_DAY,11);      //식전
+                                PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
+                            }else{
+                                calendar.set(Calendar.HOUR_OF_DAY,13);      //식후
+                                PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
+                            }
+                        }else if(Integer.parseInt(et_oneTimeCapacity.getText().toString())==2){
+                            if(spin_type.getSelectedItem().toString()=="식전"){
+                                calendar.set(Calendar.HOUR_OF_DAY,7);      //식전
+                                PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
+                                calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
+                                PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender2);
+                            }else{
+                                calendar.set(Calendar.HOUR_OF_DAY,9);      //식후
+                                PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
+                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식후
+                                PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender2);
+                            }
+                        }else{
+                            if(spin_type.getSelectedItem().toString()=="식전"){
+                                calendar.set(Calendar.HOUR_OF_DAY,7);      //식전
+                                PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
+                                calendar.set(Calendar.HOUR_OF_DAY,11);      //식전
+                                PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender2);
+                                calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
+                                PendingIntent sender3 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender3);
+                            }else{
+                                calendar.set(Calendar.HOUR_OF_DAY,9);      //식후
+                                PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
+                                calendar.set(Calendar.HOUR_OF_DAY,13);      //식후
+                                PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender2);
+                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식후
+                                PendingIntent sender3 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender3);                            }
+                        }
+                        //calendar.set(Calendar.HOUR_OF_DAY,19);
+                        //calendar.set(Calendar.MINUTE,40);
+                        //PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,0,my_intent,0);
+
+                        //alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
 
                         Toast.makeText(getApplicationContext(),"성공",Toast.LENGTH_SHORT).show();
                         onBackPressed();
 
+                        //notificationSomethings();
                         //Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                         //startActivity(intent);
                     }
@@ -166,6 +247,38 @@ public class AlarmSetActivity extends AppCompatActivity {
         });
 
        // return root;
+    }
+
+    public void notificationSomethings(){
+        NotificationManager notificationManager =(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent notificationIntent = new Intent(this, LoginActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,NOTIFICATION_CHANNEL_ID)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_foreground))
+                .setContentTitle("얄 알람 서비스")
+                .setContentText("약을 드실 시간입니다")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+            CharSequence channelName ="테스트 채널";
+            String description = "오레오 이상의 버전을 위한 것";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,channelName,importance);
+            channel.setDescription(description);
+
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
+        }else builder.setSmallIcon(R.mipmap.ic_launcher); //오레오 이하 에서는 밉맵사용해야만 함
+
+        assert  notificationManager != null;
+        notificationManager.notify(1234,builder.build());
     }
 
     private void showAlertDialog() //약 추가하기 팝업창
