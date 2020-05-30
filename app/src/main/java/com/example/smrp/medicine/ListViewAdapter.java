@@ -69,6 +69,7 @@ public class ListViewAdapter extends BaseAdapter {
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmDetailActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 intent.putExtra("itemSeq",listViewItem.getItemSeq());
+                intent.putExtra("time",listViewItem.getTime());
                 activity. startActivity(intent);
                 //Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
 

@@ -1,13 +1,9 @@
 package com.example.smrp.searchPrescription;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,8 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,10 +45,8 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -376,11 +368,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
                     @Override
                     public void onFailure(Call<ArrayList<reponse_medicine>> call, Throwable t) {// 접속실패했을때
                         bool_end = true;
-                        Log.d("TAG", "onFailureonFailureonFailure: ");
-                        Intent intent = new Intent(getApplicationContext(),Select_Pill.class);
-                        Log.d("TAG", "dialog.isCancelled(): "+dialog.isCancelled());
 
-                        progressDialog.dismiss();
                         onBackPressed();
                         finish();
 
@@ -460,12 +448,9 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     }
     /*@Override
     public void onFinished() {
-
     }
-
     @Override
     public void onError(int code, String message) {
-
     }*/
     private void callCloudVision(final Bitmap bitmap) {
         Log.d("TAG", "callCloudVision: ");
@@ -518,7 +503,6 @@ public class Search_prescription extends AppCompatActivity implements Serializab
         protected Void doInBackground(Void... voids) {
             /*try {
                 Thread.sleep(2500); // 2초 지속
-
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }*/

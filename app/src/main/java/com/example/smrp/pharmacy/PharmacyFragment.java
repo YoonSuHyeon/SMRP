@@ -114,7 +114,6 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onClick(View v) {
                 // 트랙
-
                 GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
                 getLocation_dialog.execute();
                 mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
@@ -130,6 +129,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 re_parsingData(latitude,longitude,radiuse);
             }
         });
+
         research_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +147,6 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                     re_parsingData(movelatititue,movelongitude, radiuse);
                     boolean_start=false;
                 }
-
             }
         });
         adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() { // 약국 리스트를 눌렀을 때 처리하는 어댑터!!!!!!!!!

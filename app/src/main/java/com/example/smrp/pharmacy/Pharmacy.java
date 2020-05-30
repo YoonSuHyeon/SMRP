@@ -1,7 +1,5 @@
 package com.example.smrp.pharmacy;
 
-import java.util.HashMap;
-
 //Pharmacy 클래스.
 public class Pharmacy {
     private String addr; //주소
@@ -15,14 +13,14 @@ public class Pharmacy {
 
 
     public Pharmacy(String addr, String created_at, float latitude, float longitude, String name, String remain_stat, String stock_at, String type) {
-        this.addr = addr;
-        this.created_at = created_at;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.name= name;
-        this.remain_stat = remain_stat;
-        this.stock_at = stock_at;
-        this.type = type;
+        this.addr = addr; //약국주소소
+        this.created_at =created_at;// 입고시간
+        this.latitude = latitude; //경도
+        this.longitude = longitude; //위도
+        this.name= name; //병원 이름
+        this.remain_stat = remain_stat; //마스크 보유량
+        this.stock_at = stock_at;//데이터 생성일자
+        this.type = type;// (약국 , 우체국, 하나로마트)
     }
     public String getAddr() {
         return addr;

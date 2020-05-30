@@ -32,7 +32,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
     ImageView ic_dot;
     Button Btn_set;
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
-    String itemSeq;
+    String itemSeq ,time;// intent용 변수
     private String str_image, str_name, str_seq;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
         //itemSeq 받는 과정
         Intent intent =getIntent();
         itemSeq =intent.getStringExtra("itemSeq");
+        time = intent.getStringExtra("time");
         Log.d("Zxcbzxcb",itemSeq);
 
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
@@ -105,7 +106,8 @@ public class AlarmDetailActivity extends AppCompatActivity {
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.
                 Log.d("TAG", "onClickonClickonClick: ");
                 ArrayList<ListViewItem>list = new ArrayList<>();
-                list.add(new ListViewItem(str_image,str_name,str_seq,"0000-00-00"));
+                list.add(new ListViewItem(str_image,str_name,str_seq,time)); //ListViewItem 클래스의 성질을 가지고 있는 ArrayList 객체에 정보(약 이미지url, 약 이름, 약 식별번호
+                // 약 생성 일자) 추가
                 Log.d("TAG", "str_image: "+str_image);
                 Log.d("TAG", "str_name: "+str_name);
                 Log.d("TAG", "str_seq: "+str_seq);
@@ -113,6 +115,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 Intent intent1= new Intent(getApplicationContext(),AlarmSetActivity.class);
                 intent1.putExtra("list",list);
                 startActivity(intent1);
+
             }
         });
 

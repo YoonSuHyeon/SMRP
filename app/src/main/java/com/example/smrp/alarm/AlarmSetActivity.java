@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,10 +16,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.smrp.R;
@@ -102,6 +98,8 @@ public class AlarmSetActivity extends AppCompatActivity {
             Log.d("TAG", "onCreateonCreateonCreate: ");
             alarmMedicineList.addAll(list);
             alarmListViewAdapter.notifyDataSetChanged();
+
+
         }
 
         iv_back.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +127,12 @@ public class AlarmSetActivity extends AppCompatActivity {
                 }
 
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                Log.d("TAG", "et_alramName.getText().toString(): "+et_alramName.getText().toString());
+                Log.d("TAG", "et_dosingPeriod.getText().toString(): "+et_dosingPeriod.getText().toString());
+                Log.d("TAG", "et_oneTimeDose.getText().toString(): "+et_oneTimeDose.getText().toString());
+                Log.d("TAG", "et_oneTimeCapacity.getText().toString(): "+et_oneTimeCapacity.getText().toString());
+                Log.d("TAG", "spin_type.getText().toString(): "+spin_type.getSelectedItem().toString());
+
                 AlarmMedicine alarmMedicine = new AlarmMedicine("cc",et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
                         ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
 
@@ -186,6 +190,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         Btn_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { // 확인 버튼 누르기(약추가하기 기능에서)
+                int num= 0;
                 Toast.makeText(getApplicationContext(), "추가 되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("TAG", "adapter.res(): "+adapter.res().size());
                 Log.d("TAG", "alarmMedicineList.size(): "+alarmMedicineList.size());
@@ -193,11 +198,25 @@ public class AlarmSetActivity extends AppCompatActivity {
                 if(alarmMedicineList.size()==1){//등록된 약 기능에서 알람추가시 중복제거
                     Log.d("TAG", "alarmMedicineList.size(): "+alarmMedicineList.get(0).getName());
                     for(int i =0;i<list.size();i++){
-                        if(alarmMedicineList.get(0).getItemSeq().equals(list.get(i).getItemSeq()))
+                        if(alarmMedicineList.get(0).getItemSeq().equals(list.get(i).getItemSeq())) {
                             list.remove(i);
+                            num++;
+                        }
                     }
                 }
-
+                else{
+                    for(int i =0; i < alarmMedicineList.size() ; i++){
+                        for(int j = 0; j<list.size();j++){
+                            if(alarmMedicineList.get(i).getItemSeq().equals(list.get(j).getItemSeq())){
+                                list.remove(j);
+                                num++;
+                            }
+                        }
+                    }
+                }
+                Log.d("TAG", "numnumnum: "+num);
+                if(num>0)
+                    Toast.makeText(getApplicationContext(), "중복된 약 "+num+"건을 제외하였습니다.",Toast.LENGTH_SHORT).show();
                 alarmMedicineList.addAll(list);
                 Log.d("dddzxcb",alarmMedicineList.size()+"");
 
