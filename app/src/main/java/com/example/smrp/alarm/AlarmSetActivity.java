@@ -204,17 +204,24 @@ public class AlarmSetActivity extends AppCompatActivity {
                         }else{
                             if(spin_type.getSelectedItem().toString()=="식전"){
                                 calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
-                                calendar.set(Calendar.MINUTE,15);
+                                calendar.set(Calendar.MINUTE,40);
                                 PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
                                 calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
-                                calendar.set(Calendar.MINUTE,17);
+                                calendar.set(Calendar.MINUTE,45);
                                 PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender2);
                                 calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
-                                calendar.set(Calendar.MINUTE,19);
+                                calendar.set(Calendar.MINUTE,50);
                                 PendingIntent sender3 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender3);
+                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
+                                calendar.set(Calendar.MINUTE,55);
+                                PendingIntent sender4 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender4);
+                                calendar.set(Calendar.HOUR_OF_DAY,19);      //식전
+                                PendingIntent sender5 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
+                                alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender5);
                             }else{
                                 calendar.set(Calendar.HOUR_OF_DAY,9);      //식후
                                 PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
