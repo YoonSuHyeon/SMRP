@@ -203,16 +203,16 @@ public class AlarmSetActivity extends AppCompatActivity {
                             }
                         }else{
                             if(spin_type.getSelectedItem().toString()=="식전"){
-                                calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
-                                calendar.set(Calendar.MINUTE,25);
+                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
+                                calendar.set(Calendar.MINUTE,15);
                                 PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender);
-                                calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
-                                calendar.set(Calendar.MINUTE,27);
+                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
+                                calendar.set(Calendar.MINUTE,17);
                                 PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender2);
-                                calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
-                                calendar.set(Calendar.MINUTE,29);
+                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
+                                calendar.set(Calendar.MINUTE,19);
                                 PendingIntent sender3 = PendingIntent.getBroadcast(AlarmSetActivity.this,count++,my_intent,0);
                                 alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender3);
                             }else{
