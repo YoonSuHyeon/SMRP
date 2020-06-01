@@ -15,8 +15,10 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitService {
@@ -31,6 +33,11 @@ public interface RetrofitService {
             @Body AlarmMedicine alarmMedicine
     );
 
+    @PATCH ("medicine2/updateAlram/{groupId}")
+    Call<response> updateAlram(
+            @Path("groupId") Long groupId,
+            @Body AlarmMedicine alarmMedicine
+    );
     @POST("/medicine2/find")
     Call<List<reponse_medicine2>> findList2(
             @Body SelectedItem selectedItem

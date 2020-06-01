@@ -1,5 +1,7 @@
 package com.example.smrp.alarm;
 
+import com.example.smrp.reponse_medicine2;
+import com.example.smrp.reponse_medicine3;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -43,16 +45,21 @@ public class Response_AlarmMedicine {
     @Expose
     private String doseType; //복용타입
 
-    @SerializedName("itemSeqs")
-    @Expose
-    private ArrayList<String> itemSeqs; //약들의 일련번호
 
-    public ArrayList<String> getItemSeqs() {
-        return itemSeqs;
+    public ArrayList<reponse_medicine3> getMedicine3s() {
+        return medicine3s;
     }
 
-    public void setItemSeqs(ArrayList<String> itemSeqs) {
-        this.itemSeqs = itemSeqs;
+    @SerializedName("medicineRegisters")
+    @Expose
+    private ArrayList<reponse_medicine3> medicine3s; //약들
+
+    public ArrayList<reponse_medicine3> getItemSeqs() {
+        return medicine3s;
+    }
+
+    public void setMedicine3s(ArrayList<reponse_medicine3> reponse_medicine3s) {
+        this.medicine3s = reponse_medicine3s;
     }
 
     public Long getAlramGroupId() {

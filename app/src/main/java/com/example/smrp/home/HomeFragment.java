@@ -28,6 +28,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.R;
 import com.example.smrp.medicine.ViewPagerAdapter;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,7 +80,12 @@ public class HomeFragment extends Fragment {
         if(container.getChildCount() > 0)
             container.removeViewAt(0);
 
+
         View root = inflater.inflate(R.layout.home_fragment, container, false);
+
+
+
+
 
         final HashMap<String,String> sky_image = new HashMap<>();
 
@@ -108,6 +114,8 @@ public class HomeFragment extends Fragment {
             sky_image.put("50d", "mist");
 
         }
+
+
 
         weather_imageview = root.findViewById(R.id.weather_imageview); //하늘 상태 사진
         temp_textview = root.findViewById(R.id.temp_textview); //온도 textView

@@ -83,6 +83,7 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), AlarmEditActivity.class);
+                intent.putExtra("groupId",groupId);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
 
                 startActivity(intent);

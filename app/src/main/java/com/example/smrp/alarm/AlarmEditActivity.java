@@ -1,6 +1,7 @@
 package com.example.smrp.alarm;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
 import com.example.smrp.medicine.ListViewItem;
+import com.example.smrp.reponse_medicine2;
 import com.example.smrp.reponse_medicine3;
 import com.example.smrp.response;
 
@@ -57,14 +59,15 @@ public class AlarmEditActivity extends AppCompatActivity {
     ListView Lst_medicine;
     EditText et_oneTimeCapacity,et_alramName,et_dosingPeriod,et_oneTimeDose;
     ImageView iv_back;
+    Long groupId;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_edit);
 
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
-
-
+        Intent intent = getIntent();
+        groupId = intent.getLongExtra("groupId",0);
         iv_back = findViewById(R.id.iv_back);
         spin_type = findViewById(R.id.spin_type);
         Btn_add = findViewById(R.id.Btn_add);
@@ -98,6 +101,44 @@ public class AlarmEditActivity extends AppCompatActivity {
 
         alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this);
         Lst_medicine.setAdapter(alarmListViewAdapter);
+
+
+
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+        Log.d("groupIdadfsdf",groupId.toString());
+        Call<Response_AlarmMedicine> call = networkService.getAlram(groupId);
+        call.enqueue(new Callback<Response_AlarmMedicine>() {
+            @Override
+            public void onResponse(Call<Response_AlarmMedicine> call, Response<Response_AlarmMedicine> response) {
+                Response_AlarmMedicine response_alarmMedicine =response.body();
+
+                et_alramName.setText(response_alarmMedicine.getAlramName());
+                et_oneTimeDose.setText(response_alarmMedicine.getOneTimeDose().toString());
+                et_oneTimeCapacity.setText(response_alarmMedicine.getOneTimeCapacity().toString());
+                et_dosingPeriod.setText(response_alarmMedicine.getDosingPeriod().toString());
+
+                if(response_alarmMedicine.getDoseType().equals("식전")) {
+                    spin_type.setSelection(0); ;
+                }else{
+                    spin_type.setSelection(1); ;
+                }
+
+                ArrayList<reponse_medicine3> temp =response_alarmMedicine.getMedicine3s();
+                for( reponse_medicine3 i :temp){
+                    alarmMedicineList.add(new ListViewItem(i.getImageUrl(),i.getItemName(),i.getItemSeq(),i.getCreatedAt()));
+                }
+               alarmListViewAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(Call<Response_AlarmMedicine> call, Throwable t) {
+                Log.d("zxcbzxcb",t.toString());
+
+            }
+        });
+
+
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +158,31 @@ public class AlarmEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               //수정 누르면 수정하기 작업
+                ArrayList<String> temp = new ArrayList<String>(); //일련번호 리스트를 만드는과정
+                for(ListViewItem i :alarmMedicineList){
+                    temp.add(i.getItemSeq());
+                }
+
+                RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                AlarmMedicine alarmMedicine = new AlarmMedicine("cc",et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
+                        ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
+
+
+                Call<response> call = networkService.updateAlram(groupId,alarmMedicine);
+                call.enqueue(new Callback<response>() {
+                    @Override
+                    public void onResponse(Call<response> call, Response<response> response) {
+                        Log.d("zzzzzzz","dddd");
+                    }
+
+                    @Override
+                    public void onFailure(Call<response> call, Throwable t) {
+                        Log.d("bbbbbb",t.toString());
+                    }
+                });
                 Toast.makeText(AlarmEditActivity.this, "수정", Toast.LENGTH_SHORT).show();
+                onBackPressed();
+
 
             }
         });
