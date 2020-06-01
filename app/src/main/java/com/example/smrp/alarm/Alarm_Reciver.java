@@ -1,5 +1,6 @@
 package com.example.smrp.alarm;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -36,8 +37,10 @@ public class Alarm_Reciver extends BroadcastReceiver {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,NOTIFICATION_CHANNEL_ID)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground))
+                .setSmallIcon(R.drawable.location_icon)
                 .setContentTitle("얄 알람 서비스")
                 .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentText("약을 드실 시간입니다!!!!!!!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
