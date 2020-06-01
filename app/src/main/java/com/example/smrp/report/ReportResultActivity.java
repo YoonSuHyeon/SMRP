@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +34,7 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
     double symptom_count=0.0;
     DiseaseRecyclerAdapter adapter;
     RecyclerView Lst_disease;
-
+    ImageView iv_back;
     int sym0[] = {22, 7, 34, 32, 31, 13, 24};int sym7[] = {20, 7, 49, 28, 45};int sym8[] = { 20, 29, 39, 51, 44, 10, 3, 12, 7, 49};int sym9[] = {23, 38, 8, 9, 26, 42};
     int sym1[] = {24};int sym10[] = {31, 12, 28};int sym11[] = {30, 36, 16};
     int sym2[] = {0};int sym12[] = {4, 37, 39,27, 51};int sym13[] = {15, 43, 19, 40, 27, 24};
@@ -89,9 +90,11 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
         setContentView(R.layout.activity_reprot_result);
         Txt_name = findViewById(R.id.Txt_name);
         Lst_disease = findViewById(R.id.Lst_disease);
+        iv_back = findViewById(R.id.iv_back);
         disease_depart =getResources().getStringArray(R.array.disease_depart);
         //getResources().getStringArray(R.array.disease_depart);
         disease_contents = getResources().getStringArray(R.array.disease_contents);
+
 
         for(int i = 0; i < dis.length; i++) {
             dis[i] = new DiseaseArray();
@@ -99,6 +102,12 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
 
         }
 
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 
 
@@ -156,10 +165,19 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
         String sym;
         String disease;
         String depart;
-        sym = list.get(position).getSymptom();
-        disease =list.get(position).getDisease();
-        depart = list.get(position).getDepartment();
-    //TextView Txt_sym=  v.findViewById(R.id.Txt_symptom);
+
+        sym = list.get(position).getSymptom(); // 클릭한 질병의 증상 정보
+        disease =list.get(position).getDisease(); // 클릭한 질병의 이름
+        depart = list.get(position).getDepartment(); // 클릭한 질병의 진료 과
+
+        // 각 정보들을 상세정보 페이지에 전달해준다.
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("selected_sym",sym);
+        intent.putExtra("selected_dis",disease);
+        intent.putExtra("selected_depart",depart);
+        startActivity(intent);
+
+        //TextView Txt_sym=  v.findViewById(R.id.Txt_symptom);
         /*int i;
         for(i = 0; i < Str_diseaseName.length; i++)
             if(sym.equals(Str_diseaseName[i])) break;
@@ -167,14 +185,6 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
         disease =Str_diseaseName[i];
         depart = disease_depart[i];*/
         ///if()
-
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("selected_sym",sym);
-        intent.putExtra("selected_dis",disease);
-        intent.putExtra("selected_depart",depart);
-
-        startActivity(intent);
-
 
     }
 /*    @Override
