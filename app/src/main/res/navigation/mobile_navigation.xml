@@ -11,11 +11,11 @@
             android:id="@+id/action_nav_home_to_nav_medicine"
             app:destination="@id/nav_medicine" />
         <action
-            android:id="@+id/action_nav_home_to_nav_inquiry"
-            app:destination="@id/nav_inquiry" />
+            android:id="@+id/action_nav_home_to_nav_report"
+            app:destination="@id/nav_report" />
         <action
-            android:id="@+id/action_nav_home_to_nav_look_up"
-            app:destination="@id/nav_look_up" />
+            android:id="@+id/action_nav_home_to_nav_hospital"
+            app:destination="@id/nav_hospital" />
     </fragment>
     <fragment
         android:id="@+id/nav_alarm"
