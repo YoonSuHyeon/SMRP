@@ -7,6 +7,7 @@
         android:id="@+id/nav_home"
         android:name="com.example.smrp.home.HomeFragment"
         tools:layout="@layout/home_fragment" >
+
         <action
             android:id="@+id/action_nav_home_to_nav_medicine"
             app:destination="@id/nav_medicine" />
