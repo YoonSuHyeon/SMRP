@@ -26,8 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     String id="", password=""; // 사용자의 아이디와 비밀번호를 저장하는 변수
     TextView tv_findId;
     ImageView iv_back;
-    String user_id,user_pass;
+    String user_id="",user_pass="";
     boolean bool_login = true;
+    String name="";
     CheckBox auto_lgoin;
     SharedPreferences loginInfromation;
     SharedPreferences.Editor editor;
@@ -62,9 +63,9 @@ public class LoginActivity extends AppCompatActivity {
 
         user_id = loginInfromation.getString("id","");
         user_pass = loginInfromation.getString("password","");
-
-
-
+        name = loginInfromation.getString("name","");
+        Log.d("TAG", "user_id: "+user_id);
+        Log.d("TAG", "user_pass: "+user_pass);
         if(!user_id.equals("")&&!user_pass.equals("")){ //자동로그인 실시
 
             Txt_id.setText(user_id);//자동로그인시 사용자의 id 텍스트핑드의 자동로그인하는 계정 id값을 출력
@@ -73,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
             editor.putString("id",user_id); //자동로그인을 하기 위해서 getString을 할 시 메모리에 해당 data가 한번사용 후 사라지기에 이를 다시 넣는다.
             editor.putString("password",user_pass); //getString한 id와 password값을 다시 넣는다.
+            editor.putString("name",name);
             editor.commit(); //변경사항을 반영하고자하는 commit실행
 
             User user = new User(user_id,"",user_pass,"","","");
@@ -80,13 +82,11 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<response>() {
                 @Override
                 public void onResponse(Call<response> call, Response<response> response) {
-
-                    if(response.body().getResponse().equals("ok")){
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                    }
+                    Log.d("TAG", "onResponse1: "+response.body().getResponse());
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("name",name);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override
@@ -101,22 +101,26 @@ public class LoginActivity extends AppCompatActivity {
         Btn_login.setOnClickListener(new View.OnClickListener() {//로그인 버튼 누를시
             @Override
             public void onClick(View v) {
-                 user_id =  Txt_id.getText().toString();
-                 user_pass =  Txt_password.getText().toString();
-
+                user_id =  Txt_id.getText().toString();
+                user_pass =  Txt_password.getText().toString();
+                Log.d("TAG", "user_id2: "+user_id);
+                Log.d("TAG", "user_pass2: "+user_pass);
                 User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
                 Call<response> call = retrofitService.login(user);
                 call.enqueue(new Callback<response>() {
                     @Override
                     public void onResponse(Call<response> call, Response<response> response) {
-
-                        if(response.body().getResponse().equals("ok")) {
+                        Log.d("TAG", "onResponse2 "+response.body().getResponse());
+                        if(!response.body().getResponse().equals("fail")){
                             if (bool_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
-
+                                name = response.body().getResponse();
                                 editor.putString("id", Txt_id.getText().toString());
                                 editor.putString("password", Txt_password.getText().toString());
+                                editor.putString("name",name);
                                 editor.commit();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+
+                                Intent intent =  new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("name",name);
                                 startActivity(intent);
                                 finish();
                             }

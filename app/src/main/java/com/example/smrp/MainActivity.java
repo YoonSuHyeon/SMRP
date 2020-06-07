@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
+    String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
         //iv_headerImage.setImage();
+
+        name = getIntent().getStringExtra("name");
+
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
         // header에 있는 리소스 가져오기
         TextView text = (TextView) header.findViewById(R.id.tv_header);
-        text.setText("바꿈");
+        text.setText(name + "님 \n\r 환영합니다.");
         ImageView imageView =(ImageView) header.findViewById(R.id.iv_headerImage);
         imageView.setImageDrawable(getDrawable(R.drawable.clear_sky1));
 

@@ -1,10 +1,10 @@
 package com.example.smrp;
 
 public class User {
-    String id,email,password,name,gender,birth;
+    String userId,email,password,name,gender,birth;
 
     public User(String id, String email, String password, String name, String gender, String birth) {
-        this.id = id;
+        this.userId = id;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -13,11 +13,11 @@ public class User {
     }
 
     public String getId() {
-        return id;
+        return userId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getEmail() {
