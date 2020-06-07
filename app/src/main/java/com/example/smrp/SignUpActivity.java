@@ -1,11 +1,11 @@
 package com.example.smrp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +14,9 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,12 +40,12 @@ public class SignUpActivity extends AppCompatActivity {
     String respon; //서버 통신 응
     String tmpid="";
     String id;
-    final private static String pt_id = "^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$";
-    final private static String pt_email = "^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$";
+    final private static String pt_id = "^[a-zA-Z0-9]*$"; //영 소대문자 및 숫자만 들어가겠끔 처리
+    final private static String pt_email = "^[0-9a-zA-Z@\\.\\_\\-]+$";//"^[a-zA-Z0-9]+@[a-zA-Z0-9]+$";//^[a-zA-Z0-9]+@[a-zA-Z0-9]+$ //^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$
     final private static String pt_password = "^[a-z0-9_-]{6,18}$";
     final private static String pt_birth = "\\d{6}";
-    //final private static String pt_name = " [^가-힣]$"; //지우지마 한글만 입력되게 해논거임<< 가상머신에서쓰려고 임의로 밑에 정규식씀
-    final private static String pt_name ="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$";
+    final private static String pt_name = "^[가-힣\\s]+$"; //지우지마 한글만 입력되게 해논거임<< 가상머신에서쓰려고 임의로 밑에 정규식씀
+    //final private static String pt_name ="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$";
 
 
     Matcher matcher;
@@ -66,17 +67,43 @@ public class SignUpActivity extends AppCompatActivity {
         Txt_sua_passwordCheck = findViewById(R.id.Txt_sua_passwordCheck);
         Txt_sua_name  = findViewById(R.id.Txt_sua_name);
         Txt_birth = findViewById(R.id.Txt_birth);
-        Btn_duplicate = findViewById(R.id.Btn_duplicate);
+        Btn_duplicate = findViewById(R.id.Btn_duplicate); //중복 로그인
         Rdb_man = findViewById(R.id.Rdb_man);
         Rdb_woman = findViewById(R.id.Rdn_woman);
-        Btn_sua_signUp = findViewById(R.id.Btn_sua_signUp);
+        Btn_sua_signUp = findViewById(R.id.Btn_sua_signUp);//회원가입 버튼
         iv_back=findViewById(R.id.iv_back);
 
 
 
+        InputFilter id_inputFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                Log.d("TAG", "source1: "+source);
+                if(source.toString().matches(pt_id)){
+                    return source;
+                }else
+                    return "";
+
+            }
+        };
+        InputFilter email_inputFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                Log.d("TAG", "source2: "+source);
+                if(source.toString().matches(pt_email)){
+                    return source;
+                }else
+                    return "";
+            }
+        };
+        InputFilter[] id_filter = new InputFilter[]{id_inputFilter};
+        InputFilter[] email_filter = new InputFilter[]{email_inputFilter};
+        Txt_sua_id.setFilters(id_filter);
+        Txt_sua_email.setFilters(email_filter);
+
         Btn_sua_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //회원가입 버튼
                 Intent intent = new Intent(context,LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -90,11 +117,11 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onBackPressed();
             }
-        });
+        }); //뒤로 가기버튼
 
         Btn_duplicate.setOnClickListener(new View.OnClickListener() {   //아이디 중복확인 부분
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //중복 로그인 버튼
                 id=Txt_sua_id.getText().toString();
 
 
@@ -143,6 +170,7 @@ public class SignUpActivity extends AppCompatActivity {
                 name = Txt_sua_name.getText().toString();
                 birth=Txt_birth.getText().toString();
 
+
                 if(!tmpid.equals("")&&tmpid.equals(sign_id)){
                     if(email.matches(pt_email)){
                         if(password.matches(pt_password)){
@@ -155,9 +183,16 @@ public class SignUpActivity extends AppCompatActivity {
                                         else{
                                             gender="0";
                                         }
+                                        Log.d("TAG", "sign_id: "+sign_id);
+                                        Log.d("TAG", "email: "+email);
+                                        Log.d("TAG", "password: "+password);
+                                        Log.d("TAG", "passwordCheck: "+passwordCheck);
+                                        Log.d("TAG", "name: "+name);
+                                        Log.d("TAG", "gender: "+gender);
+                                        Log.d("TAG", "birth: "+birth);
                                         RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
                                         User user = new User(id,email,password,name,gender,birth);
-                                        Call<response> call = networkService.getUser(user);
+                                        Call<response> call = networkService.setUser(user);
                                         call.enqueue(new Callback<response>() {
                                             @Override
                                             public void onResponse(Call<response> call, Response<response> response) {
@@ -267,4 +302,5 @@ public class SignUpActivity extends AppCompatActivity {
 
         });*/
     }
+
 }
