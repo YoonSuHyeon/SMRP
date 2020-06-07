@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tv_findId;
     ImageView iv_back;
     String user_id="",user_pass="";
-    boolean bool_login = true;
+    boolean bool_login = false;
     String name="";
     CheckBox auto_lgoin;
     SharedPreferences loginInfromation;
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.d("TAG", "user_id: "+user_id);
         Log.d("TAG", "user_pass: "+user_pass);
         if(!user_id.equals("")&&!user_pass.equals("")){ //자동로그인 실시
-
+            Log.d("TAG", "onCreate: ");
             Txt_id.setText(user_id);//자동로그인시 사용자의 id 텍스트핑드의 자동로그인하는 계정 id값을 출력
             Txt_password.setText(user_pass);//자동로그인시 사용자의 password 텍스트핑드의 자동로그인하는 계정 password값을 출력
             auto_lgoin.setChecked(true); //자동 로그인 checkbox true
@@ -112,18 +112,21 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<response> call, Response<response> response) {
                         Log.d("TAG", "onResponse2 "+response.body().getResponse());
                         if(!response.body().getResponse().equals("fail")){
+                            Log.d("TAG", "bool_login: "+bool_login);
                             if (bool_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
                                 name = response.body().getResponse();
+
                                 editor.putString("id", Txt_id.getText().toString());
                                 editor.putString("password", Txt_password.getText().toString());
                                 editor.putString("name",name);
                                 editor.commit();
 
-                                Intent intent =  new Intent(getApplicationContext(), MainActivity.class);
-                                intent.putExtra("name",name);
-                                startActivity(intent);
-                                finish();
+
                             }
+                            Intent intent =  new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("name",name);
+                            startActivity(intent);
+                            finish();
                         }
                     }
 
