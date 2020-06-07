@@ -23,11 +23,20 @@ import retrofit2.http.Query;
 
 public interface RetrofitService {
 
+    @POST("/userInfo/login")
+    Call<response> login(
+        @Body User userId
+    );
     @GET("/userId")
     Call<response> getId(
             @Query("id") String id
     );
-
+    @GET("/findPassword")
+    Call<response> findPassword( //패스워드 검색
+                                 @Query("name") String name,
+                                 @Query("id") String id,
+                                 @Query("email") String email
+    );
     @POST("medicine2/addAlram") //알람 추가
     Call<response> addAlram(
             @Body AlarmMedicine alarmMedicine
@@ -44,7 +53,7 @@ public interface RetrofitService {
     );
 
     @POST("/userRegister")
-    Call<response> getUser(
+    Call<response> setUser(
             @Body User user
     );
     @POST("/medicineRegister")
@@ -78,12 +87,7 @@ public interface RetrofitService {
                            @Query("email") String email
     );
 
-    @GET("/findPassword")
-    Call<response> findPassword( //패스워드 검색
-                                 @Query("name") String name,
-                                 @Query("id") String id,
-                                 @Query("email") String email
-    );
+
 
     @GET("/medicine1/find")
     Call<List<reponse_medicine>> findList( // 약 찾가
@@ -118,5 +122,6 @@ public interface RetrofitService {
     Call<response>addSelectMedicine(
             @Body User_Select user_select
     );
+
 
 }
