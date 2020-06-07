@@ -31,9 +31,9 @@
         android:name="com.example.smrp.inquiry.InquiryFragment"
         tools:layout="@layout/inquiry_fragment" />
     <fragment
-        android:id="@+id/nav_look_up"
-        android:name="com.example.smrp.lookup.LookUpFragment"
-        tools:layout="@layout/look_up_fragment" />
+        android:id="@+id/nav_logout"
+        android:name="com.example.smrp.logout.LogoutFragment"
+        tools:layout="@layout/logout_fragment" />
     <fragment
         android:id="@+id/nav_medicine"
         android:name="com.example.smrp.medicine.MedicineFragment"

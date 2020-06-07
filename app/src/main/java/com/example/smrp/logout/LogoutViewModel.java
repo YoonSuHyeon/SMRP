@@ -1,15 +1,15 @@
-package com.example.smrp.lookup;
+package com.example.smrp.logout;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class LookUpViewModel extends ViewModel {
+public class LogoutViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
-    public LookUpViewModel() {
+    public LogoutViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is lookup fragment");
+        mText.setValue("This is logout fragment");
     }
 
     public LiveData<String> getText() {

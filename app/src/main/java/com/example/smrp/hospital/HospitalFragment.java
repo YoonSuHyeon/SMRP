@@ -70,7 +70,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private MapCircle mapCircle;
     private Spinner dgsbjtCd_spinner, radiuse_spinner;
     private  ArrayAdapter dgsbjtCd_adapter, radiuse_adapter;
-    private String dgsbjtCd; //진료과목
+    private String dgsbjtCd= ""; //진료과목
     private HashMap<String,String> hash_dgsbjtCd;
     private boolean bool_start = false, bool_restart=false;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -90,8 +90,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         startLocationService();
 
         dgsbjtCd_spinner = root.findViewById(R.id.dgsbjtCd_spinner); //진료과목 spinner 객체 생성
-        dgsbjtCd_adapter = ArrayAdapter.createFromResource(getContext(),R.array.dgsbjtCd,
-                android.R.layout.simple_spinner_item);
+        dgsbjtCd_adapter = ArrayAdapter.createFromResource(getContext(),R.array.dgsbjtCd, android.R.layout.simple_spinner_item);
         dgsbjtCd_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dgsbjtCd_spinner.setAdapter(dgsbjtCd_adapter);
 
@@ -309,8 +308,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             }
         });
-        Log.d("TAG", "latitude1: "+latitude);
-        Log.d("TAG", "longitude1: "+longitude);
+
 
         parsingData(latitude,longitude,radiuse,dgsbjtCd);
         return root;
@@ -330,6 +328,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     }
     private void parsingData(final double latitude, final double longitude, final int radiuse,final String dgsbjtCd){
         RetrofitService json = new RetrofitFactory().create();
+
         Log.d("TAG", "latitude1: "+latitude);
         Log.d("TAG", "longitude1: "+longitude);
         Log.d("TAG", "dgsbjtCd1: "+dgsbjtCd);
@@ -339,6 +338,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
                 Log.d("TAG", "bool_start: "+bool_start+"\n");
 
+                Log.d("TAG", "onResponse: "+response.message());
                 if(response.isSuccessful()){
                     Log.d("TAG", "onResponse: "+response.message());
                     Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
@@ -387,7 +387,9 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
+
                 createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
+                Log.d("TAG", "onFailure: "+t.getMessage());
                 Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
                 bool_start = true;
             }
@@ -400,9 +402,11 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         Log.d("TAG", "longitude2: "+longitude);
         Log.d("TAG", "dgsbjtCd2: "+dgsbjtCd);
         json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
+
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
                 Log.d("TAG", "bool_restart: "+bool_restart+"\n");
+
                 if(response.isSuccessful()){
                     Log.d("TAG", "onResponse: "+response.message());
                     Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
