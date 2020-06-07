@@ -113,8 +113,9 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("TAG", "onResponse2 "+response.body().getResponse());
                         if(!response.body().getResponse().equals("fail")){
                             Log.d("TAG", "bool_login: "+bool_login);
+                            name = response.body().getResponse();
                             if (bool_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
-                                name = response.body().getResponse();
+
 
                                 editor.putString("id", Txt_id.getText().toString());
                                 editor.putString("password", Txt_password.getText().toString());
