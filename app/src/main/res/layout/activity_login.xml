@@ -91,16 +91,17 @@
             android:layout_gravity="left">
 
 
-            <androidx.appcompat.widget.AppCompatCheckBox
+            <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:text="아이디 저장"/>
 
-            <androidx.appcompat.widget.AppCompatCheckBox
+            <CheckBox
+                android:id="@+id/auto_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="자동 로그인"/>
+                android:text="자동 로그인" />
 
         </LinearLayout>
 
