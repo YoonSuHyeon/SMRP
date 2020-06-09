@@ -182,8 +182,10 @@ public class AlarmSetActivity extends AppCompatActivity {
                         Toast.makeText(context, "약을 등록해 주세요.", Toast.LENGTH_SHORT).show();
                     } else {
                         RetrofitService networkService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
-
-
+                        if(user_id.equals("")){
+                            user_id="null";
+                        }
+                        Log.d("userid",user_id);
                         AlarmMedicine alarmMedicine = new AlarmMedicine(user_id, et_alramName.getText().toString(), Integer.parseInt(et_dosingPeriod.getText().toString()), Integer.parseInt(et_oneTimeDose.getText().toString())
                                 , Integer.parseInt(et_oneTimeCapacity.getText().toString()), spin_type.getSelectedItem().toString(), temp);
 
