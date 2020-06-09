@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.commit();
                 Intent intent = new Intent(this,StartActivity.class);
                 startActivity(intent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
