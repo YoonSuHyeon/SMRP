@@ -37,11 +37,12 @@ public class MedicineDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_detail);
-
-        //Init
-        context=this;
-        SharedPreferences loginInfromation = getSharedPreferences("setting",0);
+        SharedPreferences loginInfromation =this.getSharedPreferences("setting",0);
         user_id = loginInfromation.getString("id","");
+        //Init
+
+        context=this;
+
         medicineName=findViewById(R.id.tv_medicine_name) ;    //약이름
         medicineEntpName=findViewById(R.id.tv_entpName);//약 제조사
         medicineChart=findViewById(R.id.tv_chart);//약성상
@@ -108,6 +109,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.  // userId 사용자 id    itemSeq  일련번호
 
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                Log.d("user_id detailActivity",user_id);
                 MedicineUserId medicineUserId = new MedicineUserId(user_id,itemSeq);
                 Call<response> call = networkService.addMedicine(medicineUserId);
                 call.enqueue(new Callback<response>() {

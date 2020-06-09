@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
         user_id = loginInfromation.getString("id","");
         user_pass = loginInfromation.getString("password","");
         name = loginInfromation.getString("name","");

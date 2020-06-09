@@ -1,6 +1,7 @@
 package com.example.smrp.alarm;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     private NestedScrollView nsv_View;
     private AlarmViewModel alarmViewModel;
     private Spinner spin_type;
+    Context context;
     ArrayList<String> typeList; // 식전, 식후 담는 리스트
     ArrayAdapter<String> arrayAdapter; // 배열 어댑터
     Button Btn_add,Btn_edit;
@@ -65,7 +67,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_edit);
-
+        context=this;
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
         Intent intent = getIntent();
@@ -107,14 +109,20 @@ public class AlarmEditActivity extends AppCompatActivity {
         Lst_medicine.setAdapter(alarmListViewAdapter);
 
 
-
+            //34524  http://222.113.57.91:8080/medicine2/getAlram?groupId=34524
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
-
+        Log.d("groupId",groupId.toString());
         Call<Response_AlarmMedicine> call = networkService.getAlram(groupId);
         call.enqueue(new Callback<Response_AlarmMedicine>() {
             @Override
             public void onResponse(Call<Response_AlarmMedicine> call, Response<Response_AlarmMedicine> response) {
                 Response_AlarmMedicine response_alarmMedicine =response.body();
+                Log.d("Name",response_alarmMedicine.getAlramName());
+                Log.d("Dose",response_alarmMedicine.getAlramName());
+                Log.d("Capacity",response_alarmMedicine.getAlramName());
+                Log.d("Period",response_alarmMedicine.getAlramName());
+                Log.d("getdose",response_alarmMedicine.getDoseType());
+
 
                 et_alramName.setText(response_alarmMedicine.getAlramName());
                 et_oneTimeDose.setText(response_alarmMedicine.getOneTimeDose().toString());
@@ -128,16 +136,19 @@ public class AlarmEditActivity extends AppCompatActivity {
                 }
 
                 ArrayList<reponse_medicine3> temp =response_alarmMedicine.getMedicine3s();
+
                 for( reponse_medicine3 i :temp){
                     alarmMedicineList.add(new ListViewItem(i.getImageUrl(),i.getItemName(),i.getItemSeq(),i.getCreatedAt()));
                 }
+                Log.d("size",response_alarmMedicine.getMedicine3s().size()+"");
+
                alarmListViewAdapter.notifyDataSetChanged();
 
             }
 
             @Override
             public void onFailure(Call<Response_AlarmMedicine> call, Throwable t) {
-
+                Log.d("onFailure",t.toString());
 
             }
         });
@@ -162,30 +173,43 @@ public class AlarmEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               //수정 누르면 수정하기 작업
-                ArrayList<String> temp = new ArrayList<String>(); //일련번호 리스트를 만드는과정
-                for(ListViewItem i :alarmMedicineList){
-                    temp.add(i.getItemSeq());
+
+                if (et_oneTimeCapacity.getText().toString().equals("") || et_alramName.getText().toString().equals("") || et_dosingPeriod.getText().toString().equals("")
+                        || et_oneTimeDose.getText().toString().equals("")) {
+                    Toast.makeText(context, "모두 입력해 주세요 .", Toast.LENGTH_SHORT).show();
+                }else{
+                    ArrayList<String> temp = new ArrayList<String>(); //일련번호 리스트를 만드는과정
+                    for(ListViewItem i :alarmMedicineList){
+                        temp.add(i.getItemSeq());
+                    }
+                    if (temp.size() == 0) {
+                        Toast.makeText(context, "약을 등록해 주세요.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
+                        AlarmMedicine alarmMedicine = new AlarmMedicine(user_id,et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
+                                ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
+
+
+                        Call<response> call = networkService.updateAlram(groupId,alarmMedicine);
+                        call.enqueue(new Callback<response>() {
+                            @Override
+                            public void onResponse(Call<response> call, Response<response> response) {
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<response> call, Throwable t) {
+
+                            }
+                        });
+                        Toast.makeText(AlarmEditActivity.this, "수정", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                    }
                 }
 
-                RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                AlarmMedicine alarmMedicine = new AlarmMedicine(user_id,et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
-                        ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
 
 
-                Call<response> call = networkService.updateAlram(groupId,alarmMedicine);
-                call.enqueue(new Callback<response>() {
-                    @Override
-                    public void onResponse(Call<response> call, Response<response> response) {
 
-                    }
-
-                    @Override
-                    public void onFailure(Call<response> call, Throwable t) {
-
-                    }
-                });
-                Toast.makeText(AlarmEditActivity.this, "수정", Toast.LENGTH_SHORT).show();
-                onBackPressed();
 
 
             }

@@ -59,6 +59,7 @@ public class MedicineFragment extends Fragment {
         home = (MainActivity) getActivity();
         SharedPreferences loginInfromation = getActivity().getSharedPreferences("setting",0);
         user_id = loginInfromation.getString("id","");
+        Log.d("user_id",user_id);
         View v = inflater.inflate(R.layout.medicine_fragment, container, false);
         CircleIndicator indicator = v.findViewById(R.id.indicator); // 인디케이터
 
