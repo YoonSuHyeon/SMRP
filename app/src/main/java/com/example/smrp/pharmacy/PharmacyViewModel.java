@@ -102,31 +102,31 @@ public class PharmacyViewModel extends ViewModel {
                         String tag_name = xmlPullParser.getName(); //tag 이름 가져오김
                         switch (tag_name) {
                             case "resultCode":
-                                //Log.d("TAG", "resultCode");
+
                                 ho_resultCode = true;
                                 break;
                             case "yadmNm": //요양기간 이름
-                                //Log.d("TAG", "yadmNm");
+
                                 ho_yadmNm = true;
                                 break;
                             case "addr": //요양기간 주소
-                                //Log.d("TAG", "addr");
+
                                 ho_addr = true;
                                 break;
                             case "telno": //요양기간 전화번호
-                                //Log.d("TAG", "telno");
+
                                 ho_telno = true;
                                 break;
                             case "XPos": //요양기관 경도
-                                //Log.d("TAG", "XPos");
+
                                 ho_XPos = true;
                                 break;
                             case "YPos": //요양기관 위도
-                                //Log.d("TAG", "YPos");
+
                                 ho_YPos = true;
                                 break;
                             case "clCdNm": //요양기관 종별코드명
-                                //Log.d("TAG", "YPos");
+
                                 ho_clCdNm = true;
                                 break;
 
@@ -174,11 +174,11 @@ public class PharmacyViewModel extends ViewModel {
                     }
                     eventType = xmlPullParser.next(); //문서를 read로 생각하면 됨
                 }
-                Log.d("TAG", "total_information_result: "+String.valueOf(total_information)+"\n");
+
                 mText = new MutableLiveData<>(); //mText 객체 선언
                 mText.setValue(String.valueOf(total_information)); // 약국의 모든 정보를 mText에 설정
                 total_information.delete(0,total_information.length()-1); // total_information(StringBuilder)의 값을 초기화 하기 위함
-                Log.d("TAG", "total_information: "+String.valueOf(total_information)+"\n");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -188,7 +188,7 @@ public class PharmacyViewModel extends ViewModel {
         HttpURLConnection con = null;
         BufferedReader br;
         try{
-            Log.d("TAG", "data_url:"+data_url+"\n");
+
             URL url = new URL(data_url); //url 객체 선언
             con = (HttpURLConnection) url.openConnection();// url연결
             con.setRequestMethod("GET"); //GET메소드 설정

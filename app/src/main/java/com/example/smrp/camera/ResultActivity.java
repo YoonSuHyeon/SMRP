@@ -52,7 +52,7 @@ public class ResultActivity extends Activity {
         });
     }
     private void sendFile(File tempFile){//서버에게 이미지 전송
-            Log.d("dd",tempFile.isFile()+"");
+
             RequestBody body = RequestBody.create(MediaType.parse("image/*"),tempFile);
             MultipartBody.Part mPart = MultipartBody.Part.createFormData("files","med.jpg",body);
 
@@ -61,13 +61,13 @@ public class ResultActivity extends Activity {
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    Log.d("1234",response.toString());
+
 
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("ddd",t.toString());
+
                 }
             });
 
@@ -81,8 +81,7 @@ public class ResultActivity extends Activity {
         File[] files = file.listFiles();
 
 
-        Log.w("LENGTH", files.length+" ");
-        Log.w("CACHE", getCacheDir().length()+" ");
+
 
         for(File tempFile : files) {
             if(tempFile.getName().contains(name)) {
@@ -94,14 +93,13 @@ public class ResultActivity extends Activity {
             }
 
         }
-        Log.e("LIST SIZE", list.size()+" ");
+
         int size=0;
         if(list.size()>0) // 리스트에 있는 거 가져오기 위해 list position 조절하는 부분
             size = list.size()-1;
 
         path = getCacheDir() + "/" + list.get(size);
 
-        Log.e("PATH", path);
 
 
         //비트맵을 생성
@@ -126,7 +124,7 @@ public class ResultActivity extends Activity {
 
                 if(s.equals("lib") || s.equals("files")) continue;
                 deleteDir(new File(appDir, s));
-                Log.d("test", "File /data/data/"+getPackageName()+"/" + s + " DELETED");
+
             }
         }
 

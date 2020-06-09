@@ -101,12 +101,12 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("sudhjchdj","크크크");
+
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Log.d("tat",t.toString());
+
                     }
                 });
 

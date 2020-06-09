@@ -76,10 +76,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        Log.d("TAG", "Hos_container.count: "+container.getChildCount());
 
-        Log.d("TAG", "before_latitude: "+latitude+"\n");
-        Log.d("TAG", "before_latitude: "+longitude+"\n");
         GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
         getLocation_dialog.execute();
 
@@ -275,11 +272,11 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onUrl(int position) {
                 if(!list.get(position).getHosurl().contains("www")){
-                    Log.d("TAG", "onUrl: url not exist");
+
                     Toast.makeText(getActivity(),"해당 병원은 사이트가 존재 하지 않습니다.",Toast.LENGTH_LONG).show();
                 }else{
                     Uri uri = Uri.parse(list.get(position).getHosurl());
-                    Log.d("TAG", "onUrl: "+uri);
+
                     Intent intent  = new Intent(Intent.ACTION_VIEW,uri);
                     startActivity(intent);
                 }
@@ -289,16 +286,13 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onPath(int position) {
                 if(KakaoNaviService.isKakaoNaviInstalled(getContext())){
-                    Log.d("TAG", "yes: ");
-                    Log.d("TAG", "name:"+list.get(position).getYadmNm() );
-                    Log.d("TAG", "name:"+Double.parseDouble(list.get(position).getyPos() ));
-                    Log.d("TAG", "name:"+Double.parseDouble(list.get(position).getxPos()) );
+
                     com.kakao.kakaonavi.Location location = com.kakao.kakaonavi.Location.newBuilder(list.get(position).getYadmNm(),Double.parseDouble(list.get(position).getxPos()),Double.parseDouble(list.get(position).getyPos())).build();
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build(); //setCoordType: 좌표계  setVehicleType: 차종  setRpOption: 경로 옵션
                     KakaoNaviParams parms = KakaoNaviParams.newBuilder(location).setNaviOptions(options).build();
                     KakaoNaviService.navigate(getActivity(),parms);
                 }else{ //카카오 네비게이션 설치가 안되어 있을 경우
-                    Log.d("TAG", "nononno ");
+
 
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             Uri.parse("https://play.google.com/store/apps/details?id=com.locnall.KimGiSa"));
@@ -329,19 +323,16 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private void parsingData(final double latitude, final double longitude, final int radiuse,final String dgsbjtCd){
         RetrofitService json = new RetrofitFactory().create();
 
-        Log.d("TAG", "latitude1: "+latitude);
-        Log.d("TAG", "longitude1: "+longitude);
-        Log.d("TAG", "dgsbjtCd1: "+dgsbjtCd);
+
+
 
         json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
-                Log.d("TAG", "bool_start: "+bool_start+"\n");
 
-                Log.d("TAG", "onResponse: "+response.message());
+
                 if(response.isSuccessful()){
-                    Log.d("TAG", "onResponse: "+response.message());
-                    Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
+
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -349,7 +340,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                         public void run() {
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                             count = response.body().response_tag.body.items.getItemsList().size();
-                            Log.d("TAG", "count1: "+count);
+
                             for(int i =  0 ; i < count;i++){
                                 String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
                                 String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
@@ -371,7 +362,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
 
                 }else{
-                    Log.d("TAG", "bool_start: "+bool_start+"\n");
+
                     handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -387,9 +378,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
-
                 createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
-                Log.d("TAG", "onFailure: "+t.getMessage());
                 Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
                 bool_start = true;
             }
@@ -398,25 +387,21 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     private void re_parsingData(double latitude, double longitude, final int radiuse,final String dgsbjtCd){
 
         RetrofitService json = new RetrofitFactory().create();
-        Log.d("TAG", "latitude2: "+latitude);
-        Log.d("TAG", "longitude2: "+longitude);
-        Log.d("TAG", "dgsbjtCd2: "+dgsbjtCd);
+
         json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
 
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
-                Log.d("TAG", "bool_restart: "+bool_restart+"\n");
 
                 if(response.isSuccessful()){
-                    Log.d("TAG", "onResponse: "+response.message());
-                    Log.d("TAG", "size: "+response.body().response_tag.body.items.getItemsList().size() );
+
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             count = response.body().response_tag.body.items.getItemsList().size();
-                            Log.d("TAG", "count1: "+count);
+
                             for(int i =  0 ; i < count;i++){
                                 String yadmNm = response.body().response_tag.body.items.getItemsList().get(i).getYadmNm();  //병원 이름
                                 String clCdNm = response.body().response_tag.body.items.getItemsList().get(i).getClCdNm(); //병원 등급
@@ -430,7 +415,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                             }
                             bool_restart = true;
                             Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
-                            Log.d("TAG", "runrunrunrun: "+bool_restart);
+
                             count = 0;
                         }
                     },500);
@@ -456,7 +441,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onFailure(Call<Return_tag> call, Throwable t) {
-                Log.d("TAG", "bool_restart: "+bool_restart+"\n");
+
                 list.clear();
                 adapter.notifyDataSetChanged();
                 Toast.makeText(getActivity(),"데이터 불러오기 오류",Toast.LENGTH_LONG).show();
@@ -481,7 +466,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             mapView = new MapView(getContext());
         }
         if(mapViewContainer!=null){
-            Log.d("TAG", "mapViewContainer not null: ");
+
             mapViewContainer.removeAllViews();
         }
 
@@ -520,7 +505,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         mapView.zoomOut(true);
         // 트랙
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading); //트래킥 모등 on + 나침반 모드 on
-        //Log.d("TAG", "TrackingMode:"+mapView.getCurrentLocationTrackingMode());
+
 
         // 원 색상 적용
         mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
@@ -577,7 +562,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         /*GeoCoordinate geoCoordinate = mapView.getMapCenterPoint();
         double latitude = geoCoordinate.latitude; // 위도
         double longitude = geoCoordinate.longitude; // 경도*/
-        Log.d("TAG", "onDraggablePOIItemMoved: ===============>");
+
 
 
 
@@ -587,7 +572,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
      */
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) { // Tracking 모드가 켜진경우 단말의 현위치 좌표값을 통보받을 수 있다.
-        Log.d("TAG", "onCurrentLocationUpdate: ");
+
         /*MapPoint.GeoCoordinate mPointGeo = mapPoint.getMapPointGeoCoord();
         longitude = mPointGeo.longitude;
         latitude = mPointGeo.latitude;*/
@@ -757,7 +742,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setMessage("로딩중입니다..");
 
-            Log.d("TAG", "bool_restart_before: "+bool_restart);
+
             // show dialog
             progressDialog.show();
             super.onPreExecute();
@@ -774,7 +759,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
            /*while(!bool_restart)
                ;*/
            bool_restart = false;
-            Log.d("TAG", "bool_restart_after: "+bool_restart);
+
             return null;
         }
         @Override
@@ -782,7 +767,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             progressDialog.dismiss();
 
             //finish();
-            Log.d("TAG", "onPostExecute: "+count);;
+
             super.onPostExecute(result);
         }
     }
@@ -817,11 +802,10 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         @Override
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
-            Log.d("TAG", "after_latitude: "+latitude+"\n");
-            Log.d("TAG", "after_latitude: "+longitude+"\n");
+
 
             //finish();
-            Log.d("TAG", "onPostExecute: "+count);;
+
 
             super.onPostExecute(result);
         }

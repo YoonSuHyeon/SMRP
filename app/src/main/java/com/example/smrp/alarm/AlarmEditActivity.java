@@ -105,7 +105,7 @@ public class AlarmEditActivity extends AppCompatActivity {
 
 
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
-        Log.d("groupIdadfsdf",groupId.toString());
+
         Call<Response_AlarmMedicine> call = networkService.getAlram(groupId);
         call.enqueue(new Callback<Response_AlarmMedicine>() {
             @Override
@@ -133,7 +133,7 @@ public class AlarmEditActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Response_AlarmMedicine> call, Throwable t) {
-                Log.d("zxcbzxcb",t.toString());
+
 
             }
         });
@@ -172,12 +172,12 @@ public class AlarmEditActivity extends AppCompatActivity {
                 call.enqueue(new Callback<response>() {
                     @Override
                     public void onResponse(Call<response> call, Response<response> response) {
-                        Log.d("zzzzzzz","dddd");
+
                     }
 
                     @Override
                     public void onFailure(Call<response> call, Throwable t) {
-                        Log.d("bbbbbb",t.toString());
+
                     }
                 });
                 Toast.makeText(AlarmEditActivity.this, "수정", Toast.LENGTH_SHORT).show();
@@ -213,7 +213,7 @@ public class AlarmEditActivity extends AppCompatActivity {
             public void onClick(View v) { // 확인 버튼 누르기
                 Toast.makeText(getApplicationContext(), "추가 되었습니다.", Toast.LENGTH_SHORT).show();
                 alarmMedicineList.addAll(adapter.res());
-                Log.d("dddzxcb",alarmMedicineList.size()+"");
+
 
                 alarmListViewAdapter.notifyDataSetChanged();
                 dialog.dismiss();
@@ -234,8 +234,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
-                    /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
-                    Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
+
                 }
                 adapter.notifyDataSetChanged();
                 //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
@@ -243,7 +242,7 @@ public class AlarmEditActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
         });

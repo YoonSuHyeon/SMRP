@@ -134,7 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onResponse(Call<response> call, Response<response> response) {
                             respon = response.body().getResponse();
 
-                            Log.d("1234",respon);
+
                             if(respon.equals("Join ok")){
                                 Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
                                 tmpid =id;
@@ -148,7 +148,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<response> call, Throwable t) {
-                            Log.d("ddd",t.toString());
+
 
                         }
                     });
@@ -198,9 +198,9 @@ public class SignUpActivity extends AppCompatActivity {
                                             public void onResponse(Call<response> call, Response<response> response) {
                                                 try{
                                                     respon = response.body().getResponse();
-                                                    Log.d("12345",respon);
+
                                                 }catch (NullPointerException e){
-                                                    Log.d("d",e.toString());
+
                                                 }
 
 
@@ -212,7 +212,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                             @Override
                                             public void onFailure(Call<response> call, Throwable t) {
-                                                Log.d("dddd",t.toString());
+
                                                 //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
                                             }
                                         });
@@ -254,9 +254,9 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onResponse(Call<response> call, Response<response> response) {
                             try{
                                 respon = response.body().getResponse();
-                                Log.d("12345",respon);
+
                             }catch (NullPointerException e){
-                                Log.d("d",e.toString());
+
                             }
 
 
@@ -265,7 +265,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<response> call, Throwable t) {
-                            Log.d("dddd",t.toString());
+
                             //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -287,7 +287,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
                 if(response.isSuccessful()){
 
-                    Log.d("1234",response.body().getId());
+
 
 
                 }
@@ -296,7 +296,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
 

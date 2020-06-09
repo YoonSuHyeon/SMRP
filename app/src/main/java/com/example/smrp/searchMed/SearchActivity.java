@@ -268,19 +268,19 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
             public void onClick(View v) {
                 imm.hideSoftInputFromWindow(et_findMedicine.getWindowToken(), 0);
                 for(int i = 0; i <shape1.size(); i++){
-                    Log.d("TEST",shape1.get(i));
+
                 }
                 for(int i = 0; i <line1.size(); i++){
-                    Log.d("TEST2",line1.get(i));
+
                 }
                 if(shape1.size()==0){
-                    Log.d("FAIL","FAIL");
+
                 }
 
                 RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
                 //medicines = new Medicines(shape,color,formula,line);
                 //Call<List<com.example.smrp.reponse_medicine>> call = networkService.findList(shape,color,formula,line);
-                //Log.d("???",shape+color+formula+line);
+
                 SelectedItem selectedItem = new SelectedItem(et_findMedicine.getText().toString(),shape1,color1,formula1,line1);
                 Call<List<reponse_medicine2>> call = networkService.findList2(selectedItem);
 
@@ -288,8 +288,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 call.enqueue(new Callback<List<reponse_medicine2>>() {
                     @Override
                     public void onResponse(Call<List<reponse_medicine2>> call, Response<List<reponse_medicine2>> response) {
-                       // Log.d("12312313",response.body().toString());
-                        //Log.d("asdadadsasd",response.body().get(0).getItemName());
+
                         List<reponse_medicine2> list = response.body();
                        // int a = list.size();
                         RecyclerView recyclerView = findViewById(R.id.recycler_medicine);
@@ -314,7 +313,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
 
                     @Override
                     public void onFailure(Call<List<reponse_medicine2>> call, Throwable t) {
-                        Log.d("12312312312312313",t.toString());
+
                     }
                 });
 
@@ -337,8 +336,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                     }
 
                 }
-                Log.w("Search",a);
-                Log.w("Search",b);
+
             }
         });
 

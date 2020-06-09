@@ -55,7 +55,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
         //일련번호 ItemSeq 를 Intent로 받는다.  사진촬영이든,검색을 해서 든 .
         Intent intent =getIntent();
         itemSeq =intent.getStringExtra("itemSeq");
-        //Log.d("Zxcbzxcb",itemSeq);
+
 
 
 
@@ -84,7 +84,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<reponse_medicine2> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
         });
@@ -111,16 +111,16 @@ public class MedicineDetailActivity extends AppCompatActivity {
                     public void onResponse(Call<response> call, Response<response> response) {
                         try{
 
-                            Log.d("123466665",response.body().getResponse());
+
 
                             if(response.body().getResponse().equals("ok")){
-                                Log.d("zzzqqqq","okokok");
+
                             }else{
-                                Log.d("Noqqqqqq","no");
+
                             }
 
                         }catch (NullPointerException e){
-                            Log.d("nulle",e.toString());
+
                         }
                         onBackPressed();
                         finish();
@@ -131,7 +131,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<response> call, Throwable t) {
-                        Log.d("dddd",t.toString());
+
 
                     }
                 });

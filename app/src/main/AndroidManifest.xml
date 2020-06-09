@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".searchPrescription.Search_prescription" />
+        <activity android:name=".searchPrescription.Search_prescriptionActivity" />
         <activity android:name=".ToSActivity" />
         <activity android:name=".findIdActivity" />
         <activity
