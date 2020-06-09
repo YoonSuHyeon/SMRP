@@ -95,7 +95,7 @@ public class AlarmSetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_med_fragment);
-        Log.e("s","ㅇㅇㅇㅇ");
+
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
 
@@ -147,6 +147,10 @@ public class AlarmSetActivity extends AppCompatActivity {
         alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this); //alarmMedicineList =ArrayList
         Lst_medicine.setAdapter(alarmListViewAdapter);  //Lst_medicine: listView
 
+        if(list!=null&&list.size()>0) {
+
+            alarmMedicineList.addAll(list);
+            alarmListViewAdapter.notifyDataSetChanged();
 
 
         iv_back.setOnClickListener(new View.OnClickListener() {
@@ -181,12 +185,7 @@ public class AlarmSetActivity extends AppCompatActivity {
                         Toast.makeText(context, "약을 등록해 주세요.", Toast.LENGTH_SHORT).show();
                     }else{
                         RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                        Log.d("TAG", "et_alramName.getText().toString(): "+et_alramName.getText().toString());
-                        Log.d("TAG", "et_dosingPeriod.getText().toString(): "+et_dosingPeriod.getText().toString());
-                        Log.d("TAG", "et_oneTimeDose.getText().toString(): "+et_oneTimeDose.getText().toString());
-                        Log.d("TAG", "et_oneTimeCapacity.getText().toString(): "+et_oneTimeCapacity.getText().toString());
-                        Log.d("TAG", "spin_type.getText().toString(): "+spin_type.getSelectedItem().toString());
-                        Log.d("TAG", "tempsize: "+temp.size());
+
 
                         AlarmMedicine alarmMedicine = new AlarmMedicine("cc",et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
                                 ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
@@ -198,9 +197,9 @@ public class AlarmSetActivity extends AppCompatActivity {
                             public void onResponse(Call<response> call, Response<response> response) {
                                 try{
                                     String respon = response.body().getResponse();
-                                    Log.d("12345",respon);
+
                                 }catch (NullPointerException e){
-                                    Log.d("d",e.toString());
+
                                 }
                                 // PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,0,my_intent,0);
 
@@ -278,7 +277,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<response> call, Throwable t) {
-                                Log.d("dddd",t.toString());
+
                                 //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -368,11 +367,10 @@ public class AlarmSetActivity extends AppCompatActivity {
 
                 int num= 0;
                 Toast.makeText(getApplicationContext(), "추가 되었습니다.", Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "adapter.res(): "+adapter.res().size());
-                Log.d("TAG", "alarmMedicineList.size(): "+alarmMedicineList.size());
+
                 ArrayList<ListViewItem>list = adapter.res();
                 if(alarmMedicineList.size()==1){//등록된 약 기능에서 알람추가시 중복제거
-                    Log.d("TAG", "alarmMedicineList.size(): "+alarmMedicineList.get(0).getName());
+
                     for(int i =0;i<list.size();i++){
                         if(alarmMedicineList.get(0).getItemSeq().equals(list.get(i).getItemSeq())) {
                             list.remove(i);
@@ -390,11 +388,11 @@ public class AlarmSetActivity extends AppCompatActivity {
                         }
                     }
                 }
-                Log.d("TAG", "numnumnum: "+num);
+
                 if(num>0)
                     Toast.makeText(getApplicationContext(), "중복된 약 "+num+"건을 제외하였습니다.",Toast.LENGTH_SHORT).show();
                 alarmMedicineList.addAll(list);
-                Log.d("dddzxcb",alarmMedicineList.size()+"");
+
 
                 alarmListViewAdapter.notifyDataSetChanged();
                 dialog.dismiss();
@@ -416,13 +414,7 @@ public class AlarmSetActivity extends AppCompatActivity {
                 {
                     //items:ArrayList
                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
-                    Log.d("TAG", "getImageUrl: "+reponse_medicines.get(i).getImageUrl());
 
-                    Log.d("TAG", "getItemName: "+reponse_medicines.get(i).getItemName());
-                    Log.d("TAG", "getItemSeq: "+reponse_medicines.get(i).getItemSeq());
-                    Log.d("TAG", "getCreatedAt: "+reponse_medicines.get(i).getCreatedAt());
-                    /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
-                    Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
                 }
                 adapter.notifyDataSetChanged();
                 //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
@@ -430,7 +422,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
         });

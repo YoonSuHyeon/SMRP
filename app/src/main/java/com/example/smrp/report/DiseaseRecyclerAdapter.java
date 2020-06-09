@@ -73,7 +73,7 @@ public class DiseaseRecyclerAdapter  extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
 
-        Log.e("F", mData.size()+" ");
+
         return mData.size() ;
     }
     @Override

@@ -45,7 +45,6 @@ public class AlarmInformActivity extends AppCompatActivity {
         Intent intent =getIntent();
         alramGroupId=intent.getLongExtra("alramGroupId",0);
 
-        Log.d("sucess",alramGroupId.toString());
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
         Call<Response_AlarmMedicine> call = networkService.getAlram(alramGroupId);
@@ -53,7 +52,7 @@ public class AlarmInformActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Response_AlarmMedicine> call, Response<Response_AlarmMedicine> response) {
                 Response_AlarmMedicine response_alarmMedicine =response.body();
-                Log.d("sucess",response_alarmMedicine.getAlramName());
+
                 Txt_alarmName.setText(response_alarmMedicine.getAlramName());
                 Txt_oneTimeDose.setText(response_alarmMedicine.getOneTimeDose().toString());
                 Txt_oneTimeCapacity.setText(response_alarmMedicine.getOneTimeCapacity().toString());
@@ -65,7 +64,7 @@ public class AlarmInformActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Response_AlarmMedicine> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
         });

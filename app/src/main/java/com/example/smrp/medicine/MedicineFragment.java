@@ -126,7 +126,7 @@ public class MedicineFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        Log.d("TAG", "11111111111111111111111111: ");
+
 
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
         Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
@@ -139,8 +139,7 @@ public class MedicineFragment extends Fragment {
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
-                    /*Log.d("dfsdazxcv",reponse_medicines.get(i).getItemImage().toString());
-                    Log.d("dfsdazxcv",reponse_medicines.get(i).getItemName());*/
+
                 }
                 listViewAdapter.notifyDataSetChanged();
                 //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
@@ -148,7 +147,7 @@ public class MedicineFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
         });

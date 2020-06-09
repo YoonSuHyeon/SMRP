@@ -56,7 +56,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity implements Serializa
         Intent intent =getIntent();
         itemSeq =intent.getStringExtra("itemSeq");
         listViewItemArrayList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
-        Log.d("Zxcbzxcb",itemSeq);
+
 
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
@@ -78,7 +78,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity implements Serializa
 
             @Override
             public void onFailure(Call<reponse_medicine2> call, Throwable t) {
-                Log.d("ddd",t.toString());
+
 
             }
         });

@@ -76,8 +76,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        Log.d("TAG", "before_latitude: "+latitude+"\n");
-        Log.d("TAG", "before_latitude: "+longitude+"\n");
+
         GetLocation_Dialog getLocation_dialog = new GetLocation_Dialog();
         getLocation_dialog.execute();
 
@@ -85,7 +84,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         startLocationService(); //사용자의 현재위치를 좌표를 가져오기 위한 클래스 호출
 
 
-        Log.d("TAG", "phy_container.count: " + container.getChildCount());
+
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
         location_fb = root.findViewById(R.id.floatingActionButton1);
         research_fb = root.findViewById(R.id.floatingActionButton2);
@@ -124,7 +123,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                 mapCircle.setTag(2);
                 mapView.addCircle(mapCircle);
-                Log.d("TAG", "radiuse2: "+radiuse);
+
 
                 re_parsingData(latitude,longitude,radiuse);
             }
@@ -165,18 +164,13 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onPath(int position) {//카카오 네비게이션 설치가 되어있을 경우
                 if(KakaoNaviService.isKakaoNaviInstalled(getContext())){
-                    Log.d("TAG", "yes: ");
-                    Log.d("TAG", "name:"+list.get(position).getName() );
-                    Log.d("TAG", "name:"+list.get(position).getLatitude() );
-                    Log.d("TAG", "name:"+list.get(position).getLongitude() );
+
                     com.kakao.kakaonavi.Location location = com.kakao.kakaonavi.Location.newBuilder(list.get(position).getName(),list.get(position).getLongitude(),
                             list.get(position).getLatitude()).build();
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build(); //setCoordType: 좌표계  setVehicleType: 차종  setRpOption: 경로 옵션
                     KakaoNaviParams parms = KakaoNaviParams.newBuilder(location).setNaviOptions(options).build();
                     KakaoNaviService.navigate(getActivity(),parms);
                 }else{ //카카오 네비게이션 설치가 안되어 있을 경우
-                    Log.d("TAG", "nononno ");
-
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             Uri.parse("https://play.google.com/store/apps/details?id=com.locnall.KimGiSa"));
                     startActivity(intent);
@@ -228,9 +222,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                         public void run() {
                             createMapView(); //mapView 객체를 생성하고 mapView의 이벤트 처리
                             count = response.body().count;
-                            Log.d("TAG", "count2: "+count);
-                            Log.d("TAG", "latitude1: "+latitude);
-                            Log.d("TAG", "longitude1: "+longitude);
+
                             for(int i =0; i< count;i++){
                                 String add  = response.body().getList().get(i).getAddr(); //주소
                                 String crate_data = response.body().getList().get(i).getCreated_at(); //데이터 생성일자
@@ -260,7 +252,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onFailure(Call<ItemModel> call, Throwable t) {
                 Toast.makeText(getActivity(),"해당지역에는 약국이 없습니다.",Toast.LENGTH_LONG).show();
-                Log.d("데이터 가져오기 실패:",t.toString());
+
                 createMapView();
                 list.clear();
                 adapter.notifyDataSetChanged();
@@ -278,9 +270,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d("TAG", "latitude2: "+latitude);
-                            Log.d("TAG", "longitude2: "+longitude);
-                            Log.d("TAG", "count111: "+response.body().getList().size());
+
                             count = response.body().getList().size();
 
                             for(int i =0; i< count;i++){
@@ -314,7 +304,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 list.clear();
                 adapter.notifyDataSetChanged();
                 bool_start = true;
-                Log.d("데이터 가져오기 실패:",t.toString());
+
             }
         });
     }
@@ -332,7 +322,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             mapView = new MapView(getContext());
         }
         if(mapViewContainer!=null){
-            Log.d("TAG", "mapViewContainer not null: ");
+
             mapViewContainer.removeAllViews();
         }
 
@@ -356,7 +346,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
         // 내 현재위치 원 그리기
         mapView.setCurrentLocationRadius(radiuse);
-        Log.d("TAG", "radiuse1: "+radiuse);
+
 
         // 원 색상 적용
         mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
@@ -376,7 +366,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         mapView.zoomOut(true);
         // 트랙
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff); //트래킹 모드 on + 나침반 모드 on
-        //Log.d("TAG", "TrackingMode:"+mapView.getCurrentLocationTrackingMode());
+
 
 
         // 중심점에 Marker 로 표시해줍니다
@@ -454,7 +444,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         /*GeoCoordinate geoCoordinate = mapView.getMapCenterPoint();
         double latitude = geoCoordinate.latitude; // 위도
         double longitude = geoCoordinate.longitude; // 경도*/
-        Log.d("TAG", "onDraggablePOIItemMoved: ===============>");
+
 
     }
     /*
@@ -466,7 +456,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         longitude = mPointGeo.longitude;
         latitude = mPointGeo.latitude;*/
         //Toast.makeText(getActivity().getApplicationContext(),"현재 위치 좌표 업데이트 됨",Toast.LENGTH_LONG).show();
-        Log.d("TAG", "onCurrentLocationUpdate: ");
+
     }
 
     @Override
@@ -595,10 +585,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
 
-            Log.d("TAG", "after_latitude: "+latitude+"\n");
-            Log.d("TAG", "after_latitude: "+longitude+"\n");
-            //finish();
-            Log.d("TAG", "onPostExecute: "+count);;
+
             Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
             super.onPostExecute(result);
         }
@@ -630,11 +617,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         @Override
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
-            Log.d("TAG", "after_latitude: "+latitude+"\n");
-            Log.d("TAG", "after_latitude: "+longitude+"\n");
 
-            //finish();
-            Log.d("TAG", "onPostExecute: "+count);;
             Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
             super.onPostExecute(result);
         }

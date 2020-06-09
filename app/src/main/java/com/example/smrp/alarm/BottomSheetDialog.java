@@ -56,13 +56,13 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("zbekqj","성공");
+
 
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Log.d("ddd",t.toString());
+
 
                     }
                 });

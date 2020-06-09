@@ -86,7 +86,7 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.e("camera","start");
+
         // 상태바를 안보이도록 합니다.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -181,7 +181,7 @@ public class CameraActivity extends AppCompatActivity {
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 
             Size largestPreviewSize = map.getOutputSizes(ImageFormat.JPEG)[0];
-            Log.i("LargestSize", largestPreviewSize.getWidth() + " " + largestPreviewSize.getHeight());
+
 
             setAspectRatioTextureView(largestPreviewSize.getHeight(),largestPreviewSize.getWidth());
 
@@ -314,7 +314,7 @@ public class CameraActivity extends AppCompatActivity {
             // 센서를 사용하는 것으로 변경
             //deviceRotation = getResources().getConfiguration().orientation;
             mDeviceRotation = ORIENTATIONS.get(deviceOrientation.getOrientation());
-            Log.d("@@@", mDeviceRotation+"");
+
 
             captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, mDeviceRotation);
             CaptureRequest mCaptureRequest = captureRequestBuilder.build();
@@ -445,7 +445,6 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void updateTextureViewSize(int viewWidth, int viewHeight) {
-        Log.d("@@@", "TextureView Width : " + viewWidth + " TextureView Height : " + viewHeight);
         // mSurfaceView.setLayoutParams(new FrameLayout.LayoutParams(viewWidth, viewHeight));
     }
 

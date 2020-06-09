@@ -47,7 +47,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.rList = rList;
         this.size = size;
         mSelectedItems.put(0,true);
-        Log.w("생성자", "start");
+
         row_images = images;
         t1=1;
         for(int i =1 ; i < size; i++) {
@@ -78,7 +78,7 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.w("view", "okf");
+
         ListItem item = mData.get(position);
         if(holder instanceof ViewHolder)
         { holder1 = ((ViewHolder) holder);

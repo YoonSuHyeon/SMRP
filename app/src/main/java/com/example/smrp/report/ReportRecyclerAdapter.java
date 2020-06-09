@@ -88,7 +88,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public int getItemCount() {
 
-        Log.e("F", mData.size()+" ");
+
         return mData.size() ;
     }
     @Override

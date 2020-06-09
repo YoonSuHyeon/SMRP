@@ -119,7 +119,7 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
         //array_symptom= intent.getStringArrayListExtra("selected");
      //   list = new ArrayList<ListItem>();
         //Txt_name.setText(list.get(i).getSymptom());
-        Log.e("Tag", "Ok");
+
 
         for(int i = 0; i < mSelectedItems.size(); i++){
           if(mSelectedItems.get(i)==1) { // 특정 증상이 선택되었다면,
@@ -133,8 +133,8 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
               }
           }
         }
-        Log.e("COUNT", symptom_count+"");
-        //Log.w("COUNT22", disease[i]+"");
+
+
         for(int i=0; i<disease.length; i++){
             if(disease[i] != 0){ // 병에 대응하는 배열 요소 값이 0이 아닌 경우(증상에 해당하는 병인 경우)
 

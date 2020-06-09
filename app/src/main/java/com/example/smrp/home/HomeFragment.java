@@ -245,7 +245,7 @@ public class HomeFragment extends Fragment {
                 temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp())+"℃"); //현재 온도
                 min_max_textview.append(String.valueOf(response.body().getWeather_main().getTemp_min())+"℃/"+String.valueOf(response.body().getWeather_main().getTemp_max())+"℃");
                 feel_textview.setText("체감온도: "+String.valueOf(response.body().getWeather_main().getFells_like())+"℃");
-                Log.d("TAG", "sky_satate: "+response.body().getweatherList().get(0).getDescription());
+
                 humidity_textView.setText("습도: "+response.body().getWeather_main().getHumidity()+"%"); //하늘상태
 
 
@@ -254,7 +254,7 @@ public class HomeFragment extends Fragment {
                     icon_name = icon_name.replaceAll("d","n");
                 }
                 String str = sky_image.get(icon_name);
-                Log.d("TAG", "strstrstr: "+str);
+
                 if(str.equals("clear_sky")){
                     //BitmapDrawable image  = (BitmapDrawable)getResources().getDrawable(R.drawable.Sun1);
                     weather_imageview.setImageResource(R.drawable.clear_sky1);
@@ -269,8 +269,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Response> call, Throwable t) {
-                Log.d("TAG", "Fail: "+ t.getMessage());
-                Log.d("TAG", "Fail: "+ t.getLocalizedMessage());
+
             }
         });
 
