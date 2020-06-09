@@ -2,6 +2,7 @@ package com.example.smrp.alarm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,11 +35,17 @@ public class AlarmDetailActivity extends AppCompatActivity {
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq ,time;// intent용 변수
     private String str_image, str_name, str_seq;
+    String user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_detail);
         context=this;
+
+        SharedPreferences loginInfromation = getSharedPreferences("setting",0);
+        user_id = loginInfromation.getString("id","");
+
         //Init
         Btn_set = findViewById(R.id.btn_set);
         medicineImage=findViewById(R.id.iv_medicine);
@@ -120,7 +127,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
                 BottomSheetDialog bottomSheetDialog = BottomSheetDialog.getInstance();
-                bottomSheetDialog.init("cc",itemSeq);
+                bottomSheetDialog.init(user_id,itemSeq);
                 bottomSheetDialog.show(getSupportFragmentManager(),"bottomSheet");
     }
 });

@@ -1,5 +1,6 @@
 package com.example.smrp.medicine;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -44,7 +45,7 @@ public class MedicineFragment extends Fragment {
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
     private Timer timer; // 자동 슬라이드를 위한 변수
-    private String id ="cc";
+    private String user_id;
     ArrayList<ListViewItem> items = new ArrayList<ListViewItem>();
 
     private int[] images= {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
@@ -56,7 +57,8 @@ public class MedicineFragment extends Fragment {
                 ViewModelProviders.of(this).get(MedicineViewModel.class);
 
         home = (MainActivity) getActivity();
-
+        SharedPreferences loginInfromation = getActivity().getSharedPreferences("setting",0);
+        user_id = loginInfromation.getString("id","");
         View v = inflater.inflate(R.layout.medicine_fragment, container, false);
         CircleIndicator indicator = v.findViewById(R.id.indicator); // 인디케이터
 
@@ -129,7 +131,7 @@ public class MedicineFragment extends Fragment {
 
 
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
-        Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
+        Call<List<reponse_medicine3>> call = networkService.findUserMedicine(user_id);
         call.enqueue(new Callback<List<reponse_medicine3>>() {
             @Override
             public void onResponse(Call<List<reponse_medicine3>> call, Response<List<reponse_medicine3>> response) {

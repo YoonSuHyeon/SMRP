@@ -87,7 +87,7 @@ public class AlarmInformActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
                 BottomSheetDialog2 bottomSheetDialog = BottomSheetDialog2.getInstance();
-              //  bottomSheetDialog.init("cc",itemSeq);
+
                 bottomSheetDialog.init(alramGroupId);
                 bottomSheetDialog.show(getSupportFragmentManager(),"bottomSheet");
             }

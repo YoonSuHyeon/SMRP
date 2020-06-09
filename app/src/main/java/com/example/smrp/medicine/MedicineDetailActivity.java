@@ -3,6 +3,7 @@ package com.example.smrp.medicine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq;
     Button addMedicine; //추가하기 버튼
+    String user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,8 @@ public class MedicineDetailActivity extends AppCompatActivity {
 
         //Init
         context=this;
+        SharedPreferences loginInfromation = getSharedPreferences("setting",0);
+        user_id = loginInfromation.getString("id","");
         medicineName=findViewById(R.id.tv_medicine_name) ;    //약이름
         medicineEntpName=findViewById(R.id.tv_entpName);//약 제조사
         medicineChart=findViewById(R.id.tv_chart);//약성상
@@ -104,7 +108,7 @@ public class MedicineDetailActivity extends AppCompatActivity {
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.  // userId 사용자 id    itemSeq  일련번호
 
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                MedicineUserId medicineUserId = new MedicineUserId("cc",itemSeq);
+                MedicineUserId medicineUserId = new MedicineUserId(user_id,itemSeq);
                 Call<response> call = networkService.addMedicine(medicineUserId);
                 call.enqueue(new Callback<response>() {
                     @Override
