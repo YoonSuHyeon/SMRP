@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserAlarm> call, Throwable t) {
-
+                    Toast.makeText(getApplicationContext(),"접속 실패.",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -142,6 +142,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(Call<UserAlarm> call, Throwable t) {
                         Toast.makeText(getApplicationContext(),"로그인 실패: 아이디 및 비밀번호 확인해주세요.",Toast.LENGTH_SHORT).show();
                     }
+
+
                 });
 
             }
