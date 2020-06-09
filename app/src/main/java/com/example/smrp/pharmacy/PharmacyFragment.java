@@ -106,7 +106,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
 
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        //recyclerView.addItemDecoration(dividerItemDecoration);
 
 
         location_fb.setOnClickListener(new View.OnClickListener() {

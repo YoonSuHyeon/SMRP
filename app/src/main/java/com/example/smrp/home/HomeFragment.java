@@ -295,7 +295,7 @@ public class HomeFragment extends Fragment {
         });
         ic_envelope_register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //약봉투
 
 
                 Intent intent = new Intent(getContext(), Search_prescriptionActivity.class);

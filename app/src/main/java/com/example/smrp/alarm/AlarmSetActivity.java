@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -104,6 +103,8 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         final Intent my_intent = new Intent(this.context,Alarm_Reciver.class);
         final Calendar calendar = Calendar.getInstance();
+
+
 
         Intent intent = getIntent();
         SharedPreferences loginInfromation = getSharedPreferences("setting",0);
@@ -302,8 +303,11 @@ public class AlarmSetActivity extends AppCompatActivity {
 
 
 
-        }
+            }
+
        // return root;
+
+
 
 
     public void notificationSomethings(){

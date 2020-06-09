@@ -4,33 +4,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.ListView;
-
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.MainActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.medicine.ViewPagerAdapter;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
