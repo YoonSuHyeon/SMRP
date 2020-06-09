@@ -1,13 +1,9 @@
 package com.example.smrp.searchPrescription;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,8 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,7 +48,6 @@ import com.google.api.services.vision.v1.model.Image;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -71,7 +64,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Search_prescription extends AppCompatActivity implements Serializable {
+public class Search_prescriptionActivity extends AppCompatActivity implements Serializable {
     private static final String CLOUD_VISION_API_KEY = "AIzaSyDZfaBD1mddJVfGxgrhnUh0Lg02Mfc38KA";//구글 인증키
     private FloatingActionButton fb;
     private Bitmap bitmap;
@@ -284,10 +277,10 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     }
 
     private class LableDetectionTask extends AsyncTask<Object, Void, String> {
-        private final WeakReference<Search_prescription> mActivityWeakReference;
+        private final WeakReference<Search_prescriptionActivity> mActivityWeakReference;
         private Vision.Images.Annotate mRequest;
-        ProgressDialog progressDialog = new ProgressDialog(Search_prescription.this);
-        LableDetectionTask(Search_prescription activity, Vision.Images.Annotate annotate) {
+        ProgressDialog progressDialog = new ProgressDialog(Search_prescriptionActivity.this);
+        LableDetectionTask(Search_prescriptionActivity activity, Vision.Images.Annotate annotate) {
             mActivityWeakReference = new WeakReference<>(activity);
             mRequest = annotate;
         }
@@ -322,7 +315,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
             super.onPreExecute();
         }
         protected void onPostExecute(String result) { // 객체에서 문자 추출한 결과: result
-            Search_prescription activity = mActivityWeakReference.get();
+            Search_prescriptionActivity activity = mActivityWeakReference.get();
             StringBuilder st_result = new StringBuilder();
             if (activity != null && !activity.isFinishing()) {
                 // TextView imageDetail = activity.findViewById(R.id.textViewResult);
@@ -494,7 +487,7 @@ public class Search_prescription extends AppCompatActivity implements Serializab
     }
 
     private class Dialog extends AsyncTask<Void,Void,Void>{
-        ProgressDialog progressDialog1 = new ProgressDialog(Search_prescription.this);
+        ProgressDialog progressDialog1 = new ProgressDialog(Search_prescriptionActivity.this);
         @Override
         protected void onPreExecute() {
             /*ViewGroup group = (ViewGroup) root.getParent();

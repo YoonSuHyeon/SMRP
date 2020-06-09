@@ -3,33 +3,25 @@ package com.example.smrp.alarm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.ListView;
-
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.MainActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.medicine.ViewPagerAdapter;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -142,7 +134,7 @@ public class AlarmFragment extends Fragment {
             public void onResponse(Call<ArrayList<Response_AlarmMedicine>> call, Response<ArrayList<Response_AlarmMedicine>> response) {
                 List<Response_AlarmMedicine> reponse_medicines =response.body();
                 items.clear();
-                //Log.d("dfsdazxcv",reponse_medicines.get(0).getAlramName());
+
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
                     items.add(new ListViewAlarmItem(reponse_medicines.get(i).getAlramName(),reponse_medicines.get(i).getStartAlram(),reponse_medicines.get(i).getAlramGroupId()));

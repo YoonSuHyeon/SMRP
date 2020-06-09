@@ -72,10 +72,10 @@ public class LoginActivity extends AppCompatActivity {
             Txt_password.setText(user_pass);//자동로그인시 사용자의 password 텍스트핑드의 자동로그인하는 계정 password값을 출력
             auto_lgoin.setChecked(true); //자동 로그인 checkbox true
 
-          //  editor.putString("id",user_id); //자동로그인을 하기 위해서 getString을 할 시 메모리에 해당 data가 한번사용 후 사라지기에 이를 다시 넣는다.
-          //  editor.putString("password",user_pass); //getString한 id와 password값을 다시 넣는다.
-          //  editor.putString("name",name);
-          //  editor.commit(); //변경사항을 반영하고자하는 commit실행
+            /*editor.putString("id",user_id); //자동로그인을 하기 위해서 getString을 할 시 메모리에 해당 data가 한번사용 후 사라지기에 이를 다시 넣는다.
+            editor.putString("password",user_pass); //getString한 id와 password값을 다시 넣는다.
+            editor.putString("name",name);
+            editor.commit(); //변경사항을 반영하고자하는 commit실행*/
 
             User user = new User(user_id,"",user_pass,"","","");
             Call<UserAlarm> call = retrofitService.login(user);
@@ -97,11 +97,6 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), "로그인 실패: 아이디 및 비밀번호 확인해주세요.", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<UserAlarm> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),"서버 상태가 불안정 합니다.",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -126,25 +121,21 @@ public class LoginActivity extends AppCompatActivity {
                             name = response.body().getUserName();
                            // Log.d("qweqwe", response.body().getAlramMedicines().get(0).getAlramName());
                             if (bool_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
-                               // name = response.body().getUserName();
                                 editor.putString("id", Txt_id.getText().toString());
                                 editor.putString("password", Txt_password.getText().toString());
                                 editor.putString("name",name);
                                 editor.commit();
-
                             }
                             Intent intent =  new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("name",name);
                             startActivity(intent);
                             finish();
-                        }else{
-                            Toast.makeText(getApplicationContext(),"아이디 또는 비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<UserAlarm> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"서버가 비활성화 상태입니다.",Toast.LENGTH_SHORT).show();
+                    public void onFailure(Call<response> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"로그인 실패: 아이디 및 비밀번호 확인해주세요.",Toast.LENGTH_SHORT).show();
                     }
                 });
 
