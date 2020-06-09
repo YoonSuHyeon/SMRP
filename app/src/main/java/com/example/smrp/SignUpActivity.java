@@ -44,8 +44,8 @@ public class SignUpActivity extends AppCompatActivity {
     final private static String pt_email = "^[0-9a-zA-Z@\\.\\_\\-]+$";//"^[a-zA-Z0-9]+@[a-zA-Z0-9]+$";//^[a-zA-Z0-9]+@[a-zA-Z0-9]+$ //^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$
     final private static String pt_password = "^[a-z0-9_-]{6,18}$";
     final private static String pt_birth = "\\d{6}";
-    final private static String pt_name = "^[가-힣\\s]+$"; //지우지마 한글만 입력되게 해논거임<< 가상머신에서쓰려고 임의로 밑에 정규식씀
-    //final private static String pt_name ="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$";
+    //final private static String pt_name = "^[가-힣\\s]+$"; //지우지마 한글만 입력되게 해논거임<< 가상머신에서쓰려고 임의로 밑에 정규식씀
+    final private static String pt_name ="^[a-zA-Z]{1}[a-zA-Z0-9_]{4,11}$";
 
 
     Matcher matcher;

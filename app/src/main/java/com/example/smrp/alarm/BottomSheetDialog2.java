@@ -55,6 +55,8 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
            // AlarmSetActivity 의 List 에서 삭제
                 RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
                 Call<String> call = networkService.deleteAlram(groupId);
+
+
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

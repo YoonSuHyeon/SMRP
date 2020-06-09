@@ -24,7 +24,7 @@ import retrofit2.http.Query;
 public interface RetrofitService {
 
     @POST("/userInfo/login")
-    Call<response> login(
+    Call<UserAlarm> login(
         @Body User userId
     );
     @GET("/userId")
