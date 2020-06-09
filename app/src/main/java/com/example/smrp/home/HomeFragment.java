@@ -33,7 +33,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.smrp.R;
 import com.example.smrp.medicine.ViewPagerAdapter;
 import com.example.smrp.searchMed.SearchActivity;
-import com.example.smrp.searchPrescription.Search_prescription;
+import com.example.smrp.searchPrescription.Search_prescriptionActivity;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -289,16 +290,16 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(getContext(), Search_prescription.class);
+                Intent intent = new Intent(getContext(), Search_prescriptionActivity.class);
                 startActivity(intent);
             }
         });
         ic_envelope_register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //약봉투
 
 
-                Intent intent = new Intent(getContext(), Search_prescription.class);
+                Intent intent = new Intent(getContext(), Search_prescriptionActivity.class);
                 startActivity(intent);
             }
         });
