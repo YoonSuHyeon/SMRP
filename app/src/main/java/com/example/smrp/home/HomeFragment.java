@@ -1,6 +1,7 @@
 package com.example.smrp.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -21,14 +22,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.R;
 import com.example.smrp.medicine.ViewPagerAdapter;
-import com.google.android.material.navigation.NavigationView;
+import com.example.smrp.searchMed.SearchActivity;
+import com.example.smrp.searchPrescription.Search_prescription;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,20 +77,27 @@ public class HomeFragment extends Fragment {
     private int[] images= {R.drawable.img_search, R.drawable.img_self,R.drawable.img_hos}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
 
+    //하단 이미지 버튼
+    ImageView ic_med_search;
+    ImageView ic_prescription_register;
+    ImageView ic_envelope_register;
+    ImageView ic_pharmacy_search;
+    ImageView ic_hospital_search;
+
+    ImageView ic_register_record;
+    ImageView ic_dose_record;
+    ImageView ic_alarm_set;
 
 
+    NavHostFragment navHostFragment;
+    NavController navController;
     private static RetrofitService_home json;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if(container.getChildCount() > 0)
             container.removeViewAt(0);
 
-
         View root = inflater.inflate(R.layout.home_fragment, container, false);
-
-
-
-
 
         final HashMap<String,String> sky_image = new HashMap<>();
 
@@ -115,13 +127,30 @@ public class HomeFragment extends Fragment {
 
         }
 
-
+        navHostFragment =
+                (NavHostFragment) ((AppCompatActivity) getContext()).getSupportFragmentManager()
+                        .findFragmentById(R.id.nav_host_fragment);
+        navController = navHostFragment.getNavController();
 
         weather_imageview = root.findViewById(R.id.weather_imageview); //하늘 상태 사진
         temp_textview = root.findViewById(R.id.temp_textview); //온도 textView
         min_max_textview = root.findViewById(R.id.min_max_textview);
         feel_textview = root.findViewById(R.id.feel_textview);
         humidity_textView = root.findViewById(R.id.humidity_textView); //하늘상태
+
+        // 하단 이미지 버튼
+        ic_med_search = root.findViewById(R.id.ic_med_search);
+        ic_prescription_register = root.findViewById(R.id.ic_prescription_register);
+        ic_envelope_register = root.findViewById(R.id.ic_envelope_register);
+        ic_pharmacy_search = root.findViewById(R.id.ic_pharmacy_search);
+        ic_hospital_search = root.findViewById(R.id.ic_hospital_search);
+        ic_register_record = root.findViewById(R.id.ic_register_record);
+        ic_dose_record = root.findViewById(R.id.ic_dose_record);
+        ic_alarm_set = root.findViewById(R.id.ic_alarm_set);
+//        ic_mask_search = root.findViewById(R.id.ic_mask_search);
+  //      ic_inquiry = root.findViewById(R.id.ic_inquiry);
+
+
 
 
         startLocationService();//사용자 현재위치 경도 및 위도 GET
@@ -243,6 +272,63 @@ public class HomeFragment extends Fragment {
                 Log.d("TAG", "Fail: "+ t.getLocalizedMessage());
             }
         });
+
+        //하단 이미지 버튼 이동
+        ic_med_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+
+              //  navController.navigate(R.id.action_nav_home_to_nav_medicine);
+            }
+        });
+        ic_prescription_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getContext(), Search_prescription.class);
+                startActivity(intent);
+            }
+        });
+        ic_envelope_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(getContext(), Search_prescription.class);
+                startActivity(intent);
+            }
+        });
+        ic_alarm_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_nav_home_to_nav_alarm);
+            }
+        });
+        ic_pharmacy_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_nav_home_to_nav_pharmacy);
+            }
+        });
+
+        ic_hospital_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_nav_home_to_nav_hospital);
+            }
+        });
+
+        ic_register_record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_nav_home_to_nav_medicine);
+            }
+        });
+
         return root;
 
     }

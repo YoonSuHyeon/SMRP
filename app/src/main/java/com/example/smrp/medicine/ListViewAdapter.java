@@ -66,6 +66,8 @@ public class ListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+
+
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmDetailActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 intent.putExtra("itemSeq",listViewItem.getItemSeq());

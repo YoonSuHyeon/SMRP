@@ -56,7 +56,7 @@
                     android:id="@+id/indicator"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     app:ci_drawable="@drawable/indicator"
                     app:ci_height="7dp"
                     app:ci_margin="4dp"

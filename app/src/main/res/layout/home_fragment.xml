@@ -200,7 +200,6 @@
                     android:id="@+id/first_row"
                     android:layout_width="match_parent"
                     android:layout_height="49dp"
-
                     android:layout_below="@+id/Txt_menu"
                     android:layout_marginTop="16dp"
 
@@ -210,33 +209,33 @@
                     >
 
                     <ImageView
+                        android:id="@+id/ic_med_search"
                         android:layout_width="46dp"
                         android:layout_height="48dp"
+
                         android:src="@drawable/ic_med_search" />
 
                     <ImageView
+                        android:id="@+id/ic_prescription_register"
                         android:layout_width="56dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="15dp"
                         android:src="@drawable/ic_prescription_register" />
 
                     <ImageView
+                        android:id="@+id/ic_envelope_register"
                         android:layout_width="56dp"
                         android:layout_height="48dp"
                         android:layout_marginStart="10dp"
                         android:src="@drawable/ic_envelope_register" />
 
-                    <ImageView
-                        android:layout_width="42dp"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="17dp"
-                        android:src="@drawable/ic_pharmacy_seach" />
 
                     <ImageView
-                        android:layout_width="42dp"
-                        android:layout_height="49dp"
-                        android:layout_marginStart="24dp"
-                        android:src="@drawable/ic_hospital_seach" />
+                        android:id="@+id/ic_alarm_set"
+                        android:layout_width="46dp"
+                        android:layout_height="47dp"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/ic_alarm_set" />
 
 
                 </LinearLayout>
@@ -245,45 +244,62 @@
                     android:id="@+id/second_row"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginStart="10dp"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="12dp"
                     android:gravity="center"
 
                     >
+                    <ImageView
+                        android:id="@+id/ic_pharmacy_search"
+                        android:layout_width="42dp"
+                        android:layout_height="48dp"
+
+                        android:src="@drawable/ic_pharmacy_seach" />
 
                     <ImageView
+                        android:id="@+id/ic_hospital_search"
+                        android:layout_width="42dp"
+                        android:layout_height="49dp"
+                        android:layout_marginStart="24dp"
+                        android:src="@drawable/ic_hospital_seach" />
+                    <ImageView
+                        android:id="@+id/ic_register_record"
                         android:layout_width="42dp"
                         android:layout_height="50dp"
+                        android:layout_marginStart="28dp"
                         android:src="@drawable/ic_register_record" />
 
                     <ImageView
+                        android:id="@+id/ic_dose_record"
                         android:layout_width="46dp"
                         android:layout_height="49dp"
-                        android:layout_marginStart="22dp"
+                        android:layout_marginStart="28dp"
                         android:src="@drawable/ic_dose_record" />
 
-                    <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="47dp"
-                        android:layout_marginStart="20dp"
-                        android:src="@drawable/ic_alarm_set" />
+                    <!-- <ImageView
+                         android:id="@+id/ic_alarm_set"
+                         android:layout_width="46dp"
+                         android:layout_height="47dp"
+                         android:layout_marginStart="20dp"
+                         android:src="@drawable/ic_alarm_set" />
 
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="45dp"
-                        android:layout_marginStart="15dp"
-                        android:src="@drawable/ic_mask_search"
+                     <ImageView
+                         android:id="@+id/ic_mask_search"
+                         android:layout_width="56dp"
+                         android:layout_height="45dp"
+                         android:layout_marginStart="15dp"
+                         android:src="@drawable/ic_mask_search"
 
-                        />
+                         />
 
-                    <ImageView
-                        android:layout_width="46dp"
-                        android:layout_height="43dp"
-                        android:layout_marginStart="24dp"
-                        android:src="@drawable/ic_inquiry"
+                     <ImageView
+                         android:id="@+id/ic_inquiry"
+                         android:layout_width="46dp"
+                         android:layout_height="43dp"
+                         android:layout_marginStart="24dp"
+                         android:src="@drawable/ic_inquiry"
 
-                        />
+                         /> -->
 
 
                 </LinearLayout>

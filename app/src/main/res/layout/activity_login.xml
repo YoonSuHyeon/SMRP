@@ -66,6 +66,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:paddingLeft="3dp"
+            android:privateImeOptions="defaultInputmode=english"
             />
 
         <EditText

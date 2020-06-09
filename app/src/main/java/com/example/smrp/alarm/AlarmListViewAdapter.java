@@ -2,12 +2,14 @@ package com.example.smrp.alarm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -21,10 +23,13 @@ import java.util.ArrayList;
 public class AlarmListViewAdapter extends BaseAdapter {
     private ArrayList<ListViewItem> listViewItemArrayList ;
     private FragmentActivity activity;
-
+    ListView list_view;
+    private int REQUEST_TEST=1;
     public AlarmListViewAdapter(ArrayList<ListViewItem> listViewItemArrayList, FragmentActivity activity){
         this.listViewItemArrayList=listViewItemArrayList;
         this.activity=activity;
+//        this.adapter = adapter;
+
     }
     @Override
     public int getCount() {
@@ -66,10 +71,17 @@ public class AlarmListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+                // 삭제할 약 클릭한 경우 - AlarmDetailActivity2 호출
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmDetailActivity2.class);
-                //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 intent.putExtra("itemSeq",listViewItem.getItemSeq());
-                activity. startActivity(intent);
+                intent.putExtra("listViewItemArrayList",listViewItemArrayList);
+                // startActivityForResult()를 통해 이 호출하는 액티비티의 반환값을 받겠다는 것을 알림
+                activity.startActivityForResult(intent, REQUEST_TEST);
+
+                //Log.e("TTag","Afdafdadf");
+                //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
+                // intent.putExtra("adapter",list_view);
+              //  activity. startActivity(intent);
                 //Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
 
             }
@@ -86,4 +98,5 @@ public class AlarmListViewAdapter extends BaseAdapter {
 
 
     }
+
 }

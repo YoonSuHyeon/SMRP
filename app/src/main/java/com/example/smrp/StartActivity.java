@@ -44,13 +44,13 @@ public class StartActivity extends AppCompatActivity{
     ViewPagerAdapter adapter;
     ViewPager viewPager;
     int currentPage = 0;
-    private int[] images = {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
+    private int[] images = {R.drawable.s2, R.drawable.s3,R.drawable.slide3};
     Timer timer;
     Button Btn_login; // 로그인 버튼 객체
     Button Btn_signup; // 회원가입 버튼 객체
 
     final long DELAY_MS = 1000;
-    final long PERIOD_MS = 3000;
+    final long PERIOD_MS = 6000;
     final int PERMISSION = 1;
 
 

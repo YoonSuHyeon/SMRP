@@ -14,13 +14,17 @@ import com.bumptech.glide.Glide;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.reponse_medicine2;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AlarmDetailActivity2 extends AppCompatActivity {
+public class AlarmDetailActivity2 extends AppCompatActivity implements Serializable {
 
     Context context;
     ImageView medicineImage;//약 사진
@@ -28,6 +32,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity {
     ImageView ic_dot;
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq;
+    private ArrayList<ListViewItem> listViewItemArrayList ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity {
         //itemSeq 받는 과정
         Intent intent =getIntent();
         itemSeq =intent.getStringExtra("itemSeq");
+        listViewItemArrayList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
         Log.d("Zxcbzxcb",itemSeq);
 
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
@@ -93,7 +99,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
                 BottomSheetDialog2 bottomSheetDialog2 = BottomSheetDialog2.getInstance();
-                bottomSheetDialog2.init("cc",itemSeq);
+                bottomSheetDialog2.init("cc",itemSeq, listViewItemArrayList, AlarmDetailActivity2.this);
                 bottomSheetDialog2.show(getSupportFragmentManager(),"bottomSheet");
             }
         });

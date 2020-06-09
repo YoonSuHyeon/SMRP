@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.widget.NestedScrollView;
@@ -65,10 +66,36 @@ public class AlarmSetActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     private InputMethodManager imm;
     ArrayList<ListViewItem>list = new ArrayList<>();
+    String back="a";
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK) {
+
+                alarmMedicineList.clear(); // 전에 있던 약 리스트 정보를 삭제
+                //반환값과 함께 전달받은 리스트뷰로 갱신하기
+                alarmMedicineList.addAll((ArrayList<ListViewItem>) data.getSerializableExtra("listViewItemArrayList"));
+                alarmListViewAdapter.notifyDataSetChanged();
+
+            }
+        }
+    }
+    //Log.e("OKOKOK", "오오");
+    //alarmMedicineList.remove
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //alarmListViewAdapter.notifyDataSetChanged();
+
+        Log.e("OKOKOKOKOK", ""+alarmMedicineList.size());
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_med_fragment);
-
+        Log.e("s","ㅇㅇㅇㅇ");
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
 
@@ -82,7 +109,9 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         list = (ArrayList<ListViewItem>) intent.getSerializableExtra("list");
-
+    //    alarmMedicineList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
+        back = intent.getStringExtra("back");
+//        Log.e("afaf",back);
         iv_back = findViewById(R.id.iv_back);
         spin_type = findViewById(R.id.spin_type);
         Btn_add = findViewById(R.id.Btn_add);
@@ -118,13 +147,7 @@ public class AlarmSetActivity extends AppCompatActivity {
         alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this); //alarmMedicineList =ArrayList
         Lst_medicine.setAdapter(alarmListViewAdapter);  //Lst_medicine: listView
 
-        if(list!=null&&list.size()>0) {
-            Log.d("TAG", "onCreateonCreateonCreate: ");
-            alarmMedicineList.addAll(list);
-            alarmListViewAdapter.notifyDataSetChanged();
 
-
-        }
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,7 +292,21 @@ public class AlarmSetActivity extends AppCompatActivity {
 
             }
         });
+        if(back != null){
+            Log.e("H","HHH");
+            alarmMedicineList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
+            alarmListViewAdapter.notifyDataSetChanged();
+        }
+        else{
+            if(list!=null&&list.size()>0) {
+                Log.d("TAG", "onCreateonCreateonCreate: ");
+                alarmMedicineList.addAll(list);
+                alarmListViewAdapter.notifyDataSetChanged();
 
+        }
+
+
+        }
        // return root;
     }
 
