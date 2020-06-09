@@ -102,9 +102,9 @@ public class AlarmDetailActivity2 extends AppCompatActivity implements Serializa
         ic_dot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
-                BottomSheetDialog2 bottomSheetDialog2 = BottomSheetDialog2.getInstance();
-                bottomSheetDialog2.init(user_id,itemSeq, listViewItemArrayList, AlarmDetailActivity2.this);
-                bottomSheetDialog2.show(getSupportFragmentManager(),"bottomSheet");
+                BottomSheetDialog3 bottomSheetDialog3 = BottomSheetDialog3.getInstance();
+                bottomSheetDialog3.init(user_id,itemSeq, listViewItemArrayList, AlarmDetailActivity2.this);
+                bottomSheetDialog3.show(getSupportFragmentManager(),"bottomSheet");
             }
         });
 
