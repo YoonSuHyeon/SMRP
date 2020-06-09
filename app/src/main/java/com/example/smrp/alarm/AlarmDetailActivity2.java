@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,12 +33,15 @@ public class AlarmDetailActivity2 extends AppCompatActivity implements Serializa
     ImageView ic_dot;
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq;
+    String user_id;
     private ArrayList<ListViewItem> listViewItemArrayList ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_detail2);
         context=this;
+        SharedPreferences loginInfromation = getSharedPreferences("setting",0);
+        user_id = loginInfromation.getString("id","");
         //Init
         medicineImage=findViewById(R.id.iv_medicine);
         iv_back=findViewById(R.id.iv_back);
@@ -99,7 +103,7 @@ public class AlarmDetailActivity2 extends AppCompatActivity implements Serializa
             @Override
             public void onClick(View v) { // dialog를 띄울 Activity에서 구현
                 BottomSheetDialog2 bottomSheetDialog2 = BottomSheetDialog2.getInstance();
-                bottomSheetDialog2.init("cc",itemSeq, listViewItemArrayList, AlarmDetailActivity2.this);
+                bottomSheetDialog2.init(user_id,itemSeq, listViewItemArrayList, AlarmDetailActivity2.this);
                 bottomSheetDialog2.show(getSupportFragmentManager(),"bottomSheet");
             }
         });

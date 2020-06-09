@@ -2,6 +2,7 @@ package com.example.smrp.alarm;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     EditText et_oneTimeCapacity,et_alramName,et_dosingPeriod,et_oneTimeDose;
     ImageView iv_back;
     Long groupId;
+    String user_id;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_edit);
@@ -67,6 +69,8 @@ public class AlarmEditActivity extends AppCompatActivity {
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
         Intent intent = getIntent();
+        SharedPreferences loginInfromation = getSharedPreferences("setting",0);
+        user_id = loginInfromation.getString("id","");
         groupId = intent.getLongExtra("groupId",0);
         iv_back = findViewById(R.id.iv_back);
         spin_type = findViewById(R.id.spin_type);
@@ -164,7 +168,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 }
 
                 RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                AlarmMedicine alarmMedicine = new AlarmMedicine("cc",et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
+                AlarmMedicine alarmMedicine = new AlarmMedicine(user_id,et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
                         ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
 
 
@@ -223,8 +227,8 @@ public class AlarmEditActivity extends AppCompatActivity {
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
         //String id  사용자 id를 가져와야함
-        String id ="cc";
-        Call<List<reponse_medicine3>> call = networkService.findUserMedicine(id);
+
+        Call<List<reponse_medicine3>> call = networkService.findUserMedicine(user_id);
         call.enqueue(new Callback<List<reponse_medicine3>>() {
             @Override
             public void onResponse(Call<List<reponse_medicine3>> call, Response<List<reponse_medicine3>> response) {
