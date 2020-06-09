@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,14 +81,14 @@ public class AlarmSetActivity extends AppCompatActivity {
             }
         }
     }
-
+    //Log.e("OKOKOK", "오오");
     //alarmMedicineList.remove
     @Override
     protected void onStart() {
         super.onStart();
         //alarmListViewAdapter.notifyDataSetChanged();
 
-
+        Log.e("OKOKOKOKOK", ""+alarmMedicineList.size());
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,28 +98,29 @@ public class AlarmSetActivity extends AppCompatActivity {
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
 
-        this.context = this;
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        this.context=this;
+        alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
 
-        final Intent my_intent = new Intent(this.context, Alarm_Reciver.class);
+        final Intent my_intent = new Intent(this.context,Alarm_Reciver.class);
         final Calendar calendar = Calendar.getInstance();
+
 
 
         Intent intent = getIntent();
         list = (ArrayList<ListViewItem>) intent.getSerializableExtra("list");
-        //    alarmMedicineList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
+    //    alarmMedicineList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
         back = intent.getStringExtra("back");
-
+//        Log.e("afaf",back);
         iv_back = findViewById(R.id.iv_back);
         spin_type = findViewById(R.id.spin_type);
         Btn_add = findViewById(R.id.Btn_add);
 
-        btn_Set_Alarm = findViewById(R.id.btn_set_alarm);
-        et_oneTimeCapacity = findViewById(R.id.et_oneTimeCapacity);
+        btn_Set_Alarm= findViewById(R.id.btn_set_alarm);
+        et_oneTimeCapacity= findViewById(R.id.et_oneTimeCapacity);
 
-        et_alramName = findViewById(R.id.et_alramName);
-        et_dosingPeriod = findViewById(R.id.et_dosingPeriod);
-        et_oneTimeDose = findViewById(R.id.et_oneTimeDose);
+        et_alramName=findViewById(R.id.et_alramName);
+        et_dosingPeriod=findViewById(R.id.et_dosingPeriod);
+        et_oneTimeDose=findViewById(R.id.et_oneTimeDose);
 
 
         Lst_medicine = findViewById(R.id.Lst_medicine2);
@@ -135,19 +135,18 @@ public class AlarmSetActivity extends AppCompatActivity {
         spin_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), typeList.get(i) + "",
+                Toast.makeText(getApplicationContext(),typeList.get(i)+"",
                         Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
-        alarmListViewAdapter = new AlarmListViewAdapter(alarmMedicineList, this); //alarmMedicineList =ArrayList
+        alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this); //alarmMedicineList =ArrayList
         Lst_medicine.setAdapter(alarmListViewAdapter);  //Lst_medicine: listView
 
-        if (list != null && list.size() > 0) {
+        if(list!=null&&list.size()>0) {
 
             alarmMedicineList.addAll(list);
             alarmListViewAdapter.notifyDataSetChanged();
@@ -291,12 +290,12 @@ public class AlarmSetActivity extends AppCompatActivity {
                 }
             });
             if (back != null) {
-
+                Log.e("H", "HHH");
                 alarmMedicineList = (ArrayList<ListViewItem>) intent.getSerializableExtra("listViewItemArrayList");
                 alarmListViewAdapter.notifyDataSetChanged();
             } else {
                 if (list != null && list.size() > 0) {
-
+                    Log.d("TAG", "onCreateonCreateonCreate: ");
                     alarmMedicineList.addAll(list);
                     alarmListViewAdapter.notifyDataSetChanged();
 
@@ -304,8 +303,8 @@ public class AlarmSetActivity extends AppCompatActivity {
 
 
             }
-            // return root;
         }
+       // return root;
     }
 
     public void notificationSomethings(){
@@ -441,5 +440,4 @@ public class AlarmSetActivity extends AppCompatActivity {
         //ialog.setCancelable(true);
         dialog.show();
     }
-
 }
