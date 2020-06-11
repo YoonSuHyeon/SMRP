@@ -2,6 +2,7 @@ package com.example.smrp.searchPrescription;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -45,7 +46,6 @@ import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +74,7 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
     private static final int MAX_DIMENSION = 1080;//1080
     private Dialog dialog;
     private boolean bool_end = false;
-    private RetrofitService_takenpicture json;
+
     private RetrofitService retrofitService;
 
 
@@ -83,10 +83,11 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
     private Button add_Btn;
     private PrescriptionAdapter adapter;
     private HashMap<Integer,String> select_pill_list; //사용자 선택한 약 정보를 담는 hashmap
-    private String id ="cc";
+    private String id ;
     private ImageView back_imgView;
     private Uri photoUri;
     private RecyclerView recyclerView;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +103,18 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
 
+        sharedPreferences = getSharedPreferences("setting",0);
+        id = sharedPreferences.getString("id","");
 
         add_Btn.setOnClickListener(new View.OnClickListener() { //추가하기 버튼 누를시
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //추가하기
                 if(select_pill_list.size()==0){
                     Toast.makeText(getApplicationContext(),"약을 선택해 주세요.",Toast.LENGTH_SHORT).show();
                 }else{
                     for(Map.Entry<Integer,String>elem : select_pill_list.entrySet())
                         itemseq_list.add(elem.getValue());
-                    //Log.d("TAG", "==>: "+elem.getKey()+","+elem.getValue()+"\n");
+
                     RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
                     User_Select user_select = new User_Select(id,itemseq_list);
                     Call<response> call = networkService.addSelectMedicine(user_select);
@@ -142,11 +145,11 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
         adapter.setOnClickListener(new PrescriptionAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(PrescriptionAdapter.ViewHolder holder, View v, int position) {
-                Log.d("TAG", "onItemClick: "+list.get(position).getText1());
 
-                if(select_pill_list.size()==0){//초기
+
+                if(select_pill_list.size()==0){//초기 //사용자가 추가한 약리스트(hashmap:select_pill_list)
                     select_pill_list.put(position,list.get(position).getItemSeq());
-                    Log.d("TAG", "select_pill_list.size()==0: "+list.get(position).getItemSeq()+"."+list.get(position).getText1());
+
                 }else{
                     if(select_pill_list.get(position)==null){ //선택한 약이 hashmap에 없을경우
                         select_pill_list.put(position,list.get(position).getItemSeq());
@@ -163,10 +166,7 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
 
 
 
-
         sendTakePhotoIntent();
-
-
 
     }
 
@@ -177,7 +177,7 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
         if (requestCode == 672 && resultCode == RESULT_OK) {
 
             try {
-                //imageView.setImageURI(photoUri);
+
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -202,13 +202,13 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/com.example.smrp/files/Pictures");//Android/data/com.raonstudio.cameratest/files
-            Log.d("TAG", "sendTakePhotoIntent: "+Environment.getExternalStorageDirectory().getAbsolutePath());
+
             if(!file.exists()){
-                Log.d("TAG", "file not exists(): ");
+
                 file.mkdir();
 
             }
-            Log.d("TAG", "file.exists()file.exists(): "+file.exists());
+
             File photoFile = null;
 
             try {
@@ -353,8 +353,9 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
                             finish();
                         }else{
                             for(int i =0 ; i< list1.size();i++){
-                                list.add(new Prescriptionitem(list1.get(i).getItemSeq(),list1.get(i).getItemImage(),list1.get(i).getItemName(),list1.get(i).getEntpName(),
-                                        list1.get(i).getFormCodeName(),list1.get(i).getEtcOtcName()));
+                                list.add(new Prescriptionitem(list1.get(i).getItemSeq(),list1.get(i).getItemImage(),list1.get(i).getItemName()/*list1.get(i).getEntpName(), //약 식별번호 / 약 이미지 / 약 이름 / 약 제조사 / 약 포장 /약 의약품정보(일반, 전문)
+                                        list1.get(i).getFormCodeName()*/,list1.get(i).getEtcOtcName()));
+                                adapter.notifyDataSetChanged();
                             }
 
                             LinearLayoutManager mlinearLayoutManager = new LinearLayoutManager(getApplicationContext());

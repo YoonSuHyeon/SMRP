@@ -38,23 +38,26 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.recycler_medicine_item,parent,false);
-        //View view = inflater.inflate(R.layout.)
+        View view = inflater.inflate(R.layout.recycler_search_medicine_item,parent,false);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {//onBindViewHolder함수는 생성된 뷰홀더에 데이터를 바인딩 해주는 함수
+
         String stringURL = list.get(position).getStringURL();
         String text1 = list.get(position).getText1();
         String text2 = list.get(position).getText2();
-        String text3 = list.get(position).getText3();
-        String text4 = list.get(position).getText4();
+        /*String text3 = list.get(position).getText3();
+        String text4 = list.get(position).getText4();*/
         //holder.img.setImageBitmap(stringURL);
+
         holder.t1.setText(text1);
+
         holder.t2.setText(text2);
-        holder.t3.setText(text3);
-        holder.t4.setText(text4);
+        /*holder.t3.setText(text3);
+        holder.t4.setText(text4);*/
         Glide.with(context).load(stringURL).override(500,150).fitCenter().into(holder.img);
 
     }
@@ -78,11 +81,11 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         int pos;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            img = itemView.findViewById(R.id.medicine_img);
-            t1 = itemView.findViewById(R.id.medicine_tv1);
-            t2 = itemView.findViewById(R.id.medicine_tv2);
-            t3 = itemView.findViewById(R.id.medicine_tv3);
-            t4 = itemView.findViewById(R.id.medicine_tv4);
+            img = itemView.findViewById(R.id.medicine_search_img);
+            t1 = itemView.findViewById(R.id.medicine_search_name);
+            t2 = itemView.findViewById(R.id.medicine_search_attirbute);
+            /*t3 = itemView.findViewById(R.id.medicine_tv3);
+            t4 = itemView.findViewById(R.id.medicine_tv4);*/
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

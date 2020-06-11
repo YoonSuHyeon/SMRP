@@ -41,54 +41,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="6.5">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:background="#989898"
-                    android:gravity="center"
-                    android:text="식별/포장" />
-
-                <TextView
-                    android:layout_width="276dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:background="#989898"
-                    android:gravity="center"
-                    android:text="제품명" />
-
-               <!-- <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:background="#989898"
-                    android:gravity="center"
-                    android:text="회사명" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:background="#989898"
-                    android:gravity="center"
-                    android:text="제형" />
-                -->
-                <TextView
-                    android:layout_width="79dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
-                    android:background="#989898"
-                    android:gravity="center"
-                    android:text="구분" />
-
-            </LinearLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_list"
                 android:layout_width="match_parent"
