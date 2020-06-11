@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.PowerManager;
 
 import androidx.core.app.NotificationCompat;
 
@@ -43,7 +44,7 @@ public class Alarm_Reciver extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentText("약을 드실 시간입니다!!!!!!!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
+               .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -60,6 +61,11 @@ public class Alarm_Reciver extends BroadcastReceiver {
         }else builder.setSmallIcon(R.mipmap.ic_launcher); //오레오 이하 에서는 밉맵사용해야만 함
 
         assert  notificationManager != null;
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK  |
+                PowerManager.ACQUIRE_CAUSES_WAKEUP |
+                PowerManager.ON_AFTER_RELEASE, "My:Tag");
+        wakeLock.acquire(5000);
         notificationManager.notify(1234,builder.build());
 
     }
