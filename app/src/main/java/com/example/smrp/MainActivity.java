@@ -1,15 +1,12 @@
 package com.example.smrp;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     SharedPreferences sharedPreferences;
     String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,23 +97,5 @@ public class MainActivity extends AppCompatActivity {
 
         return true ;
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.action_logout :
-                Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show();
-                sharedPreferences = getSharedPreferences("setting",0);
-                editor = sharedPreferences.edit();
-                editor.clear();
-                editor.commit();
-                Intent intent = new Intent(this,StartActivity.class);
-                startActivity(intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 }
