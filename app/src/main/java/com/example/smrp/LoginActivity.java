@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.smrp.alarm.AlarmViewModel;
 import com.example.smrp.alarm.Alarm_Reciver;
 
 import java.util.Calendar;
@@ -34,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     String id="", password=""; // 사용자의 아이디와 비밀번호를 저장하는 변수
     TextView tv_findId;
     ImageView iv_back;
-    String user_id="",user_pass="";
+    String user_id="",user_pass="",getAutoLogin="";
     boolean bool_login = false;
     String name="";
     CheckBox auto_lgoin;
@@ -80,9 +79,11 @@ public class LoginActivity extends AppCompatActivity {
         user_id = loginInfromation.getString("id","");
         user_pass = loginInfromation.getString("password","");
         name = loginInfromation.getString("name","");
+        getAutoLogin = loginInfromation.getString("auto_login","");
         Log.d("TAG", "user_id: "+user_id);
         Log.d("TAG", "user_pass: "+user_pass);
-        if(!user_id.equals("")&&!user_pass.equals("")){ //자동로그인 실시
+        Log.d("TAG","getAutoLogin"+getAutoLogin);
+        if(getAutoLogin.equals("true")){ //자동로그인 실시 !user_id.equals("")&&!user_pass.equals("")
             Log.d("TAG", "onCreate: ");
             Txt_id.setText(user_id);//자동로그인시 사용자의 id 텍스트핑드의 자동로그인하는 계정 id값을 출력
             Txt_password.setText(user_pass);//자동로그인시 사용자의 password 텍스트핑드의 자동로그인하는 계정 password값을 출력
@@ -98,7 +99,6 @@ public class LoginActivity extends AppCompatActivity {
             call.enqueue(new Callback<UserAlarm>() {
                 @Override
                 public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
-                    // Log.d("TAG", "onResponse1: "+response.body().getResponse());
                     if (!response.body().getUserName().equals("empty")) {
                         if(response.body().getAlramMedicines().size() != 0){
                             Log.d("qweqwe", response.body().getAlramMedicines().get(0).getAlramName());
@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserAlarm> call, Throwable t) {
-                    Toast.makeText(getApplicationContext(),"서버와 통신이 불안정합니.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"서버와 통신이 불안정합니다.",Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -126,27 +126,25 @@ public class LoginActivity extends AppCompatActivity {
 
         Btn_login.setOnClickListener(new View.OnClickListener() {//로그인 버튼 누를시
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //로그인버튼 활성화
                 user_id =  Txt_id.getText().toString();
                 user_pass =  Txt_password.getText().toString();
-                Log.d("TAG", "user_id2: "+user_id);
-                Log.d("TAG", "user_pass2: "+user_pass);
                 User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
                 Call<UserAlarm> call = retrofitService.login(user);
                 call.enqueue(new Callback<UserAlarm>() {
                     @Override
                     public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
-                        //Log.d("TAG", "onResponse2 "+response.body().getResponse());
                         if(!response.body().getUserName().equals("empty")){
-                            //Log.d("TAG", "bool_login: "+bool_login);
                             name = response.body().getUserName();
-                           // Log.d("qweqwe", response.body().getAlramMedicines().get(0).getAlramName());
+                            editor.putString("id", user_id); //자동로그인시 ID 값 입력
+                            editor.putString("password", user_pass); //자동로그인시 패스워드 값 입력
+                            editor.putString("name",name); //자동로그인시 패스워드 이름 입력
                             if (bool_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
-                                editor.putString("id", Txt_id.getText().toString());
-                                editor.putString("password", Txt_password.getText().toString());
-                                editor.putString("name",name);
-                                editor.commit();
+                                editor.putString("auto_login", "true");
+                            }else{ //자동로그인을 하지 않은 상태에서 로그인시
+                                editor.putString("auto_login", "false");
                             }
+                            editor.commit();
 
 
                             if(response.body().getAlramMedicines().size()!=0){
