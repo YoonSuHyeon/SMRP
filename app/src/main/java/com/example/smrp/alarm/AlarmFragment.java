@@ -141,7 +141,14 @@ public class AlarmFragment extends Fragment {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    items.add(new ListViewAlarmItem(reponse_medicines.get(i).getAlramName(),reponse_medicines.get(i).getStartAlram(),reponse_medicines.get(i).getAlramGroupId()));
+                    items.add(new ListViewAlarmItem(reponse_medicines.get(i).getAlramName(),
+                            reponse_medicines.get(i).getStartAlram(),
+                            reponse_medicines.get(i).getFinishAlram(),
+                            reponse_medicines.get(i).getOneTimeDose().toString(),
+                            reponse_medicines.get(i).getAlramGroupId(),
+                            reponse_medicines.get(i).getDoseType(),
+                            reponse_medicines.get(i).getDosingPeriod().toString()
+                            ));
 
 
                 }

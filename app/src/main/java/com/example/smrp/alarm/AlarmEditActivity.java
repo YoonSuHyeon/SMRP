@@ -53,6 +53,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     private NestedScrollView nsv_View;
     private AlarmViewModel alarmViewModel;
     private Spinner spin_type;
+    ImageView ic_dot;
     Context context;
     ArrayList<String> typeList; // 식전, 식후 담는 리스트
     ArrayAdapter<String> arrayAdapter; // 배열 어댑터
@@ -78,7 +79,7 @@ public class AlarmEditActivity extends AppCompatActivity {
         spin_type = findViewById(R.id.spin_type);
         Btn_add = findViewById(R.id.Btn_add);
         Lst_medicine=findViewById(R.id.Lst_medicine2);
-
+        ic_dot = findViewById(R.id.ic_dot);
         Btn_edit= findViewById(R.id.Btn_edit);
         et_oneTimeCapacity= findViewById(R.id.et_oneTimeCapacity);
 
@@ -153,7 +154,15 @@ public class AlarmEditActivity extends AppCompatActivity {
             }
         });
 
+        ic_dot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { // dialog를 띄울 Activity에서 구현
+                BottomSheetDialog2 bottomSheetDialog = BottomSheetDialog2.getInstance();
 
+                bottomSheetDialog.init(groupId);
+                bottomSheetDialog.show(getSupportFragmentManager(),"bottomSheet");
+            }
+        });
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

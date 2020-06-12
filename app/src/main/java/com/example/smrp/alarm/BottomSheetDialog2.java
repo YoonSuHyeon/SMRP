@@ -33,14 +33,14 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
 
     private LinearLayout Lay_delete;
     private LinearLayout Lay_cancel;
-    private LinearLayout Lay_edit;
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_ver_alarm, container, false);
         Lay_delete = (LinearLayout) view.findViewById(R.id.Lay_delete);
         Lay_cancel = (LinearLayout) view.findViewById(R.id.Lay_cancel);
-        Lay_edit = (LinearLayout) view.findViewById(R.id.Lay_edit);
+
         Lay_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +74,7 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
                 getActivity().onBackPressed();
             }
         });
-        Lay_edit.setOnClickListener(new View.OnClickListener() {
+        /*Lay_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "edit", Toast.LENGTH_SHORT).show();
@@ -84,7 +84,7 @@ public class BottomSheetDialog2 extends BottomSheetDialogFragment {
                 startActivity(intent);
                 //  getActivity().onBackPressed();
             }
-        });
+        });*/
         // dismiss();
         return view;
     }
