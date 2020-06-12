@@ -34,6 +34,8 @@ import com.example.smrp.LoginActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
+import com.example.smrp.User;
+import com.example.smrp.UserAlarm;
 import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.reponse_medicine3;
 import com.example.smrp.response;
@@ -190,119 +192,136 @@ public class AlarmSetActivity extends AppCompatActivity {
                                 , Integer.parseInt(et_oneTimeCapacity.getText().toString()), spin_type.getSelectedItem().toString(), temp);
 
 
-                        Call<response> call = networkService.addAlram(alarmMedicine);
-                        call.enqueue(new Callback<response>() {
+                        Call<UserAlarm> call = networkService.addAlram(alarmMedicine);
+                        call.enqueue(new Callback<UserAlarm>() {
                             @Override
-                            public void onResponse(Call<response> call, Response<response> response) {
+                            public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
                                 try {
-                                    String respon = response.body().getResponse();
+                                    //String respon = response.body().getResponse();
 
                                 } catch (NullPointerException e) {
 
                                 }
                                 // PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,0,my_intent,0);
+                                if(response.body().getAlramMedicines().size()!=0){
+                                    for(int i=0; i<response.body().getAlramMedicines().size(); i++){
+                                        switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
+                                            case 1:{
+                                                if(response.body().getAlramMedicines().get(i).getDoseType().equals("식전")){
+                                                    calendar.set(Calendar.HOUR_OF_DAY,11);      //식전
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
+                                                }else{
+                                                    calendar.set(Calendar.HOUR_OF_DAY,13);      //식후
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
+                                                }
 
-                                if (Integer.parseInt(et_oneTimeCapacity.getText().toString()) == 1) {
-                                    if (spin_type.getSelectedItem().toString() == "식전") {
-                                        calendar.set(Calendar.HOUR_OF_DAY, 11);      //식전
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
-                                    } else {
-                                        calendar.set(Calendar.HOUR_OF_DAY, 13);      //식후
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
-                                    }
-                                } else if (Integer.parseInt(et_oneTimeCapacity.getText().toString()) == 2) {
-                                    if (spin_type.getSelectedItem().toString() == "식전") {
-                                        calendar.set(Calendar.HOUR_OF_DAY, 7);      //식전
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+                                                break;
+                                            }
+                                            case 2:{
+                                                if(response.body().getAlramMedicines().get(i).getDoseType().equals("식전")){
+                                                    calendar.set(Calendar.HOUR_OF_DAY,7);      //식전
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, 17);      //식전
-                                        calendar.set(Calendar.MINUTE,50);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender2);
-                                    } else {
-                                        calendar.set(Calendar.HOUR_OF_DAY, 9);      //식후
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender2 = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId()+100,my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender2);
+                                                }else{
+                                                    calendar.set(Calendar.HOUR_OF_DAY,9);      //식후
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, 18);      //식후
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender2);
-                                    }
-                                } else {
-                                    if (spin_type.getSelectedItem().toString() == "식전") {
-                                        calendar.set(Calendar.HOUR_OF_DAY, 18);      //식전
-                                        calendar.set(Calendar.MINUTE, 13);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,18);      //식후
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender2 = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId()+100,my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender2);
+                                                }
+                                                break;
+                                            }
+                                            case 3:{
+                                                if(response.body().getAlramMedicines().get(i).getDoseType().equals("식전")){
+                                                    calendar.set(Calendar.HOUR_OF_DAY,19);      //식전
+                                                    calendar.set(Calendar.MINUTE,22);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, 11);      //식전
-                                        calendar.set(Calendar.MINUTE, 00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender2);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,11);      //식전
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender2 = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId()+100,my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender2);
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, 17);      //식전
-                                        calendar.set(Calendar.MINUTE, 00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender3 = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender3);
-                                    } else {
-                                        calendar.set(Calendar.HOUR_OF_DAY, 9);      //식후
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender3 = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId()+200,my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender3);
+                                                }else{
+                                                    calendar.set(Calendar.HOUR_OF_DAY,9);      //식후
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, 13);      //식후
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
-                                        }
-                                        PendingIntent sender2 = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender2);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,13);      //식후
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender2 = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId()+100,my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender2);
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, 18);      //식후
-                                        calendar.set(Calendar.MINUTE,00);
-                                        if(calendar.before(Calendar.getInstance())){
-                                            calendar.add(Calendar.DATE, 1);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,18);      //식후
+                                                    calendar.set(Calendar.MINUTE,00);
+                                                    if(calendar.before(Calendar.getInstance())){
+                                                        calendar.add(Calendar.DATE, 1);
+                                                    }
+                                                    PendingIntent sender3 = PendingIntent.getBroadcast(context,response.body().getAlramMedicines().get(i).getAlramGroupId()+200,my_intent,0);
+                                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender3);
+                                                }
+                                                break;
+                                            }
+
+                                            default:{
+
+
+                                            }
                                         }
-                                        PendingIntent sender3 = PendingIntent.getBroadcast(AlarmSetActivity.this, count++, my_intent, 0);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender3);
+
                                     }
                                 }
                                 //calendar.set(Calendar.HOUR_OF_DAY,19);
@@ -320,7 +339,7 @@ public class AlarmSetActivity extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<response> call, Throwable t) {
+                            public void onFailure(Call<UserAlarm> call, Throwable t) {
 
                                 //Toast.makeText(getApplicationContext(),"회원가입 실패",Toast.LENGTH_SHORT).show();
                             }
