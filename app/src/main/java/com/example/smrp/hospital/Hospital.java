@@ -5,19 +5,19 @@ public class Hospital {
     private String yadmNm;
     private String clCdNm;
     private String addr;
-    private String hosurl;
+    //private String hosurl;
     private String telno;
     private String xPos;
     private String yPos;
     private String distance;
 
-    public Hospital(String yadmNm, String clCdNm, String addr, String hosurl, String telno, String xPos, String yPos, double distance) {
+    public Hospital(String yadmNm, String clCdNm, String addr, /*String hosurl,*/String telno, String xPos, String yPos, double distance) {
 
 
         this.yadmNm = yadmNm;
         this.clCdNm = clCdNm;
         this.addr = addr;
-        this.hosurl = hosurl;
+        //this.hosurl = hosurl;
         this.telno = telno;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -60,13 +60,13 @@ public class Hospital {
         this.addr = addr;
     }
 
-    public String getHosurl() {
+   /* public String getHosurl() {
         return hosurl;
     }
 
     public void setHosurl(String hosurl) {
         this.hosurl = hosurl;
-    }
+    }*/
 
     public String getTelno() {
         return telno;

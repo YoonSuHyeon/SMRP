@@ -26,8 +26,6 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
 
         void onCallClick(int position);
 
-        void onUrl(int position);
-
         void onPath(int position);
     }
     @NonNull
@@ -56,11 +54,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             listener.onCallClick(position);
         }
     }
-    public void onUrl(int position){
-        if(listener != null){
-            listener.onCallClick(position);
-        }
-    }
+
+
     public void onPath(int position){
         if(listener != null){
             listener.onPath(position);
@@ -82,7 +77,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             textview_name = itemView.findViewById(R.id.textView_hos_name); //병원 이름
             textview_type = itemView.findViewById(R.id.textView_hos_type); //병원 타입
             textView_addr = itemView.findViewById(R.id.textView_hos_addr); //병원 주소
-            textview_hosurl = itemView.findViewById(R.id.textView_Url); //병원 홈페이지
+//            textview_hosurl = itemView.findViewById(R.id.textView_Url); //병원 홈페이지
             textview_hostelno = itemView.findViewById(R.id.textView_telno); //병원 전화번호
             textView_distance = itemView.findViewById(R.id.textView_hos_distance); //병원거리
             button_path = itemView.findViewById(R.id.hos_button_path);
@@ -96,15 +91,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
                     }
                 }
             });
-            textview_hosurl.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        listener.onUrl(position);
-                    }
-                }
-            });
+
             textview_hostelno.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,12 +112,12 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             });
         }
         public void setItem(Hospital item){
-            textview_name.setText(item.getYadmNm());
-            textview_type.setText(item.getClCdNm());
-            textView_addr.setText(item.getAddr());
-            textview_hosurl.setText(item.getHosurl());
-            textview_hostelno.setText(item.getTelno());
-            textView_distance.setText(item.getDistance());
+            textview_name.setText(item.getYadmNm()); //병원이름
+            textview_type.setText(item.getClCdNm()); //병원 규모
+            textView_addr.setText(item.getAddr());//병원 주소
+            //textview_hosurl.setText(item.getHosurl());
+            textview_hostelno.setText(item.getTelno());//병원 전화버놓
+            textView_distance.setText(item.getDistance());//병원거리
         }
     }
 }

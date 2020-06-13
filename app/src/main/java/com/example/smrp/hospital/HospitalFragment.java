@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -230,6 +229,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                 mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                 mapCircle.setTag(2);
                 mapView.addCircle(mapCircle);
+                mapView.setZoomLevel(3,true);
                 re_parsingData(latitude,longitude,radiuse,dgsbjtCd);
 
             }
@@ -269,19 +269,6 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                 Toast.makeText(getActivity(),"통화 연결다이얼로그로 전환합니다.",Toast.LENGTH_LONG).show();
             }
 
-            @Override
-            public void onUrl(int position) {
-                if(!list.get(position).getHosurl().contains("www")){
-
-                    Toast.makeText(getActivity(),"해당 병원은 사이트가 존재 하지 않습니다.",Toast.LENGTH_LONG).show();
-                }else{
-                    Uri uri = Uri.parse(list.get(position).getHosurl());
-
-                    Intent intent  = new Intent(Intent.ACTION_VIEW,uri);
-                    startActivity(intent);
-                }
-
-            }
 
             @Override
             public void onPath(int position) {
@@ -535,7 +522,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
         if(hosurl==null)
             hosurl="병원 사이트 없음.";
-        hospital= new Hospital(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
+        hospital= new Hospital(yadmNm,clCdNm,addr,/*hosurl,*/telno,xPos,yPos,distance);
         list.add(hospital);
         adapter.notifyDataSetChanged();
 
@@ -788,14 +775,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
+           /* try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-           /* while(!bool_start)
-                ;*/
+            }*/
+            while(!bool_start)
+                ;
             bool_start = false;
             return null;
         }
