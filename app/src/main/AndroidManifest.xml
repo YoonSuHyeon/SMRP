@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
 
     <application
@@ -64,7 +65,15 @@
         <activity android:name=".report.DetailActivity"/>
         <activity android:name=".alarm.AlarmInformActivity"/>
         <activity android:name=".alarm.AlarmEditActivity"/>
-        <receiver android:name=".alarm.Alarm_Reciver"></receiver>
+        <receiver android:name=".alarm.Alarm_Reciver">
+        </receiver>
+        <receiver android:name=".alarm.BootReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.smrp"

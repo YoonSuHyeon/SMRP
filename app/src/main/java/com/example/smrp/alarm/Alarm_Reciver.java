@@ -27,6 +27,7 @@ public class Alarm_Reciver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.context = context;
 
+
        // String getString = intent.getExtras().getString("state");
 
 
@@ -40,6 +41,7 @@ public class Alarm_Reciver extends BroadcastReceiver {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground))
                 .setSmallIcon(R.drawable.location_icon)
                 .setContentTitle("얄 알람 서비스")
+                .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentText("약을 드실 시간입니다!!!!!!!!")
