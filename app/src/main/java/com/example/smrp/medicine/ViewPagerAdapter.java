@@ -101,7 +101,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                         navController.navigate(R.id.action_nav_home_to_nav_medicine);
                     }
                     else if(position==1){
-                        navController.navigate(R.id.action_nav_home_to_nav_report);
+                        navController.navigate(R.id.action_nav_home_to_nav_report_notice);
 
                     }
                     else if(position == 2){

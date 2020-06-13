@@ -51,6 +51,9 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
         reportViewModel =
                 ViewModelProviders.of(this).get(ReportViewModel.class);
         View root = inflater.inflate(R.layout.report_fragment, container, false);
+    //    Intent intent = new Intent(getActivity(), ReportNoticeActivity.class);
+      //..  startActivity(intent);
+
         Lst_symptom = root.findViewById(R.id.Lst_symptom);
 
         array_symptom = new ArrayList<String>();

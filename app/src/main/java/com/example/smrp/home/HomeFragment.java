@@ -69,13 +69,13 @@ public class HomeFragment extends Fragment {
     SimpleDateFormat sdfNow = new SimpleDateFormat("a hh : mm");
     // nowDate 변수에 값을 저장한다.
     String formatDate = sdfNow.format(date);
-    private static TextView time,pm_textview,humidity_textView,temp_textview , min_max_textview, feel_textview;
+    private static TextView time,pm_textview,humidity_textView,temp_textview,Txt_statement, Txt_weather;//, min_max_textview, feel_textview;
     private static ImageView weather_imageview;
 
     private Location location;
     private double latitude, longitude;
     private Bitmap bitmap;
-    private int[] images= {R.drawable.img_search, R.drawable.img_self,R.drawable.img_hos}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
+    private int[] images= {R.drawable.t3, R.drawable.t1,R.drawable.t2}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
 
     //하단 이미지 버튼
@@ -135,10 +135,11 @@ public class HomeFragment extends Fragment {
 
         weather_imageview = root.findViewById(R.id.weather_imageview); //하늘 상태 사진
         temp_textview = root.findViewById(R.id.temp_textview); //온도 textView
-        min_max_textview = root.findViewById(R.id.min_max_textview);
-        feel_textview = root.findViewById(R.id.feel_textview);
+       // min_max_textview = root.findViewById(R.id.min_max_textview);
+       // feel_textview = root.findViewById(R.id.feel_textview);
         humidity_textView = root.findViewById(R.id.humidity_textView); //하늘상태
-
+        Txt_statement = root.findViewById(R.id.Txt_statement);
+        Txt_weather = root.findViewById(R.id.Txt_weather);
         // 하단 이미지 버튼
         ic_med_search = root.findViewById(R.id.ic_med_search);
         ic_prescription_register = root.findViewById(R.id.ic_prescription_register);
@@ -241,10 +242,13 @@ public class HomeFragment extends Fragment {
         json.getList(latitude,longitude).enqueue(new Callback<Response>() {
             @Override
             public void onResponse(Call<Response> call, final retrofit2.Response<Response> response) {
+              //  int a = (int)response.body().getWeather_main().getTemp();
+                double temp = Math.round((response.body().getWeather_main().getTemp()) * 10) / 10.0;
 
-                temp_textview.setText(String.valueOf(response.body().getWeather_main().getTemp())+"℃"); //현재 온도
-                min_max_textview.append(String.valueOf(response.body().getWeather_main().getTemp_min())+"℃/"+String.valueOf(response.body().getWeather_main().getTemp_max())+"℃");
-                feel_textview.setText("체감온도: "+String.valueOf(response.body().getWeather_main().getFells_like())+"℃");
+
+                temp_textview.setText(String.valueOf(temp+"℃")); //현재 온도
+            //    min_max_textview.append(String.valueOf(response.body().getWeather_main().getTemp_min())+"℃/"+String.valueOf(response.body().getWeather_main().getTemp_max())+"℃");
+             //   feel_textview.setText("체감온도: "+String.valueOf(response.body().getWeather_main().getFells_like())+"℃");
 
                 humidity_textView.setText("습도: "+response.body().getWeather_main().getHumidity()+"%"); //하늘상태
 
@@ -254,6 +258,33 @@ public class HomeFragment extends Fragment {
                     icon_name = icon_name.replaceAll("d","n");
                 }
                 String str = sky_image.get(icon_name);
+
+                if(str.equals("clear_sky")){
+                    Txt_weather.setText("맑음 | ");
+                    if(temp > 28.0){
+                        Txt_statement.setText("더위 조심하세요!");
+
+                    }else if(temp >10.0){
+                        Txt_statement.setText("오늘은 따뜻한 날씨입니다");
+                    } else{
+                        Txt_statement.setText("오늘은 춥습니다");
+                    }
+                }else if(str.equals("few_clouds")){
+                    Txt_weather.setText("흐림 | ");
+                    Txt_statement.setText("오늘은 약간 흐립니다");
+                }else if(str.equals("scattered_clouds")){
+                    Txt_weather.setText("흐림 | ");
+                    Txt_statement.setText("오늘은 우중충합니다");
+                }else if(str.equals("rain")){
+                    Txt_weather.setText("비 | ");
+                    Txt_statement.setText("우산 잊지 않으셨나요?");
+                }else if(str.equals("broken_clouds")){
+                    Txt_weather.setText("흐림 | ");
+                    Txt_statement.setText("오늘은 우중충합니다");
+                }else if(str.equals("show_rain")){
+                    Txt_weather.setText("비 | ");
+                    Txt_statement.setText("우산 잊지 않으셨나요?");
+                }
 
                 if(str.equals("clear_sky")){
                     //BitmapDrawable image  = (BitmapDrawable)getResources().getDrawable(R.drawable.Sun1);

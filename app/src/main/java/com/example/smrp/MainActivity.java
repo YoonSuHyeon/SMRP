@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String name;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +53,26 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        navigationView.setItemIconTintList(null);
         // xml 파일에서 넣어놨던 header 선언
         View header = navigationView.getHeaderView(0);
         // header에 있는 리소스 가져오기
         TextView text = (TextView) header.findViewById(R.id.tv_header);
-        text.setText(name + "님 \n\r 환영합니다.");
+        TextView text2 = (TextView) header.findViewById(R.id.tv_header2);
+        TextView text3 = (TextView) header.findViewById(R.id.tv_header3);
+        text.setText(name+"");
+        //text.setText(name + "님 \n\r 환영합니다.");
+
         ImageView imageView =(ImageView) header.findViewById(R.id.iv_headerImage);
-        imageView.setImageDrawable(getDrawable(R.drawable.clear_sky1));
+        imageView.setImageDrawable(getDrawable(R.drawable.ic_user));
+       // imageView.setImageDrawable(getDrawable(R.drawable.clear_sky1));
 
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_alarm, R.id.nav_hospital,
-                R.id.nav_inquiry, R.id.nav_logout,R.id.nav_medicine,R.id.nav_pharmacy,R.id.nav_report)
+                R.id.nav_inquiry, R.id.nav_logout,R.id.nav_medicine,R.id.nav_pharmacy,R.id.nav_report_notice)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

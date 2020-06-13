@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_pharmacy"
             app:destination="@id/nav_pharmacy" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_report_notice"
+            app:destination="@id/nav_report_notice" />
     </fragment>
     <fragment
         android:id="@+id/nav_alarm"
@@ -56,4 +59,12 @@
         android:id="@+id/nav_report"
         android:name="com.example.smrp.report.ReportFragment"
         tools:layout="@layout/report_fragment" />
+    <fragment
+        android:id="@+id/nav_report_notice"
+        android:name="com.example.smrp.report.ReportNoticeFragment"
+        tools:layout="@layout/activity_report_notice" >
+        <action
+            android:id="@+id/action_nav_report_notice_to_nav_report"
+            app:destination="@id/nav_report" />
+    </fragment>
 </navigation>
