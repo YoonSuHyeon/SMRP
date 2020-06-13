@@ -202,6 +202,7 @@ public class AlarmSetActivity extends AppCompatActivity {
                                 } catch (NullPointerException e) {
 
                                 }
+                                Log.d("12341234",response.body().getAlramMedicines().get(1).getAlramName());
                                 // PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,0,my_intent,0);
                                 if(response.body().getAlramMedicines().size()!=0){
                                     for(int i=0; i<response.body().getAlramMedicines().size(); i++){
@@ -265,8 +266,8 @@ public class AlarmSetActivity extends AppCompatActivity {
                                             }
                                             case 3:{
                                                 if(response.body().getAlramMedicines().get(i).getDoseType().equals("식전")){
-                                                    calendar.set(Calendar.HOUR_OF_DAY,19);      //식전
-                                                    calendar.set(Calendar.MINUTE,22);
+                                                    calendar.set(Calendar.HOUR_OF_DAY,7);      //식전
+                                                    calendar.set(Calendar.MINUTE,00);
                                                     if(calendar.before(Calendar.getInstance())){
                                                         calendar.add(Calendar.DATE, 1);
                                                     }

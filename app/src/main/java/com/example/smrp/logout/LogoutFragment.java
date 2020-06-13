@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,44 +65,54 @@ public class LogoutFragment extends Fragment {
                         //String what = response.body().getAlramMedicines().get(i).getDoseType();
                         switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
                             case 1:{
+                                Log.d("321321",alarmManager.toString());
+
                                 pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                               /* if(alarmManager!=null){
+                                    Log.d("321323333331",alarmManager.toString());
+                                    alarmManager.cancel(pendingIntent);
+                                }*/
                                 alarmManager.cancel(pendingIntent);
                                 pendingIntent.cancel();
-                                alarmManager=null;
+                                //alarmManager=null;
                                 pendingIntent=null;
                                 break;
                             }
                             case 2:{
                                 pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                /*if(alarmManager!=null){
+                                    alarmManager.cancel(pendingIntent);
+                                }*/
                                 alarmManager.cancel(pendingIntent);
                                 pendingIntent.cancel();
-                                alarmManager=null;
+                               // alarmManager=null;
                                 pendingIntent=null;
 
                                 pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                 alarmManager.cancel(pendingIntent);
                                 pendingIntent.cancel();
-                                alarmManager=null;
+                                //alarmManager=null;
                                 pendingIntent=null;
                                 break;
                             }
                             case 3:{
+                                Log.d("321321",alarmManager.toString());
                                 pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                 alarmManager.cancel(pendingIntent);
                                 pendingIntent.cancel();
-                                alarmManager=null;
+                                //alarmManager=null;
                                 pendingIntent=null;
 
                                 pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                 alarmManager.cancel(pendingIntent);
                                 pendingIntent.cancel();
-                                alarmManager=null;
+                                //alarmManager=null;
                                 pendingIntent=null;
 
                                 pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+200,intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                 alarmManager.cancel(pendingIntent);
                                 pendingIntent.cancel();
-                                alarmManager=null;
+                                //alarmManager=null;
                                 pendingIntent=null;
                                 break;
                             }

@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.PowerManager;
@@ -21,7 +22,7 @@ import static com.example.smrp.alarm.AlarmSetActivity.NOTIFICATION_CHANNEL_ID;
 public class Alarm_Reciver extends BroadcastReceiver {
 
     Context context;
-    String INTENT_ACTION = Intent.ACTION_BOOT_COMPLETED;
+  //  String INTENT_ACTION = Intent.ACTION_BOOT_COMPLETED;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,7 +39,7 @@ public class Alarm_Reciver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,NOTIFICATION_CHANNEL_ID)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification))
                 .setSmallIcon(R.drawable.location_icon)
                 .setContentTitle("얄 알람 서비스")
                 .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
@@ -46,7 +47,7 @@ public class Alarm_Reciver extends BroadcastReceiver {
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentText("약을 드실 시간입니다!!!!!!!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-               .setContentIntent(pendingIntent)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
