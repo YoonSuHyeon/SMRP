@@ -3,7 +3,7 @@
 
 <resources>
     <string-array name="dgsbjtCd"> <!--진료과목 ID-->
-        <item>-전체-</item>
+        <item>진료과목</item>
         <item>가정의학과</item>
         <item>내과</item>
         <item>외과</item>
@@ -21,7 +21,7 @@
     </string-array>
 
     <string-array name="radiuse"> <!-- 반경(m) -->
-        <item>-기본값-</item>
+        <item>거리</item>
         <item>100m</item>
         <item>250m</item>
         <item>500m</item>

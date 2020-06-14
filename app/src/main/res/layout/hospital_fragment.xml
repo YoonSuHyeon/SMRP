@@ -37,7 +37,7 @@
             android:layout_marginBottom="11dp"
             android:backgroundTint="#FFFFFF"
             android:clickable="true"
-            android:src="@drawable/location_icon"
+            android:src="@drawable/gps_16px"
             app:backgroundTint="#FFFFFF"
             app:fabSize="mini" />
 
@@ -50,24 +50,25 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="37dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_vertical"
+            android:gravity="center|center_vertical"
             android:text="내 근처병원"
             android:textColor="@color/colorWhite" />
 
         <Spinner
             android:id="@+id/dgsbjtCd_spinner"
-            android:layout_width="134dp"
+            android:layout_width="40dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="60dp"
             android:layout_weight="1"
             android:paddingTop="2dp"
             android:theme="@style/SpinnerTheme" />
 
         <Spinner
             android:id="@+id/radiuse_spinner"
-            android:layout_width="98dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:paddingTop="2dp"
@@ -78,7 +79,7 @@
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:background="#E4BFD7FF">
 
     </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

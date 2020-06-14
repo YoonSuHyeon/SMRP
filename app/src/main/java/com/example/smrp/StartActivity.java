@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.pdf.PdfRenderer;
@@ -52,13 +53,13 @@ public class StartActivity extends AppCompatActivity{
     final long DELAY_MS = 1000;
     final long PERIOD_MS = 6000;
     final int PERMISSION = 1;
-
+    public static Activity StartActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
+        StartActivity = StartActivity.this;
         CircleIndicator indicator = findViewById(R.id.indicator);
         Btn_login = findViewById(R.id.Btn_login);
         Btn_signup = findViewById(R.id.Btn_signup);

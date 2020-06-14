@@ -11,12 +11,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smrp.R;
+import com.example.smrp.RecyclerDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
@@ -95,9 +98,12 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         radiuse_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         radiuse_spinner.setAdapter(radiuse_adapter);
 
+
+
         dgsbjtCd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // 진료과목 버튼을 눌렀을 경우 발생하는 이벤트
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
 
                 String code  = String.valueOf(parent.getItemAtPosition(position));
                 dgsbjtCd = getDgsbjtCd(code);
@@ -136,20 +142,22 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView)parent.getChildAt(0)).setTextColor(Color.WHITE);
 
-            if(mapView!=null){
+                String meter = String.valueOf(parent.getItemAtPosition(position));
 
-                mapView.removeAllCircles();
+                if(mapView!=null && meter != "거리"){
+                    mapView.removeAllCircles();
 
-                if(position!=0){//기본값을 제외
-                    String meter = String.valueOf(parent.getItemAtPosition(position));
-                    meter = meter.substring(0,meter.indexOf("m")); //ex: meter : 500m --> m 문자 제거
+                    if(position!=0){//기본값을 제외
+                        //meter = String.valueOf(parent.getItemAtPosition(position));
+                        meter = meter.substring(0,meter.indexOf("m")); //ex: meter : 500m --> m 문자 제거
 
-                    radiuse = Integer.parseInt(meter);
-                    Dialog dialog = new Dialog();
-                    dialog.execute();
-                    mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
-                    list.clear();
+                        radiuse = Integer.parseInt(meter);
+                        Dialog dialog = new Dialog();
+                        dialog.execute();
+                        mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
+                        list.clear();
                     /*if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
                         mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                         mapCircle.setTag(2);
@@ -161,18 +169,18 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     }else{
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
                     }*/
-                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                    mapCircle.setTag(2);
-                    mapView.removeAllCircles();
-                    mapView.addCircle(mapCircle);
-                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                        mapCircle.setTag(2);
+                        mapView.removeAllCircles();
+                        mapView.addCircle(mapCircle);
+                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
 
-                }else{//기본값
-                    radiuse=500;
-                    HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
-                    dialog.execute();
-                    mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
-                    list.clear();
+                    }else{//기본값
+                        radiuse=500;
+                        HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
+                        dialog.execute();
+                        mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
+                        list.clear();
                    /* if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
                         mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                         mapCircle.setTag(2);
@@ -181,13 +189,13 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                     }else{
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
                     }*/
-                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                    mapCircle.setTag(2);
-                    mapView.removeAllCircles();
-                    mapView.addCircle(mapCircle);
-                    re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                        mapCircle.setTag(2);
+                        mapView.removeAllCircles();
+                        mapView.addCircle(mapCircle);
+                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
+                    }
                 }
-            }
 
 
             }
@@ -210,9 +218,11 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         adapter = new HospitalAdapter(list);
         recyclerView.setAdapter(adapter);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
+        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
+        recyclerView.addItemDecoration(dividerItemDecoration);*/
+        /// item간에 거리
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(0);
+        recyclerView.addItemDecoration(spaceDecoration);
 
         location_fb.setOnClickListener(new View.OnClickListener() { //내위치 주변 병원들을 찾기위함 / 내위치 버튼을 눌렀을경우
             @Override
@@ -273,13 +283,13 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onPath(int position) {
                 if(KakaoNaviService.isKakaoNaviInstalled(getContext())){
-
+                    Toast.makeText(getContext(),"카카오내비에 연결합니다.",Toast.LENGTH_SHORT).show();
                     com.kakao.kakaonavi.Location location = com.kakao.kakaonavi.Location.newBuilder(list.get(position).getYadmNm(),Double.parseDouble(list.get(position).getxPos()),Double.parseDouble(list.get(position).getyPos())).build();
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build(); //setCoordType: 좌표계  setVehicleType: 차종  setRpOption: 경로 옵션
                     KakaoNaviParams parms = KakaoNaviParams.newBuilder(location).setNaviOptions(options).build();
                     KakaoNaviService.navigate(getActivity(),parms);
                 }else{ //카카오 네비게이션 설치가 안되어 있을 경우
-
+                    Toast.makeText(getContext(),"구글 스토어에 연결합니다.",Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             Uri.parse("https://play.google.com/store/apps/details?id=com.locnall.KimGiSa"));
@@ -512,7 +522,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         marker.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
         marker.setMapPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(yPos),Double.parseDouble(xPos))); //mapview의 초점을 marker를 중심으로 함
         marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        marker.setCustomImageResourceId(R.drawable.hospital_icon); //커스텀 icon 을 설정하기 위함
+        marker.setCustomImageResourceId(R.drawable.location_icon); //커스텀 icon 을 설정하기 위함
         marker.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
         //marker2.setAlpha(0.2f);// marker 투명도
         mapView.addPOIItem(marker);//mapview위에 marker 띄우기
@@ -775,15 +785,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         }
         @Override
         protected Void doInBackground(Void... voids) {
-           /* try {
+            try {
                 Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
-            while(!bool_start)
+            }
+           /* while(!bool_start)
                 ;
-            bool_start = false;
+            bool_start = false;*/
             return null;
         }
         @Override

@@ -1,7 +1,12 @@
 package com.example.smrp.home;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -31,6 +36,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.R;
+import com.example.smrp.RetrofitHelper;
+import com.example.smrp.RetrofitService;
+import com.example.smrp.User;
+import com.example.smrp.UserAlarm;
+import com.example.smrp.alarm.Alarm_Reciver;
 import com.example.smrp.medicine.ViewPagerAdapter;
 import com.example.smrp.searchMed.SearchActivity;
 import com.example.smrp.searchPrescription.Search_prescriptionActivity;
@@ -60,6 +70,7 @@ public class HomeFragment extends Fragment {
     private final long DELAY_MS = 1000; // 자동 슬라이드를 위한 변수
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
+
     static Timer timer = null; // 자동 슬라이드를 위한 변수
     static TimerTask timerTask= null;
     long now = System.currentTimeMillis();
@@ -98,10 +109,10 @@ public class HomeFragment extends Fragment {
         if(container.getChildCount() > 0)
             container.removeViewAt(0);
 
-        View root = inflater.inflate(R.layout.home_fragment, container, false);
+        final View root = inflater.inflate(R.layout.home_fragment, container, false);
 
         final HashMap<String,String> sky_image = new HashMap<>();
-
+        final RetrofitService retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
 
         //밤일떄 return 받는 이미지가 n으로 끝남
         if(sky_image != null) {
@@ -128,9 +139,11 @@ public class HomeFragment extends Fragment {
 
         }
 
-        navHostFragment =
-                (NavHostFragment) ((AppCompatActivity) getContext()).getSupportFragmentManager()
-                        .findFragmentById(R.id.nav_host_fragment);
+        if(navHostFragment==null) {
+            navHostFragment =
+                    (NavHostFragment) ((AppCompatActivity) getContext()).getSupportFragmentManager()
+                            .findFragmentById(R.id.nav_host_fragment);
+        }
         navController = navHostFragment.getNavController();
 
         weather_imageview = root.findViewById(R.id.weather_imageview); //하늘 상태 사진
@@ -331,14 +344,16 @@ public class HomeFragment extends Fragment {
 
                 Intent intent = new Intent(getContext(), Search_prescriptionActivity.class);
                 startActivity(intent);
+
+
             }
         });
-        ic_alarm_set.setOnClickListener(new View.OnClickListener() {
+        /*ic_alarm_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_nav_home_to_nav_alarm);
             }
-        });
+        });*/
         ic_pharmacy_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

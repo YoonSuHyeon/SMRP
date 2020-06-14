@@ -43,16 +43,17 @@
                 android:layout_marginBottom="11dp"
                 android:backgroundTint="#FFFFFF"
                 android:clickable="true"
-                android:src="@drawable/location_icon"
+                android:src="@drawable/gps_16px"
                 app:backgroundTint="#FFFFFF"
                 app:fabSize="mini" />
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E4BFD7FF" />
 
 
 </LinearLayout>

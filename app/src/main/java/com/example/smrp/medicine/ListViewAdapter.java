@@ -2,6 +2,7 @@ package com.example.smrp.medicine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class ListViewAdapter extends BaseAdapter {
 
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmDetailActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
+                Log.d("TAG", "listViewItem.getItemSeq(): "+listViewItem.getItemSeq());
                 intent.putExtra("itemSeq",listViewItem.getItemSeq());
                 intent.putExtra("time",listViewItem.getTime());
                 activity. startActivity(intent);

@@ -1,5 +1,6 @@
 package com.example.smrp.pharmacy;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smrp.R;
+import com.example.smrp.RecyclerDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.kakao.kakaonavi.KakaoNaviParams;
 import com.kakao.kakaonavi.KakaoNaviService;
@@ -104,9 +106,13 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         recyclerView.setAdapter(adapter);
 
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
+        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
 
-        //recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.addItemDecoration(dividerItemDecoration);*/
+
+        /// item간에 거리
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(0);
+        recyclerView.addItemDecoration(spaceDecoration);
 
 
         location_fb.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +139,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onClick(View v) {
                 if(boolean_start){
-                    dialog = new Dialog();
+                    dialog = new PharmacyFragment.Dialog();
                     dialog.execute();
                     mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                     mapCircle.setTag(2);
@@ -164,13 +170,14 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
             @Override
             public void onPath(int position) {//카카오 네비게이션 설치가 되어있을 경우
                 if(KakaoNaviService.isKakaoNaviInstalled(getContext())){
-
+                    Toast.makeText(getContext(),"카카오내비에 연결합니다.",Toast.LENGTH_SHORT).show();
                     com.kakao.kakaonavi.Location location = com.kakao.kakaonavi.Location.newBuilder(list.get(position).getName(),list.get(position).getLongitude(),
                             list.get(position).getLatitude()).build();
                     NaviOptions options = NaviOptions.newBuilder().setCoordType(CoordType.WGS84).setVehicleType(VehicleType.FIRST).setRpOption(RpOption.SHORTEST).build(); //setCoordType: 좌표계  setVehicleType: 차종  setRpOption: 경로 옵션
                     KakaoNaviParams parms = KakaoNaviParams.newBuilder(location).setNaviOptions(options).build();
                     KakaoNaviService.navigate(getActivity(),parms);
                 }else{ //카카오 네비게이션 설치가 안되어 있을 경우
+                    Toast.makeText(getContext(),"구글 스토어에 연결합니다.",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Intent.ACTION_VIEW,
                             Uri.parse("https://play.google.com/store/apps/details?id=com.locnall.KimGiSa"));
                     startActivity(intent);
@@ -232,7 +239,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                                 String remain_state = response.body().getList().get(i).getRemain_stat(); // 마스크 보유량
                                 String input_time = response.body().getList().get(i).getStock_at(); // 마스크 입고시간
                                 String type = response.body().getList().get(i).getType();
-                                addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
+                                addMarker(add,/*crate_data,*/latitude,longitude,name,remain_state,/*input_time,*/type);
                             }
                             bool_start = true;
                         }
@@ -275,14 +282,14 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
                             for(int i =0; i< count;i++){
                                 String add  = response.body().getList().get(i).getAddr(); //주소
-                                String crate_data = response.body().getList().get(i).getCreated_at(); //데이터 생성일자
+                                //String crate_data = response.body().getList().get(i).getCreated_at(); //데이터 생성일자
                                 float latitude = response.body().getList().get(i).getLat(); //경도
                                 float longitude = response.body().getList().get(i).getLng(); //위도
                                 String name = response.body().getList().get(i).getName(); //이름
                                 String remain_state = response.body().getList().get(i).getRemain_stat(); // 마스크 보유량
-                                String input_time = response.body().getList().get(i).getStock_at(); // 마스크 입고시간
+                               // String input_time = response.body().getList().get(i).getStock_at(); // 마스크 입고시간
                                 String type = response.body().getList().get(i).getType();
-                                addMarker(add,crate_data,latitude,longitude,name,remain_state,input_time,type);
+                                addMarker(add,/*crate_data,*/latitude,longitude,name,remain_state,/*input_time,*/type);
                             }
                             bool_start = true;
                         }
@@ -375,7 +382,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     }
 
 
-    private void addMarker(String addr, String created_at, float latitude, float longitude, String name, String remain_stat, String stock_at,String type){
+    private void addMarker(String addr,/* String created_at,*/ float latitude, float longitude, String name, String remain_stat, /*String stock_at,*/String type){
         //mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
         total_phy.clear(); //ArrayList total_phy 의 모든 값을 clear()
 
@@ -384,7 +391,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         marker2.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
         marker2.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함
         marker2.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        marker2.setCustomImageResourceId(R.drawable.pharmacy_icon2); //커스텀 icon 을 설정하기 위함
+        marker2.setCustomImageResourceId(R.drawable.location_icon); //커스텀 icon 을 설정하기 위함
         //marker2.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
         //marker2.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
 
@@ -392,7 +399,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         //marker2.setAlpha(0.2f);// marker 투명도
         mapView.addPOIItem(marker2);//mapview위에 marker 띄우기
 
-        pharmacy = new Pharmacy(addr, created_at, latitude, longitude, name,remain_stat,stock_at,type);
+        pharmacy = new Pharmacy(addr,/* created_at,*/ latitude, longitude, name,remain_stat,/*stock_at,*/type);
         list.add(pharmacy);
         adapter.notifyDataSetChanged();
 

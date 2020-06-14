@@ -82,8 +82,8 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
             super(itemView);
 
             textview_name = itemView.findViewById(R.id.textView_phy_name);
-            textview_time = itemView.findViewById(R.id.textView_input_time);
-            textView_create_data = itemView.findViewById(R.id.textView_crete_data);
+            //textview_time = itemView.findViewById(R.id.textView_input_time);
+            //textView_create_data = itemView.findViewById(R.id.textView_crete_data);
             textview_type = itemView.findViewById(R.id.textView_phy_type);
             textview_address = itemView.findViewById(R.id.textView_address);
             textView_mask_state = itemView.findViewById(R.id.textView_mask);
@@ -112,8 +112,8 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
 
         public void setItem(Pharmacy item) {
             textview_name.setText(item.getName()); //이름
-            textview_time.setText(item.getStock_at()); //입고시간
-            textView_create_data.setText(item.getCreated_at()); //데이터생성일자
+           // textview_time.setText(item.getStock_at()); //입고시간
+           // textView_create_data.setText(item.getCreated_at()); //데이터생성일자
             textview_type.setText(hash_type.get(item.getType())); //타입(약국 우체국, 농협)
             textview_address.setText(item.getAddr()); //주소
             textView_mask_state.setText(hash_remain_stat.get(item.getRemain_stat()));

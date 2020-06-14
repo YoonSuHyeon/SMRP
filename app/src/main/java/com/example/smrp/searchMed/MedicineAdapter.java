@@ -22,6 +22,7 @@ import java.util.List;
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.ViewHolder> {
     private ArrayList<MedicineItem> mData = null;
     Context context;
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView medicine_img;
         TextView medicine_tv1,medicine_tv2,medicine_tv3,medicine_tv4;

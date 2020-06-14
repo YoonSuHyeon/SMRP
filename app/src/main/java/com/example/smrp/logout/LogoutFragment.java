@@ -1,9 +1,11 @@
 package com.example.smrp.logout;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,11 +14,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.smrp.LoginActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
@@ -28,116 +35,163 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LogoutFragment extends Fragment {
+public class LogoutFragment extends DialogFragment implements View.OnClickListener {
 
     private LogoutViewModel logOutViewModel;
     private SharedPreferences loginInfromation;
     private SharedPreferences.Editor editor;
+    private FragmentManager fragmentManager;
     private Boolean bool_logout = false;
     public static AlarmManager alarmManager=null;
     public static PendingIntent pendingIntent=null;
     Intent intent;
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         final RetrofitService retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
-        logOutViewModel =
-                ViewModelProviders.of(this).get(LogoutViewModel.class);
-        final View root = inflater.inflate(R.layout.logout_fragment, container, false);
-        //final TextView textView = root.findViewById(R.id.text_look_up);
-        Dialog dialog = new Dialog();
-        dialog.execute();
+        AlertDialog.Builder alertdialog = new AlertDialog.Builder(getContext());
 
+        alertdialog.setCancelable(false);//외부영역 터치시 dismiss되는것을 방지
+        alertdialog.setMessage("현재 계정을 종료하시겠습니까?");
         loginInfromation = getActivity().getSharedPreferences("setting",0);
-        String user_id = loginInfromation.getString("id","");
-        String user_pass = loginInfromation.getString("password","");
-        String name = loginInfromation.getString("name","");
-        String getAutoLogin = loginInfromation.getString("auto_login","");
-        alarmManager = (AlarmManager)root.getContext().getSystemService(Context.ALARM_SERVICE);
-        intent = new Intent(root.getContext(),Alarm_Reciver.class);
+        Dialog dialog = new Dialog();
 
-        User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
-        Call<UserAlarm> call = retrofitService.login(user);
-        call.enqueue(new Callback<UserAlarm>() {
+        alertdialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
-                if(response.body().getAlramMedicines().size()!=0){
-                    for(int i=0; i<response.body().getAlramMedicines().size(); i++){
-                        //String what = response.body().getAlramMedicines().get(i).getDoseType();
-                        switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
-                            case 1:{
-                                Log.d("321321",alarmManager.toString());
+            public void onClick(DialogInterface dialog, int which) {
 
-                                pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                String user_id = loginInfromation.getString("id","");
+                String user_pass = loginInfromation.getString("password","");
+                String name = loginInfromation.getString("name","");
+                String getAutoLogin = loginInfromation.getString("auto_login","");
+
+                alarmManager = (AlarmManager)getContext().getSystemService(Context.ALARM_SERVICE);
+                intent = new Intent(getContext(),Alarm_Reciver.class);
+
+                User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
+                Call<UserAlarm> call = retrofitService.login(user);
+                call.enqueue(new Callback<UserAlarm>() {
+                    @Override
+                    public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
+                        if(response.body().getAlramMedicines().size()!=0){
+                            for(int i=0; i<response.body().getAlramMedicines().size(); i++){
+                                //String what = response.body().getAlramMedicines().get(i).getDoseType();
+                                switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
+                                    case 1:{
+
+
+                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                /* if(alarmManager!=null){
                                     Log.d("321323333331",alarmManager.toString());
                                     alarmManager.cancel(pendingIntent);
                                 }*/
-                                alarmManager.cancel(pendingIntent);
-                                pendingIntent.cancel();
-                                //alarmManager=null;
-                                pendingIntent=null;
-                                break;
-                            }
-                            case 2:{
-                                pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                        alarmManager.cancel(pendingIntent);
+                                        pendingIntent.cancel();
+                                        //alarmManager=null;
+                                        pendingIntent=null;
+                                        break;
+                                    }
+                                    case 2:{
+                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
                                 /*if(alarmManager!=null){
                                     alarmManager.cancel(pendingIntent);
                                 }*/
-                                alarmManager.cancel(pendingIntent);
-                                pendingIntent.cancel();
-                               // alarmManager=null;
-                                pendingIntent=null;
+                                        alarmManager.cancel(pendingIntent);
+                                        pendingIntent.cancel();
+                                        // alarmManager=null;
+                                        pendingIntent=null;
 
-                                pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                alarmManager.cancel(pendingIntent);
-                                pendingIntent.cancel();
-                                //alarmManager=null;
-                                pendingIntent=null;
-                                break;
+                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                        alarmManager.cancel(pendingIntent);
+                                        pendingIntent.cancel();
+                                        //alarmManager=null;
+                                        pendingIntent=null;
+                                        break;
+                                    }
+                                    case 3:{
+
+                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                        alarmManager.cancel(pendingIntent);
+                                        pendingIntent.cancel();
+                                        //alarmManager=null;
+                                        pendingIntent=null;
+
+                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                        alarmManager.cancel(pendingIntent);
+                                        pendingIntent.cancel();
+                                        //alarmManager=null;
+                                        pendingIntent=null;
+
+                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+200,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                        alarmManager.cancel(pendingIntent);
+                                        pendingIntent.cancel();
+                                        //alarmManager=null;
+                                        pendingIntent=null;
+                                        break;
+                                    }
+                                    default:{
+
+                                    }
+                                }
                             }
-                            case 3:{
-                                Log.d("321321",alarmManager.toString());
-                                pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                alarmManager.cancel(pendingIntent);
-                                pendingIntent.cancel();
-                                //alarmManager=null;
-                                pendingIntent=null;
+                            Intent intent = new Intent(getContext(), LoginActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
 
-                                pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                alarmManager.cancel(pendingIntent);
-                                pendingIntent.cancel();
-                                //alarmManager=null;
-                                pendingIntent=null;
-
-                                pendingIntent = PendingIntent.getBroadcast(root.getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+200,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                alarmManager.cancel(pendingIntent);
-                                pendingIntent.cancel();
-                                //alarmManager=null;
-                                pendingIntent=null;
-                                break;
-                            }
-                            default:{
-
-                            }
                         }
                     }
-                }
-            }
 
-            @Override
-            public void onFailure(Call<UserAlarm> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<UserAlarm> call, Throwable t) {
+
+                    }
+                });
+                editor = loginInfromation.edit();
+                editor.clear();
+                editor.commit();
+                //bool_logout = true;
+                AlarmManager alarmManager =(AlarmManager)getContext().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                Intent intent = new Intent(getContext(), Alarm_Reciver.class);
+                //  PendingIntent pendingIntent =PendingIntent.getBroadcast(root.getContext(),)
 
             }
         });
-        editor = loginInfromation.edit();
-        editor.clear();
-        editor.commit();
-        //bool_logout = true;
-        AlarmManager alarmManager =(AlarmManager)root.getContext().getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(root.getContext(), Alarm_Reciver.class);
-      //  PendingIntent pendingIntent =PendingIntent.getBroadcast(root.getContext(),)
+
+        alertdialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.addToBackStack(null);
+                ft.commit();
+                //fragmentManager.beginTransaction().remove(get).commit();
+                fragmentManager.popBackStack();
+
+            }
+        });
+
+        AlertDialog alert = alertdialog.create();
+        //alert.setIcon();
+        alert.show();
+    }
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+
+        logOutViewModel =
+                ViewModelProviders.of(this).get(LogoutViewModel.class);
+        final View root = inflater.inflate(R.layout.logout_fragment, container, false);
+        //final TextView textView = root.findViewById(R.id.text_look_up);
+        root.setVisibility(View.GONE);
+
         return root;
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
 
     private class Dialog extends AsyncTask<Void,Void,Void>{
         ProgressDialog progressDialog = new ProgressDialog(getActivity());

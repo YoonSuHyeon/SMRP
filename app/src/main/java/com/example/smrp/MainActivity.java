@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setItemIconTintList(null);
+
         // xml 파일에서 넣어놨던 header 선언
         View header = navigationView.getHeaderView(0);
         // header에 있는 리소스 가져오기

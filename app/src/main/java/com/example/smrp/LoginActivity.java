@@ -45,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
     Context context;
     AlarmManager alarmManager;
     final RetrofitService retrofitService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
+
+    public StartActivity startclass = (StartActivity) StartActivity.StartActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.putExtra("name", name);
                         startActivity(intent);
                         finish();
+                        startclass.finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "로그인 실패: 아이디 및 비밀번호 확인해주세요.", Toast.LENGTH_SHORT).show();
                     }
@@ -273,6 +276,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra("name",name);
                             startActivity(intent);
                             finish();
+                            startclass.finish();
                         }
                     }
 
