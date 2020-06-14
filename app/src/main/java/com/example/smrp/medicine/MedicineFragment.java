@@ -145,13 +145,9 @@ public class MedicineFragment extends Fragment {
 
                 }
                 listViewAdapter.notifyDataSetChanged();
-                //Toast.makeText(getApplicationContext(),"사용 가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
-
-
             }
         });
     }
