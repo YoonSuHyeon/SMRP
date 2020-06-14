@@ -1,5 +1,6 @@
 package com.example.smrp.hospital;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -99,6 +100,25 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         radiuse_spinner.setAdapter(radiuse_adapter);
 
 
+        recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
+        location_fb = root.findViewById(R.id.floatingActionButton1);//내 위치
+        research_fb = root.findViewById(R.id.floatingActionButton2);//재검색
+
+        mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
+
+        recyclerView.setLayoutManager(mlinearLayoutManager);
+        recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
+
+        list = new ArrayList<>();
+        adapter = new HospitalAdapter(list);
+        recyclerView.setAdapter(adapter);
+
+        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
+        recyclerView.addItemDecoration(dividerItemDecoration);*/
+        /// item간에 거리
+        RecyclerDecoration spaceDecoration = new RecyclerDecoration(0);
+        recyclerView.addItemDecoration(spaceDecoration);
+
 
         dgsbjtCd_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { // 진료과목 버튼을 눌렀을 경우 발생하는 이벤트
             @Override
@@ -109,25 +129,14 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                 dgsbjtCd = getDgsbjtCd(code);
 
                 if(mapView!=null) {
-
                     mapView.removeAllCircles();
-                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
                     mapCircle.setTag(2);
                     mapView.addCircle(mapCircle);
-                    Dialog dialog = new Dialog();
+                    HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
                     dialog.execute();
                     mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                     list.clear();
-                    /*if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
-                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                        mapCircle.setTag(2);
-                        mapView.addCircle(mapCircle);
-                        re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
-                        boolean_start = false;
-                    }else{
-                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }*/
-
                     re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
                 }
             }
@@ -154,47 +163,30 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                         meter = meter.substring(0,meter.indexOf("m")); //ex: meter : 500m --> m 문자 제거
 
                         radiuse = Integer.parseInt(meter);
-                        Dialog dialog = new Dialog();
+                        HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
                         dialog.execute();
                         mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                         list.clear();
-                    /*if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
-                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                        mapCircle.setTag(2);
-                        mapView.removeAllCircles();
-                        mapView.addCircle(mapCircle);
-                        re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
-                        boolean_start = false;
 
-                    }else{
-                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }*/
-                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
                         mapCircle.setTag(2);
                         mapView.removeAllCircles();
                         mapView.addCircle(mapCircle);
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
 
-                    }else{//기본값
+                    }/*else{//기본값
                         radiuse=500;
                         HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
                         dialog.execute();
                         mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                         list.clear();
-                   /* if(boolean_start){ // 내위치 말고 사용자가 원하는 지역의 지도의 위치
-                        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                        mapCircle.setTag(2);
-                        mapView.addCircle(mapCircle);
-                        re_parsingData(movelatititue, movelongitude, radiuse, dgsbjtCd);
-                    }else{
-                        re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }*/
+
                         mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
                         mapCircle.setTag(2);
                         mapView.removeAllCircles();
                         mapView.addCircle(mapCircle);
                         re_parsingData(latitude, longitude, radiuse, dgsbjtCd);
-                    }
+                    }*/
                 }
 
 
@@ -205,38 +197,20 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
             }
         });
-        recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
-        location_fb = root.findViewById(R.id.floatingActionButton1);
-        research_fb = root.findViewById(R.id.floatingActionButton2);
-
-        mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
-
-        recyclerView.setLayoutManager(mlinearLayoutManager);
-        recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
-
-        list = new ArrayList<>();
-        adapter = new HospitalAdapter(list);
-        recyclerView.setAdapter(adapter);
-
-        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), mlinearLayoutManager.getOrientation());//구분선을 넣기 위함
-        recyclerView.addItemDecoration(dividerItemDecoration);*/
-        /// item간에 거리
-        RecyclerDecoration spaceDecoration = new RecyclerDecoration(0);
-        recyclerView.addItemDecoration(spaceDecoration);
 
         location_fb.setOnClickListener(new View.OnClickListener() { //내위치 주변 병원들을 찾기위함 / 내위치 버튼을 눌렀을경우
             @Override
             public void onClick(View v) {
                 // 트랙
 
-                Dialog dialog = new Dialog();
+                HospitalFragment.Dialog dialog = new HospitalFragment.Dialog();
                 dialog.execute();
                 mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
                 list.clear();
                 mapView.removeAllCircles();
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
                 mapView.setCurrentLocationRadius(radiuse);
-                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
                 mapCircle.setTag(2);
                 mapView.addCircle(mapCircle);
                 mapView.setZoomLevel(3,true);
@@ -249,9 +223,9 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             public void onClick(View v) {
                 if(boolean_start){
                     bool_restart = false;
-                    dialog = new Dialog();
+                    dialog = new HospitalFragment.Dialog();
                     dialog.execute();
-                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
                     mapCircle.setTag(2);
                     mapView.removeAllCircles();
                     mapView.addCircle(mapCircle);
@@ -319,18 +293,10 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     }
     private void parsingData(final double latitude, final double longitude, final int radiuse,final String dgsbjtCd){
         RetrofitService json = new RetrofitFactory().create();
-
-
-
-
         json.getList(latitude,longitude,radiuse,dgsbjtCd).enqueue(new Callback<Return_tag>() {
             @Override
             public void onResponse(Call<Return_tag> call, final Response<Return_tag> response) {
-
-
                 if(response.isSuccessful()){
-
-
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -349,9 +315,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
                                 double distance = response.body().response_tag.body.items.getItemsList().get(i).getDistance(); //병원 x좌표
                                 addMarker(yadmNm,clCdNm,addr,hosurl,telno,xPos,yPos,distance);
                             }
-                            mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
-                            mapCircle.setTag(2);
-                            mapView.addCircle(mapCircle);
+
                             bool_start = true;
                             Toast.makeText(getActivity(), "총"+count+"건을 검색하였습니다.", Toast.LENGTH_SHORT).show();
                         }
@@ -381,7 +345,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
             }
         });
     }
-    private void re_parsingData(double latitude, double longitude, final int radiuse,final String dgsbjtCd){
+    private void re_parsingData(double latitude, double longitude, final int radiuse,final String dgsbjtCd){ //사용자가 원하는 위치 지도 이동 후 재검색 버튼 눌렀을대
 
         RetrofitService json = new RetrofitFactory().create();
 
@@ -485,13 +449,17 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         //mapView.setMapType(MapView.MapType.Hybrid); //Standard ,Statllite, Hybrid
 
         // 내 현재위치 원 그리기
-        mapView.setCurrentLocationRadius(radiuse);
+        //mapView.setCurrentLocationRadius(radiuse);
 
         //고해상도
         //mapView.setHDMapTileEnabled(true);
 
         //중심적 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
+
+        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
+        mapCircle.setTag(2);
+        mapView.addCircle(mapCircle);
 
         //줌 레벨 변경
         mapView.setZoomLevel(3,true);
@@ -501,14 +469,15 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         // 줌 아웃
         mapView.zoomOut(true);
         // 트랙
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading); //트래킥 모등 on + 나침반 모드 on
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff); //트래킥 모등 on + 나침반 모드 on:TrackingModeOnWithoutHeading
 
-
-        // 원 색상 적용
-        mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
         // 중심점에 Marker 로 표시해줍니다
         // CenterMarker(latitude, longitude);
         //Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG).show();
+       /* //원 색상 변경
+        mapView.setCurrentLocationRadiusFillColor(Color.argb(128,186,255,255));
+        // 원 테두리 색상 적용
+        mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,95,0,255));*/
     }
 
 
@@ -520,7 +489,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         marker= new MapPOIItem(); // 약국들을 mapview 에 표시하기 전에 marker를 생성함.
         marker.setItemName(yadmNm); //marker의 타이틀(제목)값을 부여
         marker.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
-        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(yPos),Double.parseDouble(xPos))); //mapview의 초점을 marker를 중심으로 함
+
+        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(yPos),Double.parseDouble(xPos))); //mapview의 초점을 marker를 중심으로 함 latitude:127.0 longitude:37.0
         marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
         marker.setCustomImageResourceId(R.drawable.location_icon); //커스텀 icon 을 설정하기 위함
         marker.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
@@ -530,8 +500,8 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         if(addr.contains("("))
             addr = addr.substring(0, addr.indexOf("("));
 
-        if(hosurl==null)
-            hosurl="병원 사이트 없음.";
+       /* if(hosurl==null)
+            hosurl="병원 사이트 없음.";*/
         hospital= new Hospital(yadmNm,clCdNm,addr,/*hosurl,*/telno,xPos,yPos,distance);
         list.add(hospital);
         adapter.notifyDataSetChanged();
@@ -559,10 +529,6 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
         /*GeoCoordinate geoCoordinate = mapView.getMapCenterPoint();
         double latitude = geoCoordinate.latitude; // 위도
         double longitude = geoCoordinate.longitude; // 경도*/
-
-
-
-
     }
     /*f
      *  현재 위치 업데이트(setCurrentLocationEventListener)
@@ -590,7 +556,6 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     public void onCurrentLocationUpdateCancelled(MapView mapView) {//현위치 트랙킹 기능이 사용자에 의해 취소된 경우 호출된다.
         //처음 현위치를 찾는 동안에 현위치를 찾는 중이라는 Alert Dialog 인터페이스가 사용자에게 노출된다.
         //첫 현위치를 찾기전에 사용자가 취소 버튼을 누른 경우 호출 된다.
-
     }
 
     @Override
@@ -663,7 +628,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
     public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) { //사용자가 지도 드래그를 시작한 경우
 
         // 트랙
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff); //트래킹 모드 on + 나침반 모드 on:TrackingModeOnWithoutHeading
+        //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff); //트래킹 모드 on + 나침반 모드 on:TrackingModeOnWithoutHeading
     }
 
     @Override
@@ -672,7 +637,7 @@ public class HospitalFragment extends Fragment implements MapView.MapViewEventLi
 
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) { // 지도의 이동이 완료된 경우
-        //Toast.makeText(getContext().getApplicationContext(),"end of move",Toast.LENGTH_LONG).show();
+
 
     }
 

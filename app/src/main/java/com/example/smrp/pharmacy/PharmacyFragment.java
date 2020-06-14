@@ -58,7 +58,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
     private double movelatititue=0.0, movelongitude=0.0;//지도 움직임 위치
     private String[] phy_inf;
     private ArrayList<String> total_phy = new ArrayList<String>();
-    private MapPOIItem marker1, marker2;
+    private MapPOIItem marker, marker2;
     private Handler handler;
     private RecyclerView recyclerView;
     private Button btn_call, find_road;
@@ -88,14 +88,12 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
 
 
         root = inflater.inflate(R.layout.pharmacy_fragment, container, false);
-        location_fb = root.findViewById(R.id.floatingActionButton1);
-        research_fb = root.findViewById(R.id.floatingActionButton2);
+        location_fb = root.findViewById(R.id.floatingActionButton1); //내 위치
+        research_fb = root.findViewById(R.id.floatingActionButton2); //재 검색
 
-        /*btn_research = root.findViewById(R.id.btn_research); //지도의 중앙값 좌표를 통해 반경 radius 약국목록을 가져오기 위한 버튼
-        btn_location = root.findViewById(R.id.btn_location); //지도의 위치를 사용자 위치로 변경하기 위함*/
+
         recyclerView = root.findViewById(R.id.recycle_view); //recyclerView 객체 선언
         mlinearLayoutManager = new LinearLayoutManager(root.getContext()); // layout 매니저 객체 선언
-
         recyclerView.setLayoutManager(mlinearLayoutManager);
         recyclerView.setHasFixedSize(true); //리싸이클 뷰 안 아이템들의 크기를 가변적으로 바꿀건지(false) , 일정한 크기를 사용할 것인지(true)
 
@@ -126,7 +124,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 mapView.removeAllCircles();
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
                 mapView.setCurrentLocationRadius(radiuse);
-                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
                 mapCircle.setTag(2);
                 mapView.addCircle(mapCircle);
 
@@ -141,7 +139,7 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
                 if(boolean_start){
                     dialog = new PharmacyFragment.Dialog();
                     dialog.execute();
-                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,255,0,0),Color.argb(128,95,0,255));
+                    mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(movelatititue, movelongitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
                     mapCircle.setTag(2);
                     mapView.removeAllCircles();
                     mapView.addCircle(mapCircle);
@@ -157,8 +155,9 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         adapter.setOnItemClickListener(new PharmacyAdapter.OnPharmacyItemClickListener() { // 약국 리스트를 눌렀을 때 처리하는 어댑터!!!!!!!!!
             @Override
             public void onItemClick(PharmacyAdapter.ViewHolder holder, View view, int position) {
-                double lat = list.get(position).getLatitude();
-                double lon = list.get(position).getLongitude();
+                float lat = list.get(position).getLatitude();
+                float lon = list.get(position).getLongitude();
+
                 mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat, lon), true);
             }
 
@@ -355,15 +354,13 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         mapView.setCurrentLocationRadius(radiuse);
 
 
-        // 원 색상 적용
-        mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,255,0,0));
-
-        //고해상도
         //mapView.setHDMapTileEnabled(true);
 
         //중심적 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude,longitude),true);// 중심점 변경
-
+        mapCircle = new MapCircle(MapPoint.mapPointWithGeoCoord(latitude, longitude),radiuse, Color.argb(128,95,0,255),Color.argb(128,186,255,255));//MapCircle(MapPoint center, int radius, int strokeColor, int fillColor)
+        mapCircle.setTag(2);
+        mapView.addCircle(mapCircle);
         //줌 레벨 변경
         mapView.setZoomLevel(3,true);
 
@@ -372,13 +369,17 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         // 줌 아웃
         mapView.zoomOut(true);
         // 트랙
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff); //트래킹 모드 on + 나침반 모드 on
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading); //트래킹 모드 on + 나침반 모드 on
 
 
 
         // 중심점에 Marker 로 표시해줍니다
          //CenterMarker(latitude, longitude);
         //Toast.makeText(getActivity().getApplicationContext(),"사용자 위치 반경 "+pharmacyViewModel.radius+"m 약국을 검색합니다.",Toast.LENGTH_LONG);
+        //원 색상 변경
+        /*mapView.setCurrentLocationRadiusFillColor(Color.argb(128,186,255,255));
+        // 원 테두리 색상 적용
+        mapView.setCurrentLocationRadiusStrokeColor(Color.argb(128,95,0,255));*/
     }
 
 
@@ -386,18 +387,19 @@ public class PharmacyFragment extends Fragment implements MapView.MapViewEventLi
         //mapView.removeAllPOIItems(); //mapview 의 marker 표시를 모두 지움(새로운 marker를 최신화 하기 위해)
         total_phy.clear(); //ArrayList total_phy 의 모든 값을 clear()
 
-        marker2= new MapPOIItem(); // 약국들을 mapview 에 표시하기 전에 marker를 생성함.
-        marker2.setItemName(name); //marker의 타이틀(제목)값을 부여
-        marker2.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
-        marker2.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함
-        marker2.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
-        marker2.setCustomImageResourceId(R.drawable.location_icon); //커스텀 icon 을 설정하기 위함
+        marker= new MapPOIItem(); // 약국들을 mapview 에 표시하기 전에 marker를 생성함.
+        marker.setItemName(name); //marker의 타이틀(제목)값을 부여
+        marker.setTag(1);//MapView 객체에 등록된 POI Item들 중 특정 POI Item을 찾기 위한 식별자로 사용할 수 있음.
+
+        marker.setMapPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude)); //mapview의 초점을 marker를 중심으로 함 latitude:127.0 longitude 37.0
+        marker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
+        marker.setCustomImageResourceId(R.drawable.location_icon); //커스텀 icon 을 설정하기 위함
         //marker2.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
         //marker2.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
 
-        marker2.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
+        marker.setCustomImageAutoscale(false);// hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌
         //marker2.setAlpha(0.2f);// marker 투명도
-        mapView.addPOIItem(marker2);//mapview위에 marker 띄우기
+        mapView.addPOIItem(marker);//mapview위에 marker 띄우기
 
         pharmacy = new Pharmacy(addr,/* created_at,*/ latitude, longitude, name,remain_stat,/*stock_at,*/type);
         list.add(pharmacy);
