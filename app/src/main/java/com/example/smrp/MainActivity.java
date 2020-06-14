@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     String name;
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long backPressedTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +85,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed(){ //네비게이션 드로어를 클릭하여 활성화 한 후 물리적으로 뒤로가기 버튼을 했을때 드로어 창이 닫힘
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - backPressedTime;
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }else if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
             super.onBackPressed();
         }
+        else {
+            backPressedTime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번 더 뒤로가기 버튼을 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+
+
+
 
     }
     @Override
