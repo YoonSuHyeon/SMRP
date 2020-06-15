@@ -212,8 +212,8 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         case 3:{
                                             if(response.body().getAlramMedicines().get(i).getDoseType().equals("식전")){
-                                                calendar.set(Calendar.HOUR_OF_DAY,7);      //식전
-                                                calendar.set(Calendar.MINUTE,00);
+                                                calendar.set(Calendar.HOUR_OF_DAY,18);      //식전
+                                                calendar.set(Calendar.MINUTE,25);
                                                 calendar.set(Calendar.SECOND,00);
                                                 if(calendar.before(Calendar.getInstance())){
                                                     calendar.add(Calendar.DATE, 1);
