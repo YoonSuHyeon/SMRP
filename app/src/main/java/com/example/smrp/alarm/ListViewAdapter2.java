@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.smrp.R;
 import com.example.smrp.medicine.ListViewItem;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -93,6 +94,21 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
         // 아이템 내 각 위젯에 데이터 반영
         //iconImageView.setImageDrawable(listViewItem.getUrl());//500,100
 
+
+
+
+
+        //변환 타임스탬프 --> 년 월 일
+
+        int sidx = listViewAlarmItemI.getStartAlram().indexOf("T");
+        int fidx = listViewAlarmItemI.getFinishAlram().indexOf("T");
+        String tempStart=listViewAlarmItemI.getStartAlram().substring(0,sidx);
+        String tempFinish=listViewAlarmItemI.getFinishAlram().substring(0,fidx);
+
+        Log.d("tempStart",tempStart);
+        Log.d("tempFinish",tempFinish);
+
+
         //현재 날짜 구하기
         long now = System.currentTimeMillis();
         Date date =new Date(now);
@@ -101,7 +117,7 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
         //날짜 차이 구하기
         // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
         try{
-            Date FirstDate = mformat.parse(listViewAlarmItemI.getFinishAlram());
+            Date FirstDate = mformat.parse(tempFinish);
             Date SecondDate = mformat.parse(time);
             long calDate = FirstDate.getTime() - SecondDate.getTime();
 
@@ -111,14 +127,14 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
 
             calDateDays = Math.abs(calDateDays);
 
-            String StartAlram =mformat.format(listViewAlarmItemI.getStartAlram());
-            String FinishAlram=mformat.format(listViewAlarmItemI.getFinishAlram());
-
+          /*  String StartAlram =mformat.format(tempStart);
+            String FinishAlram=mformat.format(tempFinish);
+*/
 
             alarmName.setText(listViewAlarmItemI.getAlramName());
             dose.setText(listViewAlarmItemI.getOneTimeDose()+"회");
             doseTypeView.setText(listViewAlarmItemI.getDoseType());
-            period.setText(StartAlram+" ~ "+FinishAlram);
+            period.setText(tempStart+" ~ "+tempFinish);
             remainingTime.setText((Long.parseLong(listViewAlarmItemI.getDosingPeriod())-calDateDays)+"/"+listViewAlarmItemI.getDosingPeriod());
 
             double progress =(1.0-((double)(calDateDays)/Double.parseDouble(listViewAlarmItemI.getDosingPeriod()))) *100;
@@ -140,6 +156,7 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
 
 
         }catch(Exception e){
+            Log.d("listViewAdapter2","Error");
              e.printStackTrace();
         }
 

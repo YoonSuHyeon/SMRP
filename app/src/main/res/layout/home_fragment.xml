@@ -191,36 +191,14 @@
                 app:ci_margin="4dp"
                 app:ci_width="5dp"
                 />
-            <TextView
 
-                android:id="@+id/Txt_med_alarm"
-                android:layout_width="match_parent"
-                android:layout_height="11dp"
-                android:layout_below="@+id/indicator_home"
-                android:background="#FFFFFF"
-                android:gravity="center_vertical"
-                android:paddingLeft="11dp"
-                android:text="약복용 알람"
-                android:textColor="#3E3E3E"
-                android:textSize="9sp"
-                android:textStyle="bold" />
-
-            <FrameLayout
-
-                android:id="@+id/Frg_med_alarm"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_below="@+id/Txt_med_alarm"
-                android:layout_marginTop="5dp"
-                android:layout_weight="3.5"
-                android:background="#D7F8FF"></FrameLayout>
 
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/banner2"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:layout_below="@+id/Frg_med_alarm"
+                android:layout_below="@+id/indicator_home"
                 android:layout_marginTop="10dp"
                 android:layout_weight="4" />
             <me.relex.circleindicator.CircleIndicator

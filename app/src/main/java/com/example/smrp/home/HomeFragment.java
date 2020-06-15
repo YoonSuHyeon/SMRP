@@ -171,10 +171,10 @@ public class HomeFragment extends Fragment {
         startLocationService();//사용자 현재위치 경도 및 위도 GET
 
         /*리스트 프래그먼트 */
-        FragmentManager fm = getActivity().getSupportFragmentManager(); // Fragment를 관리하기 위해서는 FragmentManager를 사용
+        /*FragmentManager fm = getActivity().getSupportFragmentManager(); // Fragment를 관리하기 위해서는 FragmentManager를 사용
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.add(R.id.Frg_med_alarm, new HomeAlarmFragment()); // parameter1 : activity 내에서 fragment 를 삽입할 Layout id
-        fragmentTransaction.commit();                                        // parameter2 : 삽입할 fragment
+        fragmentTransaction.commit();*/                                        // parameter2 : 삽입할 fragment
 
 
         CircleIndicator indicator = root.findViewById(R.id.indicator_home); // 인디케이터
