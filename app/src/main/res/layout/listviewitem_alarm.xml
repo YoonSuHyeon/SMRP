@@ -8,21 +8,23 @@
     android:id="@+id/line_medicine"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/drop_shadow"
+    >
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#3F57E9"
+        android:background="@drawable/alarmshape2"
         >
         <TextView
-            android:textSize="16sp"
+            android:layout_marginLeft="4dp"
+            android:textSize="20sp"
             android:textColor="#ffffffff"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
             android:text="알람명"/>
         <TextView
             android:textSize="14sp"
@@ -93,7 +95,8 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
 
         <ProgressBar
@@ -104,7 +107,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="250dp"
             android:layout_height="10dp"
-            android:progressTint="#00ffc0"
+            android:progressTint="#00ff88"
             android:max="100"
             android:progress="50" />
         <TextView
@@ -114,5 +117,6 @@
             android:layout_marginLeft="20dp"
             android:text="3일"/>
     </LinearLayout>
+
 
 </LinearLayout>
