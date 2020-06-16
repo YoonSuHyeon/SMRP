@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,14 +54,14 @@ public class AlarmSetActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     private NestedScrollView nsv_View;
     private AlarmViewModel alarmViewModel;
-    private Spinner spin_type;
-    ArrayList<String> typeList; // 식전, 식후 담는 리스트
-    ArrayAdapter<String> arrayAdapter; // 배열 어댑터
-    Button Btn_add, btn_Set_Alarm;
+    private static   int btnStatus=1; //before가 눌린상태.
+
+
+    Button Btn_add, btn_Set_Alarm,btn_before,btn_after;
     ArrayList<com.example.smrp.medicine.ListViewItem> alarmMedicineList = new ArrayList<>(); // 약추가한 리스트
     AlarmListViewAdapter alarmListViewAdapter; //알람에 약을 추가한 어댑터
     ListView Lst_medicine;
-    EditText et_oneTimeCapacity, et_alramName, et_dosingPeriod, et_oneTimeDose;
+    EditText  et_alramName, et_dosingPeriod, et_oneTimeDose;
     ImageView iv_back;
     int count = 0;
 
@@ -95,7 +96,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alarm_med_fragment);
+        setContentView(R.layout.activity_alarm_set);
 
         alarmViewModel =
                 ViewModelProviders.of(this).get(AlarmViewModel.class);
@@ -115,11 +116,15 @@ public class AlarmSetActivity extends AppCompatActivity {
         back = intent.getStringExtra("back");
 //        Log.e("afaf",back);
         iv_back = findViewById(R.id.iv_back);
-        spin_type = findViewById(R.id.spin_type);
+
         Btn_add = findViewById(R.id.Btn_add);
 
+
+        btn_before=findViewById(R.id.btn_before);
+        btn_after=findViewById(R.id.btn_after);
+
         btn_Set_Alarm = findViewById(R.id.btn_set_alarm);
-        et_oneTimeCapacity = findViewById(R.id.et_oneTimeCapacity);
+
 
         et_alramName = findViewById(R.id.et_alramName);
         et_dosingPeriod = findViewById(R.id.et_dosingPeriod);
@@ -128,24 +133,28 @@ public class AlarmSetActivity extends AppCompatActivity {
 
         Lst_medicine = findViewById(R.id.Lst_medicine2);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        typeList = new ArrayList<>();
-        typeList.add("식전");
-        typeList.add("식후");
-        arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                typeList);
-        spin_type.setAdapter(arrayAdapter);
-        spin_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), typeList.get(i) + "",
-                        Toast.LENGTH_SHORT).show();
-            }
 
+        btn_before.setOnClickListener(new View.OnClickListener() {//식전버튼을 눌렀을 때
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onClick(View view) {
+                    btnStatus=1;
+                    btn_after.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    btn_before.setBackgroundColor(Color.parseColor("#669DFC"));
+
             }
         });
+
+       btn_after.setOnClickListener(new View.OnClickListener() { //식후버튼을 눌렀을 때
+           @Override
+           public void onClick(View view) {
+
+                   btnStatus=0;
+                   btn_before.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                   btn_after.setBackgroundColor(Color.parseColor("#669DFC"));
+
+           }
+       });
+
 
         alarmListViewAdapter = new AlarmListViewAdapter(alarmMedicineList, this); //alarmMedicineList =ArrayList
         Lst_medicine.setAdapter(alarmListViewAdapter);  //Lst_medicine: listView
@@ -170,7 +179,7 @@ public class AlarmSetActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { // 알람설정
 
-                if (et_oneTimeCapacity.getText().toString().equals("") || et_alramName.getText().toString().equals("") || et_dosingPeriod.getText().toString().equals("")
+                if ( et_alramName.getText().toString().equals("") || et_dosingPeriod.getText().toString().equals("")
                         || et_oneTimeDose.getText().toString().equals("")) {
                     Toast.makeText(context, "모두 입력해 주세요 .", Toast.LENGTH_SHORT).show();
                 } else {
@@ -187,8 +196,15 @@ public class AlarmSetActivity extends AppCompatActivity {
                         user_id = "null";
                     }
                     Log.d("userid", user_id);
+                    String type;
+                    if(btnStatus==1)
+                        type="식전";
+                    else
+                        type ="식후";
+
+
                     AlarmMedicine alarmMedicine = new AlarmMedicine(user_id, et_alramName.getText().toString(), Integer.parseInt(et_dosingPeriod.getText().toString()), Integer.parseInt(et_oneTimeDose.getText().toString())
-                            , Integer.parseInt(et_oneTimeCapacity.getText().toString()), spin_type.getSelectedItem().toString(), temp);
+                            , 0, type, temp);
 
 
                     Call<UserAlarm> call = networkService.addAlram(alarmMedicine);
