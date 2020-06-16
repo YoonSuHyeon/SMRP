@@ -179,9 +179,9 @@ public class AlarmSetActivity extends AppCompatActivity {
                     for (ListViewItem i : alarmMedicineList) {
                         temp.add(i.getItemSeq());
                     }
-                    //  if (temp.size() == 0) {
-                    //     Toast.makeText(context, "약을 등록해 주세요.", Toast.LENGTH_SHORT).show();
-                    //  } else {
+                     if (temp.size() == 0) {
+                        Toast.makeText(context, "약을 등록해 주세요.", Toast.LENGTH_SHORT).show();
+                      } else {
                     RetrofitService networkService = RetrofitHelper.getRetrofit().create(RetrofitService.class);
                     if (user_id.equals("")) {
                         user_id = "null";
@@ -350,7 +350,7 @@ public class AlarmSetActivity extends AppCompatActivity {
             }
 
 
-            // }
+             }
         });
 
         if (back != null) {
