@@ -234,7 +234,6 @@
         />
     <Button
         android:id="@+id/Btn_add"
-
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_width="match_parent"
@@ -244,15 +243,7 @@
         android:background="@drawable/setaddbtn"
         >
     </Button>
-    <View
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
 
-        android:background="#989898"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -263,7 +254,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp" />
     </LinearLayout>
     <Button

@@ -52,16 +52,15 @@ import retrofit2.Response;
 public class AlarmEditActivity extends AppCompatActivity {
     private NestedScrollView nsv_View;
     private AlarmViewModel alarmViewModel;
-    private Spinner spin_type;
+    private static   int btnStatus=1; //before가 눌린상태.
     ImageView ic_dot;
     Context context;
-    ArrayList<String> typeList; // 식전, 식후 담는 리스트
-    ArrayAdapter<String> arrayAdapter; // 배열 어댑터
-    Button Btn_add,Btn_edit;
+
+    Button Btn_add,Btn_edit,btn_before,btn_after;
     ArrayList<com.example.smrp.medicine.ListViewItem> alarmMedicineList=new ArrayList<>(); // 약추가한 리스트
     AlarmListViewAdapter alarmListViewAdapter; //알람에 약을 추가한 어댑터
     ListView Lst_medicine;
-    EditText et_oneTimeCapacity,et_alramName,et_dosingPeriod,et_oneTimeDose;
+    EditText et_alramName,et_dosingPeriod,et_oneTimeDose;
     ImageView iv_back;
     Long groupId;
     String user_id;
@@ -76,41 +75,52 @@ public class AlarmEditActivity extends AppCompatActivity {
         user_id = loginInfromation.getString("id","");
         groupId = intent.getLongExtra("groupId",0);
         iv_back = findViewById(R.id.iv_back);
-        spin_type = findViewById(R.id.spin_type);
+
         Btn_add = findViewById(R.id.Btn_add);
         Lst_medicine=findViewById(R.id.Lst_medicine2);
         ic_dot = findViewById(R.id.ic_dot);
         Btn_edit= findViewById(R.id.Btn_edit);
-        et_oneTimeCapacity= findViewById(R.id.et_oneTimeCapacity);
+
+
+
+        btn_before=findViewById(R.id.btn_before);
+        btn_after=findViewById(R.id.btn_after);
 
         et_alramName=findViewById(R.id.et_alramName);
         et_dosingPeriod=findViewById(R.id.et_dosingPeriod);
         et_oneTimeDose=findViewById(R.id.et_oneTimeDose);
 
 
-        typeList = new ArrayList<>();
-        typeList.add("식전");
-        typeList.add("식후");
-        arrayAdapter = new ArrayAdapter<>(getApplicationContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                typeList);
-        spin_type.setAdapter(arrayAdapter);
-        spin_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(),typeList.get(i)+"",
-                        Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+
+
 
         alarmListViewAdapter=new AlarmListViewAdapter(alarmMedicineList,this);
         Lst_medicine.setAdapter(alarmListViewAdapter);
 
+        btn_before.setOnClickListener(new View.OnClickListener() {//식전버튼을 눌렀을 때
+            @Override
+            public void onClick(View view) {
+                btnStatus=1;
+                btn_before.setBackgroundResource(R.drawable.setbtnclick);
+                btn_after.setBackgroundResource(R.drawable.setbtn);
 
-            //34524  http://222.113.57.91:8080/medicine2/getAlram?groupId=34524
+            }
+        });
+
+        btn_after.setOnClickListener(new View.OnClickListener() { //식후버튼을 눌렀을 때
+            @Override
+            public void onClick(View view) {
+
+                btnStatus=0;
+                btn_before.setBackgroundResource(R.drawable.setbtn);
+                btn_after.setBackgroundResource(R.drawable.setbtnclick);
+
+
+            }
+        });
+
+
+        //34524  http://222.113.57.91:8080/medicine2/getAlram?groupId=34524
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
         Log.d("groupId",groupId.toString());
         Call<Response_AlarmMedicine> call = networkService.getAlram(groupId);
@@ -127,14 +137,20 @@ public class AlarmEditActivity extends AppCompatActivity {
 
                 et_alramName.setText(response_alarmMedicine.getAlramName());
                 et_oneTimeDose.setText(response_alarmMedicine.getOneTimeDose().toString());
-                et_oneTimeCapacity.setText(response_alarmMedicine.getOneTimeCapacity().toString());
+
                 et_dosingPeriod.setText(response_alarmMedicine.getDosingPeriod().toString());
 
-                if(response_alarmMedicine.getDoseType().equals("식전")) {
-                    spin_type.setSelection(0); ;
+                if(response_alarmMedicine.getDoseType().toString().equals("식전")){
+                    btnStatus=1;
+                    btn_before.setBackgroundResource(R.drawable.setbtnclick);
+                    btn_after.setBackgroundResource(R.drawable.setbtn);
                 }else{
-                    spin_type.setSelection(1); ;
+                    btnStatus=0;
+                    btn_before.setBackgroundResource(R.drawable.setbtn);
+                    btn_after.setBackgroundResource(R.drawable.setbtnclick);
                 }
+
+
 
                 ArrayList<reponse_medicine3> temp =response_alarmMedicine.getMedicine3s();
 
@@ -183,7 +199,7 @@ public class AlarmEditActivity extends AppCompatActivity {
             public void onClick(View v) {
               //수정 누르면 수정하기 작업
 
-                if (et_oneTimeCapacity.getText().toString().equals("") || et_alramName.getText().toString().equals("") || et_dosingPeriod.getText().toString().equals("")
+                if ( et_alramName.getText().toString().equals("") || et_dosingPeriod.getText().toString().equals("")
                         || et_oneTimeDose.getText().toString().equals("")) {
                     Toast.makeText(context, "모두 입력해 주세요 .", Toast.LENGTH_SHORT).show();
                 }else{
@@ -194,9 +210,16 @@ public class AlarmEditActivity extends AppCompatActivity {
                     if (temp.size() == 0) {
                         Toast.makeText(context, "약을 등록해 주세요.", Toast.LENGTH_SHORT).show();
                     }else{
+                        String type;
+                        if(btnStatus==1)
+                            type="식전";
+                        else
+                            type ="식후";
                         RetrofitService networkService=RetrofitHelper.getRetrofit().create(RetrofitService.class);
-                        AlarmMedicine alarmMedicine = new AlarmMedicine(user_id,et_alramName.getText().toString(),Integer.parseInt(et_dosingPeriod.getText().toString()),Integer.parseInt(et_oneTimeDose.getText().toString())
-                                ,Integer.parseInt(et_oneTimeCapacity.getText().toString()),spin_type.getSelectedItem().toString(),temp);
+                        AlarmMedicine alarmMedicine = new AlarmMedicine(user_id, et_alramName.getText().toString(), Integer.parseInt(et_dosingPeriod.getText().toString()), 0
+                                , Integer.parseInt(et_oneTimeDose.getText().toString()), type, temp);
+
+
 
 
                         Call<response> call = networkService.updateAlram(groupId,alarmMedicine);

@@ -205,8 +205,8 @@ public class AlarmSetActivity extends AppCompatActivity {
                         type ="식후";
 
 
-                    AlarmMedicine alarmMedicine = new AlarmMedicine(user_id, et_alramName.getText().toString(), Integer.parseInt(et_dosingPeriod.getText().toString()), Integer.parseInt(et_oneTimeDose.getText().toString())
-                            , 0, type, temp);
+                    AlarmMedicine alarmMedicine = new AlarmMedicine(user_id, et_alramName.getText().toString(), Integer.parseInt(et_dosingPeriod.getText().toString()), 0
+                            , Integer.parseInt(et_oneTimeDose.getText().toString()), type, temp);
 
 
                     Call<UserAlarm> call = networkService.addAlram(alarmMedicine);
