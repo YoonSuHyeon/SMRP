@@ -58,6 +58,10 @@
             android:layout_height="0dp"
             android:layout_weight="0.25"
             android:weightSum="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -88,6 +92,9 @@
             android:layout_weight="0.25"
             android:weightSum="1"
             android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
            >
             <TextView
                 android:id="@+id/tv_doseType"
@@ -103,15 +110,22 @@
                 android:background="@drawable/setbtn"
                 android:id="@+id/btn_before"
                 android:layout_width="0dp"
-                android:layout_weight="0.35"
+                android:layout_weight="0.31"
                 android:layout_height="match_parent"
                 android:text="식전" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="0.08"
+                android:layout_height="match_parent">
+
+            </View>
             <Button
+
                 android:background="@drawable/setbtn"
                 android:id="@+id/btn_after"
                 android:layout_width="0dp"
-                android:layout_weight="0.35"
+                android:layout_weight="0.31"
                 android:layout_height="match_parent"
                 android:text="식후" />
         </LinearLayout>
@@ -121,7 +135,10 @@
             android:layout_height="0dp"
             android:layout_weight="0.25"
             android:weightSum="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
 
             <TextView
                 android:id="@+id/tv_dose"
@@ -135,7 +152,7 @@
                 android:textStyle="bold" />
             <View
                 android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.5"
                 android:layout_height="match_parent">
 
             </View>
@@ -143,7 +160,7 @@
                 android:background="@drawable/setbtn"
                 android:id="@+id/et_oneTimeDose"
                 android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.1"
                 android:layout_height="match_parent"
                 android:gravity="center"
                />
@@ -162,7 +179,10 @@
             android:layout_height="0dp"
             android:layout_weight="0.25"
             android:weightSum="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
 
             <TextView
                 android:id="@+id/tv_period_"
@@ -176,7 +196,7 @@
                 android:textStyle="bold" />
             <View
                 android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.5"
                 android:layout_height="match_parent">
 
             </View>
@@ -184,7 +204,7 @@
                 android:background="@drawable/setbtn"
                 android:id="@+id/et_dosingPeriod"
                 android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.1  "
                 android:gravity="center"
                 android:layout_height="match_parent"
                 />
@@ -220,8 +240,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="+ 약 추가하기"
-        android:textColor="@color/appBaseColor"
-        android:background="#CECECE"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/setaddbtn"
         >
     </Button>
     <View

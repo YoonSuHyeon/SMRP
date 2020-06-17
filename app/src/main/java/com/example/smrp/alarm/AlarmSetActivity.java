@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -138,8 +139,8 @@ public class AlarmSetActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                     btnStatus=1;
-                    btn_after.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    btn_before.setBackgroundColor(Color.parseColor("#669DFC"));
+                    btn_before.setBackgroundResource(R.drawable.setbtnclick);
+                    btn_after.setBackgroundResource(R.drawable.setbtn);
 
             }
         });
@@ -149,8 +150,9 @@ public class AlarmSetActivity extends AppCompatActivity {
            public void onClick(View view) {
 
                    btnStatus=0;
-                   btn_before.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                   btn_after.setBackgroundColor(Color.parseColor("#669DFC"));
+                   btn_before.setBackgroundResource(R.drawable.setbtn);
+                   btn_after.setBackgroundResource(R.drawable.setbtnclick);
+
 
            }
        });
