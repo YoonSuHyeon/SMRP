@@ -60,7 +60,8 @@
         <activity android:name=".camera.ResultActivity" />
         <activity android:name=".alarm.AlarmDetailActivity" />
         <activity android:name=".alarm.AlarmDetailActivity2" />
-        <activity android:name=".alarm.AlarmSetActivity"/>
+        <activity android:name=".alarm.AlarmSetActivity"
+           android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".report.ReportResultActivity"/>
         <activity android:name=".report.DetailActivity"/>
         <activity android:name=".alarm.AlarmInformActivity"/>
