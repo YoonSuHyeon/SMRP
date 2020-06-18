@@ -212,8 +212,8 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         case 3:{
                                             if(response.body().getAlramMedicines().get(i).getDoseType().equals("식전")){
-                                                calendar.set(Calendar.HOUR_OF_DAY,19);      //식전
-                                                calendar.set(Calendar.MINUTE,35);
+                                                calendar.set(Calendar.HOUR_OF_DAY,7);      //식전
+                                                calendar.set(Calendar.MINUTE,00);
                                                 calendar.set(Calendar.SECOND,00);
                                                 if(calendar.before(Calendar.getInstance())){
                                                     calendar.add(Calendar.DATE, 1);
@@ -221,16 +221,16 @@ public class LoginActivity extends AppCompatActivity {
                                                 PendingIntent sender = PendingIntent.getBroadcast(LoginActivity.this,response.body().getAlramMedicines().get(i).getAlramGroupId(),my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
                                                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender);
 
-                                                calendar.set(Calendar.HOUR_OF_DAY,19);      //식전
-                                                calendar.set(Calendar.MINUTE,37);
+                                                calendar.set(Calendar.HOUR_OF_DAY,11);      //식전
+                                                calendar.set(Calendar.MINUTE,00);
                                                 if(calendar.before(Calendar.getInstance())){
                                                     calendar.add(Calendar.DATE, 1);
                                                 }
                                                 PendingIntent sender2 = PendingIntent.getBroadcast(LoginActivity.this,response.body().getAlramMedicines().get(i).getAlramGroupId()+100,my_intent,PendingIntent.FLAG_UPDATE_CURRENT);
                                                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*60*60*1000,sender2);
 
-                                                calendar.set(Calendar.HOUR_OF_DAY,19);      //식전
-                                                calendar.set(Calendar.MINUTE,39);
+                                                calendar.set(Calendar.HOUR_OF_DAY,17);      //식전
+                                                calendar.set(Calendar.MINUTE,00);
                                                 if(calendar.before(Calendar.getInstance())){
                                                     calendar.add(Calendar.DATE, 1);
                                                 }
@@ -282,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UserAlarm> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"로그인 실패: 아이디 및 비밀번호 확인해주세요.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"서버상태가 불안정 합니다",Toast.LENGTH_SHORT).show();
                     }
                 });
 

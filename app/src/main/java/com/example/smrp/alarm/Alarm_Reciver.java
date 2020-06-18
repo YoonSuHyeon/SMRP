@@ -44,7 +44,6 @@ public class Alarm_Reciver extends BroadcastReceiver {
                 .setContentTitle("얄 알람 서비스")
                 .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setWhen(System.currentTimeMillis())
-                .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentText("약을 드실 시간입니다!!!!!!!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)

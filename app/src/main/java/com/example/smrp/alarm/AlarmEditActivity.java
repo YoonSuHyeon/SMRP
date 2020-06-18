@@ -63,6 +63,7 @@ public class AlarmEditActivity extends AppCompatActivity {
     EditText et_alramName,et_dosingPeriod,et_oneTimeDose;
     ImageView iv_back;
     Long groupId;
+    int capacity;
     String user_id;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

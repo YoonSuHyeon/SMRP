@@ -219,7 +219,7 @@ public class AlarmSetActivity extends AppCompatActivity {
                             } catch (NullPointerException e) {
 
                             }
-                            Log.d("12341234", response.body().getAlramMedicines().get(1).getAlramName());
+                      //      Log.d("12341234", response.body().getAlramMedicines().get(1).getAlramName());
                             // PendingIntent sender = PendingIntent.getBroadcast(AlarmSetActivity.this,0,my_intent,0);
                             if (response.body().getAlramMedicines().size() != 0) {
                                 for (int i = 0; i < response.body().getAlramMedicines().size(); i++) {
