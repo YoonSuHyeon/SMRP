@@ -45,7 +45,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="27dp"
+        android:layout_height="40dp"
         android:background="#4488FE"
         android:orientation="horizontal">
 
@@ -57,22 +57,15 @@
             android:text="내 근처병원"
             android:textColor="@color/colorWhite" />
 
-        <Spinner
-            android:id="@+id/dgsbjtCd_spinner"
-            android:layout_width="40dp"
+        <Button
+            android:id="@+id/select_dgsbjtCd"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="60dp"
             android:layout_weight="1"
-            android:paddingTop="2dp"
-            android:theme="@style/SpinnerTheme" />
+            android:background="@drawable/hos_dg_button"
+            android:text="진료과목"
+            android:textColor="#ffffff" />
 
-        <Spinner
-            android:id="@+id/radiuse_spinner"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingTop="2dp"
-            android:theme="@style/SpinnerTheme" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
