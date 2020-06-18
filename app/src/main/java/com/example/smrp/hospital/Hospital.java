@@ -1,6 +1,8 @@
 package com.example.smrp.hospital;
 
-public class Hospital {
+import android.util.Log;
+
+public class Hospital implements Comparable<Hospital> {
 
     private String yadmNm;
     private String clCdNm;
@@ -9,7 +11,7 @@ public class Hospital {
     private String telno;
     private String xPos;
     private String yPos;
-    private String distance;
+    private int distance;
 
     public Hospital(String yadmNm, String clCdNm, String addr, /*String hosurl,*/String telno, String xPos, String yPos, double distance) {
 
@@ -27,10 +29,10 @@ public class Hospital {
             int km = temp / 1000;
             int m = temp % 1000;
             m = m / 100;
-            this.distance = Integer.toString(km)+"."+Integer.toString(m)+"km";
+            this.distance = km + m;//Integer.toString(km)+"."+Integer.toString(m)+"km";
         }
         else{
-            this.distance = Integer.toString(temp)+"m";
+            this.distance = temp;
         }
 
     }
@@ -92,12 +94,26 @@ public class Hospital {
         this.yPos = yPos;
     }
 
-    public String getDistance() {
+    public int getDistance() {
         return distance;
     }
 
     public void setDistance(double distance) {
-        this.distance = Double.toString(distance);
+        this.distance = (int)distance;
     }
 
+
+
+    @Override
+    public int compareTo(Hospital o) {
+
+        Log.d("TAG", "this.distance: "+this.distance);
+        Log.d("TAG", "o.getDistance(): "+o.getDistance());
+        if(this.distance>o.getDistance()){
+            return 1;
+        }else  if(this.distance<o.getDistance()){
+            return -1;
+        }else
+            return 0;
+    }
 }
