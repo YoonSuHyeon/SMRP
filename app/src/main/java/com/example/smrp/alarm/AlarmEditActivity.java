@@ -136,7 +136,7 @@ public class AlarmEditActivity extends AppCompatActivity {
 
 
                 et_alramName.setText(response_alarmMedicine.getAlramName());
-                et_oneTimeDose.setText(response_alarmMedicine.getOneTimeDose().toString());
+                et_oneTimeDose.setText(response_alarmMedicine.getOneTimeCapacity().toString());
 
                 et_dosingPeriod.setText(response_alarmMedicine.getDosingPeriod().toString());
 
