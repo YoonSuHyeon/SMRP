@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".ToSActivity">
 
     <LinearLayout
@@ -14,6 +15,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+
         >
 
         <LinearLayout
@@ -43,97 +45,129 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="아래 내용에 동의해주세요."
+                android:textStyle="bold"
+                android:textSize="22dp"
+                android:gravity="center_horizontal"
+                android:textColor="#000000"
+                android:layout_marginTop="36dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="#000000"
+                android:layout_marginTop="6dp"
+                android:text="원활한 서비스 이용을 위해 \n아래 항목들을 모두 동의해주세요"
+                android:layout_marginBottom="16dp"
+                />
 
-        <CheckBox
-            android:id="@+id/cb_All"
-            android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="모두 확인 , 동의합니다."
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
+        </LinearLayout>
+        <LinearLayout
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#000000"
-           />
-        <CheckBox
-            android:id="@+id/cb_Check1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="만 14세 이상입니다."/>
-        <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#000000"
-            />
+            android:layout_height="match_parent"
+            android:background="@drawable/border"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
             <CheckBox
-                android:id="@+id/cb_Check2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="이용약관 동의"/>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_keyboard_arrow_24dp" />
-
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#000000"
-            />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <CheckBox
-                android:id="@+id/cb_Check3"
+                android:id="@+id/cb_All"
+                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="개인정보 수집 및 이용 동의"/>
+                android:text="모두 확인 , 동의합니다."
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#DBDBDB"
+                />
+            <CheckBox
+                android:id="@+id/cb_Check1"
 
-            <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_keyboard_arrow_24dp" />
+                android:layout_height="wrap_content"
+                android:text="만 14세 이상입니다."/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#DBDBDB"
+                />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <CheckBox
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#000000"
-            />
+                    android:id="@+id/cb_Check2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="이용약관 동의"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_keyboard_arrow_24dp" />
+
+            </RelativeLayout>
 
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#DBDBDB"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+                <CheckBox
+
+                    android:id="@+id/cb_Check3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="개인정보 수집 및 이용 동의"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_keyboard_arrow_24dp"
+                    />
+
+            </RelativeLayout>
+
+       =
+
+
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_agree"
+            android:background="#D6D7D7"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="동의하고 가입하기"
             />
-
 
 
     </LinearLayout>

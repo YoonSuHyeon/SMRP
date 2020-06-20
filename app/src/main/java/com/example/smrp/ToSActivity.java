@@ -5,6 +5,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -60,11 +61,54 @@ public class ToSActivity extends AppCompatActivity {
                     check1.setChecked(true);
                     check2.setChecked(true);
                     check3.setChecked(true);
+                    btn_agree.setBackgroundColor(Color.parseColor("#5769B1"));
+                    btn_agree.setTextColor(Color.parseColor("#FFFFFF"));
                 }else{
                     check1.setChecked(false);
                     check2.setChecked(false);
                     check3.setChecked(false);
+                    btn_agree.setBackgroundColor(Color.parseColor("#D6D7D7"));
+                    btn_agree.setTextColor(Color.parseColor("#404040"));
                 }
+            }
+        });
+        check1.setOnClickListener(new CheckBox.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(check1.isChecked()&&check2.isChecked()&&check3.isChecked()){
+                    btn_agree.setBackgroundColor(Color.parseColor("#5769B1"));
+                    btn_agree.setTextColor(Color.parseColor("#FFFFFF"));
+                }else{
+                    btn_agree.setBackgroundColor(Color.parseColor("#D6D7D7"));
+                    btn_agree.setTextColor(Color.parseColor("#404040"));
+                }
+
+            }
+        });
+        check2.setOnClickListener(new CheckBox.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(check1.isChecked()&&check2.isChecked()&&check3.isChecked()){
+                    btn_agree.setBackgroundColor(Color.parseColor("#5769B1"));
+                    btn_agree.setTextColor(Color.parseColor("#FFFFFF"));
+                }else{
+                    btn_agree.setBackgroundColor(Color.parseColor("#D6D7D7"));
+                    btn_agree.setTextColor(Color.parseColor("#404040"));
+                }
+
+            }
+        });
+        check3.setOnClickListener(new CheckBox.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(check1.isChecked()&&check2.isChecked()&&check3.isChecked()){
+                    btn_agree.setBackgroundColor(Color.parseColor("#5769B1"));
+                    btn_agree.setTextColor(Color.parseColor("#FFFFFF"));
+                }else{
+                    btn_agree.setBackgroundColor(Color.parseColor("#D6D7D7"));
+                    btn_agree.setTextColor(Color.parseColor("#404040"));
+                }
+
             }
         });
 

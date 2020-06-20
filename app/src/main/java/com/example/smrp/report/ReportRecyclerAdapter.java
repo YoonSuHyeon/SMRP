@@ -51,6 +51,7 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         //    SearchRecyclerAdapter.ViewHolder vh = new SearchRecyclerAdapter.ViewHolder(view) ;
 
             view = inflater.inflate(R.layout.symptom_list, parent, false);
+
             return new ViewHolder(view);
     }
 
@@ -62,16 +63,23 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         {
             //((ViewHolder)holder).Lay_symptom.setBackground(Color.parseColor("#FFFFFF"));
             ((ViewHolder)holder).Txt_symptom.setText(item.getSymptom());
+            ((ViewHolder)holder).Txt_symptom_content.setText(item.getSymptomContent());
             if ( mSelectedItems.get(position) ){
                 //holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                // holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                ((ViewHolder) holder).Txt_symptom.setBackgroundColor(Color.parseColor("#2658FB"));
-                ((ViewHolder) holder).Txt_symptom.setTextColor(Color.parseColor("#FFFFFF"));
+                //((ViewHolder) holder).Txt_symptom.setBackgroundColor(Color.parseColor("#2658FB"));
+                ((ViewHolder) holder).Lay_symptom.setBackgroundResource(R.drawable.shadow3);
+                ((ViewHolder) holder).Txt_symptom.setTextColor(Color.parseColor("#0022FF"));
+                ((ViewHolder) holder).Txt_symptom_content.setTextColor(Color.parseColor("#0022FF"));
+                ((ViewHolder) holder).ic_check.setImageResource(R.drawable.ic_check_color);
             } else {
                 //holder.itemView.setBackgroundColor(Color.parseColor("#2658FB"));
 
-                ( (ViewHolder) holder).Txt_symptom.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                ((ViewHolder) holder). Txt_symptom.setTextColor(Color.parseColor("#737373"));
+                //( (ViewHolder) holder).Txt_symptom.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                ((ViewHolder) holder).Lay_symptom.setBackgroundResource(R.drawable.shadow2);
+                ((ViewHolder) holder). Txt_symptom.setTextColor(Color.parseColor("#2E2E2E"));
+                ((ViewHolder) holder).Txt_symptom_content.setTextColor(Color.parseColor("#8D8D8D"));
+                ((ViewHolder) holder).ic_check.setImageResource(R.drawable.ic_check_basic);
             }
 
 
@@ -102,11 +110,14 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ArrayList<String> list; // text = item.getName();
         LinearLayout Lay_symptom;
         TextView Txt_symptom;
+        TextView Txt_symptom_content;
+        ImageView ic_check;
         ViewHolder(View itemView) {
             super(itemView) ;
             Lay_symptom = itemView.findViewById(R.id.Lay_symptom);
             Txt_symptom = itemView.findViewById(R.id.Txt_symptom);
-
+            ic_check = itemView.findViewById(R.id.ic_check);
+            Txt_symptom_content = itemView.findViewById(R.id.Txt_symptom_content);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -114,13 +125,21 @@ public class ReportRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     mListener.onItemClick(v, getAdapterPosition(),rList);
                     if ( mSelectedItems.get(position, false) ){
                         mSelectedItems.put(position, false);
-                        Txt_symptom.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                        Txt_symptom.setTextColor(Color.parseColor("#737373"));
+                        Lay_symptom.setBackgroundResource(R.drawable.shadow2);
+                        Txt_symptom.setTextColor(Color.parseColor("#2E2E2E"));
+                        Txt_symptom_content.setTextColor(Color.parseColor("#8D8D8D"));
+                        ic_check.setImageResource(R.drawable.ic_check_basic);
+                       // Txt_symptom.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                       // Txt_symptom.setTextColor(Color.parseColor("#737373"));
 
                     } else {
                         mSelectedItems.put(position, true);
-                        Txt_symptom.setBackgroundColor(Color.parseColor("#2658FB"));
-                        Txt_symptom.setTextColor(Color.parseColor("#FFFFFF"));
+                        Lay_symptom.setBackgroundResource(R.drawable.shadow3);
+                        Txt_symptom.setTextColor(Color.parseColor("#0022FF"));
+                        Txt_symptom_content.setTextColor(Color.parseColor("#0022FF"));
+                        ic_check.setImageResource(R.drawable.ic_check_color);
+                       // Txt_symptom.setBackgroundColor(Color.parseColor("#2658FB"));
+                        //Txt_symptom.setTextColor(Color.parseColor("#FFFFFF"));
                     }
 
 

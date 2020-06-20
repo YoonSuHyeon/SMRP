@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment {
     private double latitude, longitude;
     private Bitmap bitmap;
     private int[] images= {R.drawable.t3, R.drawable.t1,R.drawable.t2}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
-    private int[] bannerImages ={R.drawable.slide1, R.drawable.slide2,R.drawable.slide3};
+    private int[] bannerImages ={R.drawable.b2, R.drawable.b3,R.drawable.b4};
 
     //하단 이미지 버튼
     ImageView ic_med_search;
@@ -168,7 +168,7 @@ public class HomeFragment extends Fragment {
 
 
 
-        startLocationService();//사용자 현재위치 경도 및 위도 GET
+//        startLocationService();//사용자 현재위치 경도 및 위도 GET
 
         /*리스트 프래그먼트 */
         /*FragmentManager fm = getActivity().getSupportFragmentManager(); // Fragment를 관리하기 위해서는 FragmentManager를 사용
@@ -190,8 +190,20 @@ public class HomeFragment extends Fragment {
         lay.height =  mHeight;
         viewP.setLayoutParams(lay);
 
+
+        DisplayMetrics displayMetrics2 = new DisplayMetrics();
+        WindowManager windowManager2 = (WindowManager) getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager2.getDefaultDisplay().getMetrics(displayMetrics2);
+        int mHeight2 = displayMetrics.heightPixels;
+        LinearLayout viewP2 = root.findViewById(R.id.vP);
+        ViewGroup.LayoutParams lay2 = (ViewGroup.LayoutParams) viewP2.getLayoutParams();
+        lay2.height =  displayMetrics2.heightPixels/4-5 ;
+        viewP2.setLayoutParams(lay2);
+
         viewPager =  root.findViewById(R.id.banner);
         viewPager2 =  root.findViewById(R.id.banner2);
+
+
         adapter = new ViewPagerAdapter(getActivity(),images,1);
         bannerAdapter =  new ViewPagerAdapter(getActivity(),bannerImages);
 

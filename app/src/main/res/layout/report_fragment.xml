@@ -6,47 +6,87 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/ff"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/Txt_notice"
+
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
+                android:background="#6497FF"
+
+                android:textColor="@color/colorWhite"
                 android:textStyle="bold"
-                android:layout_alignParentTop="true"
-                android:text="해당되는 증상을 선택해주세요."
+                android:gravity="center"
                 android:textSize="20sp"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="14dp"
-                />
-            <View
-                android:id="@+id/line1"
-                android:layout_below="@+id/Txt_notice"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#989898"
+
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Lst_symptom"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/line1"
+            <RelativeLayout
+
                 android:layout_width="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+               <!-- <TextView
+                    android:id="@+id/Txt_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:text="해당되는 증상을 선택해주세요."
+                    android:textSize="20sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="14dp"
+                    />
+                <View
+                    android:id="@+id/line1"
+                    android:layout_below="@+id/Txt_notice"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#989898"
+                    />-->
+                <TextView
+
+                    android:id="@+id/Txt_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+
+                    android:text="해당되는 \n증상을 선택해주세요."
+                    android:textSize="20sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="14dp"
+                    android:textColor="@color/colorWhite"
+                    android:gravity="center"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="12dp"
+
+
+                    android:id="@+id/Lst_symptom"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+
+                    android:layout_below="@+id/Txt_notice"
+                    android:layout_width="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="wrap_content"/>
 
 
 
 
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </FrameLayout>
+
+
         <LinearLayout
             android:layout_marginTop="40dp"
             android:background="@color/colorWhite"
@@ -55,26 +95,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
-            <View
 
-                android:id="@+id/line3"
-                android:layout_below="@+id/Lst_symptom"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#989898"
-                />
 
             <Button
-                android:layout_marginEnd="8dp"
+                android:background="@drawable/button"
+
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:id="@+id/Btn_submit"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 android:text="제 출"
                 android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
 
                 />
         </LinearLayout>

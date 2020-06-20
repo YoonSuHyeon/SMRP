@@ -42,7 +42,13 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
     int count=0;
     String symptom[] ={"가슴 통증", "심계항징", "요통", "공포", "구취", "기침", "두통", "만성 기침", "발열", "불안", "삼킴곤란", "시력 감소",
             "식욕 부진", "어지럼증", "인두통 및 인후통", "콧물", "트림", "호흡장애", "복통", "설사", "소화불량", "배뇨통", "생리불순", "요실금", "변비", "혈변", "구역", "구토", "근육통", "실신", "저혈압", "피로", "혼수", "발진", "소양감"};
-   /* public interface OnSymptomListener{
+
+    String symptom_content[]={"가슴이 아프거나 결리는 질환","심장 박동을 불편하게 느끼는 증상", "허리에 발생하는 통증", "두렵고 무서움" , "구강에서 나는 악취", "기침",
+            "머리 부분에 생기는 통증", "3주 이상 지속되는 기침을 만성 기침", "37 ℃가 넘을 때", "마음이 편하지 아니하고 조마조마함", "음식물을 삼키기 어려운 증상", "사물을 인지하는 능력이 떨어지는 상태", "음식을 먹는 욕구가 떨어진 상태",
+            "아찔함, 현기증, 평형 이상, 불안정", "침이나 음식을 삼킬때 목에 통증", "비점막으로부터 흘러나오는 것", "위에서 가스가 구강으로 역류", "호흡 운동에 장애가 발생하는 상태", "복부에 발생한 통증", "변이 무르고 물기가 많은 상태",
+            "속쓰림, 식후 포만감, 조기 만복감", "소변을 볼 때 아픔", "불규칙한 생리", "자신도 모르게 소변이 유출", "정상적으로 배변이 이루어지지 않음", "혈액이 섞인 분변", "구토가 급박한 느낌","입에서 오물이나 먹은 음식이 나옴",
+            "근육의 통증", "병이나 충격 따위로 정신을 잃음", "혈압이 100/60 mmHg 이하", "과로로 정신이나 몸이 지쳐 힘듦", "정신없이 잠이 듦", "피부나 점막에 돋아난 작은 종기", "피부가 가려운 증상"};
+    /* public interface OnSymptomListener{
         public void onSymptomSelected(SparseBooleanArray s, ArrayList<ListItem> l);
     }*/
 
@@ -58,7 +64,7 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
 
         array_symptom = new ArrayList<String>();
         for(int i=0; i < symptom.length; i++)
-            addItem(list, symptom[i]);
+            addItem(list, symptom[i],symptom_content[i]);
 
       //  addItem(list,"복통");
         Btn_submit = root.findViewById(R.id.Btn_submit);
@@ -92,9 +98,10 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
 
         return root;
     }
-    public void addItem(ArrayList<ListItem> list, String s) {
+    public void addItem(ArrayList<ListItem> list, String s, String sc) {
         ListItem item = new ListItem();
         item.setSymptom(s);
+        item.setSymptomContent(sc);
         list.add(item);
     }
 

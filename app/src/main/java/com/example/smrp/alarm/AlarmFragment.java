@@ -51,7 +51,7 @@ public class AlarmFragment extends Fragment {
     private String user_id;
     ArrayList<ListViewAlarmItem> items = new ArrayList<ListViewAlarmItem>();
 
-    private int[] images= {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
+    private int[] images= {R.drawable.mb1, R.drawable.mb2,R.drawable.mb3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

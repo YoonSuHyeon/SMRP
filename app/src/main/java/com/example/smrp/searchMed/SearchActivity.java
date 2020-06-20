@@ -438,7 +438,7 @@ public class SearchActivity extends AppCompatActivity implements SearchRecyclerA
                 }
                 else { // 선택되지 않은 아이템을 클릭 시
                     mSelectedItems1.put(position, true);//일단 그 선택한 아이템은 선택 상태로 바꿔주기 -> true
-                    if(item.getViewType()==1){ // 선택한 아이템이 00 전체인 경우
+                    if(item.getViewType()==1){ // 선택한 아이템이 0\전체인 경우
                         for (int i = 1; i < mSelectedItems1.size(); i++)
                             mSelectedItems1.put(i, false); // 나머지 아이템들은 false로 만든다. 즉, 선택 해제
 

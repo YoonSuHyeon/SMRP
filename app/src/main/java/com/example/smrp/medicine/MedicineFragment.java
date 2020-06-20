@@ -1,13 +1,17 @@
 package com.example.smrp.medicine;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,7 +52,7 @@ public class MedicineFragment extends Fragment {
     private String user_id;
     ArrayList<ListViewItem> items = new ArrayList<ListViewItem>();
 
-    private int[] images= {R.drawable.slide1, R.drawable.slide2,R.drawable.slide3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
+    private int[] images= {R.drawable.mb1, R.drawable.mb2,R.drawable.mb3}; // ViewPagerAdapter에  보낼 이미지. 이걸로 이미지 슬라이드 띄어줌
     private MedicineViewModel medicineViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -118,7 +122,14 @@ public class MedicineFragment extends Fragment {
 
         //String id  사용자 id를 가져와야함
 
-
+      /*  DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getContext().getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int mHeight = displayMetrics.heightPixels;
+        LinearLayout viewP = v.findViewById(R.id.vP);
+        ViewGroup.LayoutParams lay = (ViewGroup.LayoutParams) viewP.getLayoutParams();
+        lay.height =  mHeight*160 / displayMetrics.densityDpi ;
+        viewP.setLayoutParams(lay);(*/
 
 
 
