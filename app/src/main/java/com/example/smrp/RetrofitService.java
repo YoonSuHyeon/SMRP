@@ -38,7 +38,7 @@ public interface RetrofitService {
                                  @Query("email") String email
     );
     @POST("medicine2/addAlram") //알람 추가
-    Call<UserAlarm> addAlram(
+    Call<Long> addAlram(
             @Body AlarmMedicine alarmMedicine
     );
 
