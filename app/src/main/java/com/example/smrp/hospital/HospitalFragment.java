@@ -475,7 +475,7 @@ public class  HospitalFragment extends Fragment implements MapView.MapViewEventL
         hospital= new Hospital(yadmNm,clCdNm,addr,/*hosurl,*/telno,xPos,yPos,distance);
         list.add(hospital);
 
-        Collections.sort(list);
+        //Collections.sort(list);
 
         adapter.notifyDataSetChanged();
 
