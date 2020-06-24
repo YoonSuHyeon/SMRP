@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/line_medicine"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:weightSum="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_marginLeft="5dp"
+            android:text="없음"
+            android:id="@+id/textView1"
+            android:textSize="30dp"
+            android:textColor="#2595D1"
+            android:gravity="center_vertical"
+            />
+
+        <TextView
+            android:text="없음"
+            android:layout_weight="0.8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:id="@+id/textView2"
+            android:textSize="30dp"
+            android:textColor="#666666"
+             />
+</LinearLayout>

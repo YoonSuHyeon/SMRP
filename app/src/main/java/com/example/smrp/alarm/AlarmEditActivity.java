@@ -121,7 +121,7 @@ public class AlarmEditActivity extends AppCompatActivity {
         });
 
 
-        //34524  http://222.113.57.91:8080/medicine2/getAlram?groupId=34524
+        //34524  http://222.113.57.91:8080/medicine2/getAlram?groupId=35429
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
         Log.d("groupId",groupId.toString());
         Call<Response_AlarmMedicine> call = networkService.getAlram(groupId);
@@ -129,12 +129,6 @@ public class AlarmEditActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Response_AlarmMedicine> call, Response<Response_AlarmMedicine> response) {
                 Response_AlarmMedicine response_alarmMedicine =response.body();
-                Log.d("Name",response_alarmMedicine.getAlramName());
-                Log.d("Dose",response_alarmMedicine.getAlramName());
-                Log.d("Capacity",response_alarmMedicine.getAlramName());
-                Log.d("Period",response_alarmMedicine.getAlramName());
-                Log.d("getdose",response_alarmMedicine.getDoseType());
-
 
                 et_alramName.setText(response_alarmMedicine.getAlramName());
                 et_oneTimeDose.setText(response_alarmMedicine.getOneTimeCapacity().toString());

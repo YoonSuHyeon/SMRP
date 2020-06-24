@@ -3,6 +3,7 @@ package com.example.smrp;
 
 import com.example.smrp.alarm.AlarmMedicine;
 import com.example.smrp.alarm.Response_AlarmMedicine;
+import com.example.smrp.home.HomeMedItem;
 import com.example.smrp.searchMed.SelectedItem;
 import com.example.smrp.searchPrescription.User_Select;
 
@@ -61,6 +62,9 @@ public interface RetrofitService {
             @Body MedicineUserId medicineUserId
     );
 
+    @GET("medicine2/getRank") //Rank
+    Call<ArrayList<HomeMedItem>>getRank(
+    );
     @GET("medicine2/getAlramList") //유저 알람 가져오기
     Call<ArrayList<Response_AlarmMedicine>> getList(
             @Query("userId") String userId

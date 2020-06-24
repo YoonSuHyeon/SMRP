@@ -33,6 +33,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.smrp.R;
@@ -41,6 +43,8 @@ import com.example.smrp.RetrofitService;
 import com.example.smrp.User;
 import com.example.smrp.UserAlarm;
 import com.example.smrp.alarm.Alarm_Reciver;
+import com.example.smrp.alarm.ListViewAlarmItem;
+import com.example.smrp.alarm.Response_AlarmMedicine;
 import com.example.smrp.medicine.ViewPagerAdapter;
 import com.example.smrp.searchMed.SearchActivity;
 import com.example.smrp.searchPrescription.Search_prescriptionActivity;
@@ -52,8 +56,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,7 +68,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class HomeFragment extends Fragment {
-
+    private ArrayList<HomeMedItem> homeMedItemArrayList=new ArrayList<HomeMedItem>();
     private ViewPagerAdapter adapter;
     private ViewPagerAdapter bannerAdapter;
     private ViewPager viewPager;
@@ -70,7 +76,7 @@ public class HomeFragment extends Fragment {
     private final long DELAY_MS = 1000; // 자동 슬라이드를 위한 변수
     private final long PERIOD_MS = 3000; // 자동 슬라이드를 위한 변수
     private int currentPage = 0; // 자동 슬라이드를 위한 변수(현재 페이지)
-
+    private HomeRecyclerAdapter homeRecyclerAdapter;
     static Timer timer = null; // 자동 슬라이드를 위한 변수
     static TimerTask timerTask= null;
     long now = System.currentTimeMillis();
@@ -82,7 +88,7 @@ public class HomeFragment extends Fragment {
     String formatDate = sdfNow.format(date);
     private static TextView time,pm_textview,humidity_textView,temp_textview,Txt_statement, Txt_weather;//, min_max_textview, feel_textview;
     private static ImageView weather_imageview;
-
+    private RecyclerView recyclerView;
     private Location location;
     private double latitude, longitude;
     private Bitmap bitmap;
@@ -145,7 +151,7 @@ public class HomeFragment extends Fragment {
                             .findFragmentById(R.id.nav_host_fragment);
         }
         navController = navHostFragment.getNavController();
-
+        recyclerView=root.findViewById(R.id.Lst_line);
         weather_imageview = root.findViewById(R.id.weather_imageview); //하늘 상태 사진
         temp_textview = root.findViewById(R.id.temp_textview); //온도 textView
        // min_max_textview = root.findViewById(R.id.min_max_textview);
@@ -231,6 +237,8 @@ public class HomeFragment extends Fragment {
 
             timer.cancel() ;
         }
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(root.getContext());
+        recyclerView.setLayoutManager(mLinearLayoutManager);
 
 
 
@@ -259,6 +267,8 @@ public class HomeFragment extends Fragment {
         timer = new Timer();
 
         timer.schedule(timerTask, DELAY_MS, PERIOD_MS);
+
+
 
 
 
@@ -328,6 +338,34 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        //Rank
+        RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
+        Call<ArrayList<HomeMedItem>> call = networkService.getRank();
+        call.enqueue(new Callback<ArrayList<HomeMedItem>>() {
+            @Override
+            public void onResponse(Call<ArrayList<HomeMedItem>> call, retrofit2.Response<ArrayList<HomeMedItem>> response) {
+                //HomeRecyclerAdapter
+
+                homeMedItemArrayList=response.body();
+                homeRecyclerAdapter=new HomeRecyclerAdapter(homeMedItemArrayList);
+                recyclerView.setAdapter(homeRecyclerAdapter);
+
+                Log.d("zxcbz",homeMedItemArrayList.get(0).getName());
+                homeRecyclerAdapter.notifyDataSetChanged();
+               // homeRecyclerAdapter= new HomeRecyclerAdapter(homeMedItemArrayList);
+               // recyclerView.setAdapter(homeRecyclerAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<HomeMedItem>> call, Throwable t) {
+                    Log.d("tttt",t.toString());
+
+            }
+        });
+
+
 
         //하단 이미지 버튼 이동
         ic_med_search.setOnClickListener(new View.OnClickListener() {

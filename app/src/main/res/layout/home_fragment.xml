@@ -138,7 +138,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <TextClock
+                   <TextClock
                         android:layout_marginStart="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -150,6 +150,7 @@
                         android:textColor="#0A2246"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
 
                 </RelativeLayout>
 
@@ -196,19 +197,26 @@
                 app:ci_width="5dp"
                 />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/Lst_line"
+                    android:layout_below="@+id/indicator_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    />
+
 
             <LinearLayout
                 android:id="@+id/vP"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/indicator_home"
+                android:layout_below="@+id/Lst_line"
                 android:layout_height="wrap_content">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/banner2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/indicator_home"
+                    android:layout_below="@+id/Lst_line"
 
                     />
             </LinearLayout>
@@ -225,6 +233,13 @@
                 app:ci_margin="4dp"
                 app:ci_width="5dp"
                 />
+
+
+
+
+
+
+
 
             <LinearLayout
                 android:id="@+id/row"
