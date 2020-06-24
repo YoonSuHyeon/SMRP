@@ -142,6 +142,7 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
         try{
             Date FirstDate = mformat.parse(tempFinish);
             Date SecondDate = mformat.parse(time);
+
             long calDate = FirstDate.getTime() - SecondDate.getTime();
 
             // Date.getTime() 은 해당날짜를 기준으로1970년 00:00:00 부터 몇 초가 흘렀는지를 반환해준다.
@@ -157,11 +158,19 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
             dose.setText(listViewAlarmItemI.getOneTimeDose()+"회");
             doseTypeView.setText(listViewAlarmItemI.getDoseType());
             period.setText(tempStart+" ~ "+tempFinish);
-            remainingTime.setText((Long.parseLong(listViewAlarmItemI.getDosingPeriod())-calDateDays)+"/"+listViewAlarmItemI.getDosingPeriod());
+
 
             double progress =(1.0-((double)(calDateDays)/Double.parseDouble(listViewAlarmItemI.getDosingPeriod()))) *100;
-            progressBar.setProgress((int) progress);
+            if(FirstDate.getTime()<SecondDate.getTime()){
+                progressBar.setProgress(100);
+                remainingTime.setText(listViewAlarmItemI.getDosingPeriod()+"/"+listViewAlarmItemI.getDosingPeriod());
+            }else{
+                progressBar.setProgress((int) progress);
+                remainingTime.setText((Long.parseLong(listViewAlarmItemI.getDosingPeriod())-calDateDays)+"/"+listViewAlarmItemI.getDosingPeriod());
+            }
 
+            Log.d("prg",Double.toString(progress));
+            Log.d("prg",Double.toString(calDateDays));
 
             Log.d("time",listViewAlarmItemI.getAlramName());
             Log.d("dos",listViewAlarmItemI.getOneTimeDose());
