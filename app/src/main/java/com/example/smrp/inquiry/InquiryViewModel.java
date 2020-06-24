@@ -8,8 +8,7 @@ public class InquiryViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
     public InquiryViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is Inquiry fragment");
+
     }
 
     public LiveData<String> getText() {

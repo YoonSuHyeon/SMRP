@@ -25,13 +25,13 @@ public class InquiryFragment extends Fragment {
         inquiryViewModel =
                 ViewModelProviders.of(this).get(InquiryViewModel.class);
         View root = inflater.inflate(R.layout.inquiry_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_inquiry);
+        /*final TextView textView = root.findViewById(R.id.text_inquiry);
         inquiryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
-        });
+        });*/
         return root;
     }
 
