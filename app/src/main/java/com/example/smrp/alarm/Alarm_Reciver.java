@@ -39,12 +39,12 @@ public class Alarm_Reciver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,NOTIFICATION_CHANNEL_ID)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.alarm_medicine2))
                 .setSmallIcon(R.drawable.location_icon)
                 .setContentTitle("얄 알람 서비스")
                 .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setWhen(System.currentTimeMillis())
-                .setContentText("약을 드실 시간입니다!!!!!!!!")
+                .setContentText("약을 드실 시간입니다!!!!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
