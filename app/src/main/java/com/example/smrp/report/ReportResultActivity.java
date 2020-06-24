@@ -12,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smrp.MainActivity;
 import com.example.smrp.R;
 
 import java.util.ArrayList;
@@ -140,7 +143,8 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
 
                 // RecyclerView에 나타나는 아이템 추가하기
                 // 여기서 disease[i]/symptom_count)*100.0는 확률을 구하는 값
-                addItem(list,Str_diseaseName[i],disease_contents[i],(disease[i]/symptom_count)*100.0,disease_depart[i]);
+                double prob = Math.round(((disease[i]/symptom_count))*100.0 * 10) / 10.0;
+                addItem(list,Str_diseaseName[i],disease_contents[i],prob,disease_depart[i]);
             }
         }
         adapter = new DiseaseRecyclerAdapter(list, this,Lst_disease);
@@ -199,4 +203,6 @@ public class ReportResultActivity extends AppCompatActivity implements DiseaseRe
 
 
     }*/
+
+
 }

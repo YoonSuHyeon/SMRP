@@ -63,10 +63,18 @@
 
             />
         <ListView
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="2dp"
             android:id="@+id/Lst_medicine"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/Txt_current_med"
+            android:background="#FFFFFF"
+
+            android:divider="#00000000"
+
             />
 
         <ImageView

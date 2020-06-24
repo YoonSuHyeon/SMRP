@@ -165,6 +165,9 @@
                 android:layout_weight="0.1"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:maxLength="1"
+                android:digits="123"
+                android:inputType="number"
                />
             <TextView
                 android:id="@+id/time"

@@ -44,69 +44,31 @@
     </LinearLayout>
     <TextView
 
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:textSize="18sp"
+        android:textStyle="normal"
         android:textColor="@color/appBaseColor"
         android:id="@+id/Txt_name"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="자세히 보려면 클릭하세요."
+        android:text="진단 결과입니다.\n자세히 보고 싶으면 클릭해주세요"
+        android:background="#E2E2E2"
         />
-    <LinearLayout
-        android:layout_marginTop="8dp"
+    <View
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_marginStart="8dp"
-            android:layout_weight="0.3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="병 명"
-            android:background="@color/appBaseColor"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_marginStart="1dp"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="증 상"
-            android:background="@color/appBaseColor"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_marginStart="1dp"
-            android:layout_weight="0.3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="과"
-            android:background="@color/appBaseColor"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="0.3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="확 률"
-            android:background="@color/appBaseColor"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+        android:layout_height="0.5dp"
+        android:layout_marginStart="16dp"
+        android:background="#333333"
+        android:layout_marginEnd="16dp"
+        />
 
-    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginStart="8dp"
         android:id="@+id/Lst_disease"

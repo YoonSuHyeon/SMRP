@@ -104,7 +104,7 @@ public class ListViewAdapter extends BaseAdapter {
         Glide.with(activity).load(listViewItem.getUrl()).override(400,150).fitCenter().into(iconImageView);
 //        iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getName());
-        descTextView.setText(listViewItem.getName());
+        descTextView.setText(listViewItem.getTime());
 
         return convertView;
 

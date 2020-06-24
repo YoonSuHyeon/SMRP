@@ -71,12 +71,16 @@
             <Button
 
                 android:id="@+id/Btn_duplicate"
-                android:layout_height="match_parent"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:background="#2658FB"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:background="@drawable/button_background2"
                 android:textColor="#FFFFFF"
-                android:text="중복확인"/>
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="중복확인"
+
+                />
 
 
 
@@ -126,6 +130,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/Lay_birth"
             android:layout_below="@+id/Txt_sua_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -138,6 +143,25 @@
                 android:layout_weight="0.7"
                 android:inputType="number"
                 android:hint="생년월일(6자리입력)"
+                />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/Lay_birth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_marginRight="22dp"
+                android:layout_marginLeft="22dp"
+                android:textSize="18sp"
+                android:textColor="#9DA2A6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별"
+
                 />
             <RadioGroup
                 android:id="@+id/radio_group"
@@ -170,8 +194,8 @@
 
             </RadioGroup>
 
-        </LinearLayout>
 
+        </LinearLayout>
         <Button
             android:id="@+id/Btn_sua_signUp"
             android:layout_marginTop="16dp"

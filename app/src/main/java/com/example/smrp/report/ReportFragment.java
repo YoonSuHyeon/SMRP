@@ -1,5 +1,6 @@
 package com.example.smrp.report;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +42,7 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
     Button Btn_submit;
     ArrayList<String> array_symptom;
     int count=0;
+    View root;
     String symptom[] ={"가슴 통증", "심계항징", "요통", "공포", "구취", "기침", "두통", "만성 기침", "발열", "불안", "삼킴곤란", "시력 감소",
             "식욕 부진", "어지럼증", "인두통 및 인후통", "콧물", "트림", "호흡장애", "복통", "설사", "소화불량", "배뇨통", "생리불순", "요실금", "변비", "혈변", "구역", "구토", "근육통", "실신", "저혈압", "피로", "혼수", "발진", "소양감"};
 
@@ -56,7 +59,7 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
                              ViewGroup container, Bundle savedInstanceState) {
         reportViewModel =
                 ViewModelProviders.of(this).get(ReportViewModel.class);
-        View root = inflater.inflate(R.layout.report_fragment, container, false);
+        root = inflater.inflate(R.layout.report_fragment, container, false);
     //    Intent intent = new Intent(getActivity(), ReportNoticeActivity.class);
       //..  startActivity(intent);
 
@@ -83,7 +86,13 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
                 else{
                     Intent intent = new Intent(getActivity(), ReportResultActivity.class);
                     intent.putExtra("selected", mSelectedItems);
+
                     startActivity(intent);
+                  //  FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                  //  fragmentManager.beginTransaction().detach(ReportFragment.this).commit();
+                   // fragmentManager.popBackStack();
+
+
 
 
                 }
@@ -111,6 +120,7 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
         TextView Txt_sym=  v.findViewById(R.id.Txt_symptom);
         if (mSelectedItems.get(position)==1){
             // 어떤 아이템이든 선택된 상태에서 다시 한번 선택(클릭)시 수행
+
             mSelectedItems.set(position,0);// 그 아이템을 선택 해제한다.
             count--;
 
@@ -143,5 +153,6 @@ public class ReportFragment extends Fragment implements ReportRecyclerAdapter.On
         }
 
     }*/
+
 
 }
