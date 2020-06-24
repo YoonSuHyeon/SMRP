@@ -4,6 +4,7 @@ package com.example.smrp;
 import com.example.smrp.alarm.AlarmMedicine;
 import com.example.smrp.alarm.Response_AlarmMedicine;
 import com.example.smrp.home.HomeMedItem;
+import com.example.smrp.inquiry.Send_Message;
 import com.example.smrp.searchMed.SelectedItem;
 import com.example.smrp.searchPrescription.User_Select;
 
@@ -127,6 +128,13 @@ public interface RetrofitService {
     Call<response>addSelectMedicine(
             @Body User_Select user_select
     );
+
+    @POST("/inquiry/add")
+    Call<response>sendInquiry(
+            @Body Send_Message send_message
+    );
+
+
 
 
 }
