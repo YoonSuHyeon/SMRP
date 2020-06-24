@@ -1,12 +1,7 @@
 package com.example.smrp.home;
 
-import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -29,8 +24,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,15 +33,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.User;
-import com.example.smrp.UserAlarm;
-import com.example.smrp.alarm.Alarm_Reciver;
-import com.example.smrp.alarm.ListViewAlarmItem;
-import com.example.smrp.alarm.Response_AlarmMedicine;
 import com.example.smrp.medicine.ViewPagerAdapter;
 import com.example.smrp.searchMed.SearchActivity;
 import com.example.smrp.searchPrescription.Search_prescriptionActivity;
-
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +46,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -422,6 +408,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_nav_home_to_nav_medicine);
+            }
+        });
+        ic_dose_record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_nav_home_to_nav_inquiry);
             }
         });
 

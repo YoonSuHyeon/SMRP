@@ -10,15 +10,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -45,7 +42,7 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
     public static AlarmManager alarmManager=null;
     public static PendingIntent pendingIntent=null;
     Intent intent;
-
+    private Dialog enddialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +52,7 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
         alertdialog.setCancelable(false);//외부영역 터치시 dismiss되는것을 방지
         alertdialog.setMessage("현재 계정을 종료하시겠습니까?");
         loginInfromation = getActivity().getSharedPreferences("setting",0);
-        Dialog dialog = new Dialog();
+        enddialog = new Dialog();
 
         alertdialog.setPositiveButton("네", new DialogInterface.OnClickListener() {
             @Override
@@ -71,6 +68,7 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
 
                 User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
                 Call<UserAlarm> call = retrofitService.login(user);
+                enddialog.execute();
                 call.enqueue(new Callback<UserAlarm>() {
                     @Override
                     public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
@@ -118,9 +116,6 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
                                     }
                                 }
                             }
-                            Intent intent = new Intent(getContext(), LoginActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
 
                         }
                     }
@@ -180,6 +175,7 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         @Override
         protected void onPreExecute() {
+            super.onPreExecute();
             /*ViewGroup group = (ViewGroup) root.getParent();
             if(group!=null)
                 group.removeView(root);*/
@@ -189,7 +185,7 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
 
             // show dialog
             progressDialog.show();
-            super.onPreExecute();
+
         }
         @Override
         protected Void doInBackground(Void... voids) {
@@ -198,20 +194,25 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
             bool_logout = false;*/
 
             try {
-                Thread.sleep(1000); // 2초 지속
+                Thread.sleep(2500); // 2초 지속
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            getActivity().finish();
+            progressDialog.dismiss();
             return null;
         }
         @Override
         protected void onPostExecute(Void result) {
-            progressDialog.dismiss();
-
-            //finish();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Intent intent = new Intent(getContext(), LoginActivity.class);
+            startActivity(intent);
+            getActivity().finish();
 
             super.onPostExecute(result);
         }

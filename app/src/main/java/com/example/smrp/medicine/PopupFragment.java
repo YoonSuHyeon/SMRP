@@ -50,7 +50,7 @@ public class PopupFragment extends DialogFragment { // 약 등록하기 Fragment
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 startActivity(intent);
                 Toast.makeText(getActivity(), "Shoot", Toast.LENGTH_LONG).show(); // 임시 메세지
-                dismiss();
+
 
             }
         });

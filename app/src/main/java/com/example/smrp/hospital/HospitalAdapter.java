@@ -18,7 +18,9 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
     public OnHospitalItemClickListener listener;
 
     public HospitalAdapter(ArrayList<Hospital> list) {
+
         this.items = list;
+
     }
 
     public interface OnHospitalItemClickListener {
@@ -77,7 +79,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             textview_name = itemView.findViewById(R.id.textView_hos_name); //병원 이름
             textview_type = itemView.findViewById(R.id.textView_hos_type); //병원 타입
             textView_addr = itemView.findViewById(R.id.textView_hos_addr); //병원 주소
-//            textview_hosurl = itemView.findViewById(R.id.textView_Url); //병원 홈페이지
+            // textview_hosurl = itemView.findViewById(R.id.textView_Url); //병원 홈페이지
             textview_hostelno = itemView.findViewById(R.id.textView_telno); //병원 전화번호
             textView_distance = itemView.findViewById(R.id.textView_hos_distance); //병원거리
             button_path = itemView.findViewById(R.id.hos_button_path);
@@ -117,7 +119,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.ViewHo
             textView_addr.setText(item.getAddr());//병원 주소
             //textview_hosurl.setText(item.getHosurl());
             textview_hostelno.setText(item.getTelno());//병원 전화버놓
-            textView_distance.setText(item.getDistance());//병원거리
+            textView_distance.setText(String.valueOf(item.getDistance())+"m");//병원거리
         }
     }
 }

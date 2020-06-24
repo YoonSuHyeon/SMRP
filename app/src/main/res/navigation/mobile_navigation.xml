@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_report_notice"
             app:destination="@id/nav_report_notice" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_inquiry"
+            app:destination="@id/nav_inquiry" />
     </fragment>
     <fragment
         android:id="@+id/nav_alarm"

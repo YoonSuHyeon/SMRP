@@ -184,6 +184,8 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
             }
 
             Uploading_bitmap(bitmap);
+        }else{
+            onBackPressed();
         }
     }
     private File createImageFile() throws IOException {
@@ -199,11 +201,12 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
         return image;
     }
     private void sendTakePhotoIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 내장 카메라 켜기
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android/data/com.example.smrp/files/Pictures");//Android/data/com.raonstudio.cameratest/files
+            Log.d("TAG", "sendTakePhotoIntentsendTakePhotoIntentsendTakePhotoIntent: ");
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Android/data/com.example.smrp/files/Pictures");//Android/data/com.raonstudio.cameratest/files
 
-            if(!file.exists()){
+            if (!file.exists()) {
 
                 file.mkdir();
 
@@ -251,9 +254,7 @@ public class Search_prescriptionActivity extends AppCompatActivity implements Se
             //imageView.setImageBitmap(bitmap);
             callCloudVision(bitmap);
         }
-        else{
-            Log.d("TAG", "Uploading_bitmap fail ");
-        }
+
 
     }
 

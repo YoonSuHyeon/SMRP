@@ -33,12 +33,14 @@ public class LoginActivity extends AppCompatActivity {
     String id="", password=""; // 사용자의 아이디와 비밀번호를 저장하는 변수
     TextView tv_findId;
     ImageView iv_back;
-    String user_id="",user_pass="",getAutoLogin="";
-    boolean bool_login = false;
+    String user_id="",user_pass="",getAutoLogin="",getStoreid="";
+    boolean bool_store_login = false;
+    boolean bool_store_id = false;
     String name="";
     CheckBox auto_lgoin;
-    SharedPreferences loginInfromation;
-    SharedPreferences.Editor editor;
+    CheckBox store_id;
+    SharedPreferences loginInfromation, storeidinformation;
+    SharedPreferences.Editor autologin_editor, storeid_editor;
 
     int count=0;
     Calendar calendar ;
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_findId = findViewById(R.id.tv_findId); //사용자 ID찾기 버튼
         iv_back = findViewById(R.id.iv_back);//뒤로가기 버튼
         auto_lgoin = findViewById(R.id.auto_login); //자동로그인 checkbox버튼
+        store_id = findViewById(R.id.store_id);
 
         auto_lgoin.setChecked(false);
 
@@ -66,31 +69,58 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Log.d("TAG", "isChecked: "+isChecked);
-                bool_login = isChecked;
+                bool_store_login = isChecked;
             }
         });
-        loginInfromation = getSharedPreferences("setting",0);//자동로그인 시 사용자의 id와 password값을 교환하기 위해 setting xml파일 생성 및 (두번쨰 파라메터) 접근권한
-        editor = loginInfromation.edit();
+
+        store_id.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d("TAG","isid"+isChecked);
+                bool_store_id = isChecked;
+
+            }
+        });
+
+
+
+
 
         this.context=this;
         final Intent my_intent = new Intent(this.context, Alarm_Reciver.class);
         alarmManager=(AlarmManager)getSystemService(ALARM_SERVICE);
         calendar = Calendar.getInstance();
 
+        /*    아이디 저장(시작)    */
+        storeidinformation = getSharedPreferences("store_id",0);
+        storeid_editor = storeidinformation.edit();
+        getStoreid = storeidinformation.getString("store_id","");
+        if(getStoreid.equals("true")){
 
-        user_id = loginInfromation.getString("id","");
-        user_pass = loginInfromation.getString("password","");
-        name = loginInfromation.getString("name","");
+            user_id = storeidinformation.getString("id","");
+            Txt_id.setText(user_id);
+            store_id.setChecked(true);
+        }
+
+        /*    아이디 저장(끝)    */
+
+        /*    자동로그인(시작)    */
+        loginInfromation = getSharedPreferences("setting",0);//자동로그인 시 사용자의 id와 password값을 교환하기 위해 setting xml파일 생성 및 (두번쨰 파라메터) 접근권한
+        autologin_editor = loginInfromation.edit();
         getAutoLogin = loginInfromation.getString("auto_login","");
-        Log.d("TAG", "user_id: "+user_id);
-        Log.d("TAG", "user_pass: "+user_pass);
-        Log.d("TAG","getAutoLogin"+getAutoLogin);
+
+        /*    자동로그인(끝)    */
+
         if(getAutoLogin.equals("true")){ //자동로그인 실시 !user_id.equals("")&&!user_pass.equals("")
             Log.d("TAG", "onCreate: ");
+
+            user_id = loginInfromation.getString("id","");
+            user_pass = loginInfromation.getString("password","");
+            name = loginInfromation.getString("name","");
             Txt_id.setText(user_id);//자동로그인시 사용자의 id 텍스트핑드의 자동로그인하는 계정 id값을 출력
             Txt_password.setText(user_pass);//자동로그인시 사용자의 password 텍스트핑드의 자동로그인하는 계정 password값을 출력
             auto_lgoin.setChecked(true); //자동 로그인 checkbox true
-
+            Btn_login.setClickable(false); //로그인 버튼 클릭 비활성화
             /*editor.putString("id",user_id); //자동로그인을 하기 위해서 getString을 할 시 메모리에 해당 data가 한번사용 후 사라지기에 이를 다시 넣는다.
             editor.putString("password",user_pass); //getString한 id와 password값을 다시 넣는다.
             editor.putString("name",name);
@@ -132,22 +162,30 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) { //로그인버튼 활성화
                 user_id =  Txt_id.getText().toString();
                 user_pass =  Txt_password.getText().toString();
-                User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
+                final User user = new User(user_id,"",user_pass,"","",""); //서버에서 USER 클래스를 받기에 불필요한 매개변수가 들어가도 이해할것
                 Call<UserAlarm> call = retrofitService.login(user);
                 call.enqueue(new Callback<UserAlarm>() {
                     @Override
                     public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
                         if(!response.body().getUserName().equals("empty")){
                             name = response.body().getUserName();
-                            editor.putString("id", user_id); //자동로그인시 ID 값 입력
-                            editor.putString("password", user_pass); //자동로그인시 패스워드 값 입력
-                            editor.putString("name",name); //자동로그인시 패스워드 이름 입력
-                            if (bool_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
-                                editor.putString("auto_login", "true");
+                            if (bool_store_login) {//자동 로그인을 체크 하고 로그인 버튼을 누를시
+                                autologin_editor.putString("auto_login", "true");
+                                autologin_editor.putString("id", user_id); //자동로그인시 ID 값 입력
+                                autologin_editor.putString("password", user_pass); //자동로그인시 패스워드 값 입력
+                                autologin_editor.putString("name",name); //자동로그인시 패스워드 이름 입력
                             }else{ //자동로그인을 하지 않은 상태에서 로그인시
-                                editor.putString("auto_login", "false");
+                                autologin_editor.putString("auto_login", "false");
                             }
-                            editor.commit();
+
+                            if(bool_store_id){
+                                storeid_editor.putString("store_id","true");
+                                storeid_editor.putString("id",user_id);
+                            }else{
+                                storeid_editor.putString("store_id","false");
+                            }
+                            autologin_editor.commit();
+                            storeid_editor.commit();
 
 
                             if(response.body().getAlramMedicines().size()!=0){
@@ -289,7 +327,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        tv_findId.setOnClickListener(new View.OnClickListener() {
+        tv_findId.setOnClickListener(new View.OnClickListener() { // 아이디 / 비밀번호 찾기
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, findIdActivity.class);
