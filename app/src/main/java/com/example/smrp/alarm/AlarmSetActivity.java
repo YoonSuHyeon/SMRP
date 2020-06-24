@@ -284,24 +284,24 @@ public class AlarmSetActivity extends AppCompatActivity {
                                         }
                                         case 3: {
                                             if (type.equals("식전")) {
-                                                calendar.set(Calendar.HOUR_OF_DAY, 13);      //식전
-                                                calendar.set(Calendar.MINUTE, 44);
+                                                calendar.set(Calendar.HOUR_OF_DAY, 7);      //식전
+                                                calendar.set(Calendar.MINUTE, 00);
                                                 if (calendar.before(Calendar.getInstance())) {
                                                     calendar.add(Calendar.DATE, 1);
                                                 }
                                                 PendingIntent sender = PendingIntent.getBroadcast(context, groupId, my_intent, 0);
                                                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender);
 
-                                                calendar.set(Calendar.HOUR_OF_DAY, 13);      //식전
-                                                calendar.set(Calendar.MINUTE, 45);
+                                                calendar.set(Calendar.HOUR_OF_DAY, 11);      //식전
+                                                calendar.set(Calendar.MINUTE, 00);
                                                 if (calendar.before(Calendar.getInstance())) {
                                                     calendar.add(Calendar.DATE, 1);
                                                 }
                                                 PendingIntent sender2 = PendingIntent.getBroadcast(context, groupId + 100, my_intent, 0);
                                                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, sender2);
 
-                                                calendar.set(Calendar.HOUR_OF_DAY, 13);      //식전
-                                                calendar.set(Calendar.MINUTE, 46);
+                                                calendar.set(Calendar.HOUR_OF_DAY, 17);      //식전
+                                                calendar.set(Calendar.MINUTE, 00);
                                                 if (calendar.before(Calendar.getInstance())) {
                                                     calendar.add(Calendar.DATE, 1);
                                                 }

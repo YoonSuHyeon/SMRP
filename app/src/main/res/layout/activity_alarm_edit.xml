@@ -175,14 +175,14 @@
             </View>
             <EditText
                 android:inputType="number"
-                android:digits="0123456789"
+
                 android:background="@drawable/setbtn"
                 android:id="@+id/et_oneTimeDose"
                 android:layout_width="0dp"
                 android:layout_weight="0.1"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:inputType="number"
+
                 android:maxLength="1"
                 android:digits="123"
 

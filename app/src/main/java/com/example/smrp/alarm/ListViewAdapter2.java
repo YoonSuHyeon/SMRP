@@ -3,6 +3,9 @@ package com.example.smrp.alarm;
 import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 
 public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 어댑터  유저의 모든 알람을 보여주는데 사용
@@ -67,6 +71,7 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
         TextView doseTypeView =(TextView) convertView.findViewById(R.id.tv_doseType) ;
         TextView period = (TextView) convertView.findViewById(R.id.tv_period) ;
         TextView remainingTime= (TextView) convertView.findViewById(R.id.tv_remainingTime);
+        //ProgressBar progressBar = convertView.findViewById(R.id.progress);
 
         ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progress);
 
@@ -78,9 +83,6 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
                 Intent intent = new Intent(activity.getBaseContext().getApplicationContext(), AlarmEditActivity.class);
                 //Intent intent = new Intent(getContext().getApplicationContext(), MedicineDetailActivity.class);
                 intent.putExtra("groupId",listViewAlarmItemI.getAlramGroupId());
@@ -93,10 +95,6 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
 
         // 아이템 내 각 위젯에 데이터 반영
         //iconImageView.setImageDrawable(listViewItem.getUrl());//500,100
-
-
-
-
 
         //변환 타임스탬프 --> 년 월 일
 
@@ -112,8 +110,33 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
         //현재 날짜 구하기
         long now = System.currentTimeMillis();
         Date date =new Date(now);
+
         SimpleDateFormat mformat = new SimpleDateFormat("yyyy-MM-dd");
         String time = mformat.format(date);
+        StringTokenizer st = new StringTokenizer(time,"-");
+        StringTokenizer st2 = new StringTokenizer(tempFinish,"-");
+        String nowTime="";
+        int countTokens = st.countTokens();
+
+        for(int i=0; i<countTokens; i++){
+            nowTime += st.nextToken();
+        }
+        countTokens = st2.countTokens();
+        String finishTime = "";
+        for(int i=0; i<countTokens; i++){
+            finishTime += st2.nextToken();
+        }
+        int now_time=Integer.parseInt(nowTime);
+        int finish_time = Integer.parseInt(finishTime);
+
+        if(now_time > finish_time){
+            linearLayout.setBackgroundResource(R.drawable.drop_shadow2);
+            //progressBar.setIndeterminate(true);
+           // progressBar.setProgressDrawable();
+            progressBar.setProgressDrawable(convertView.getResources().getDrawable(R.drawable.progressbar_custom2));
+        }
+
+
         //날짜 차이 구하기
         // date1, date2 두 날짜를 parse()를 통해 Date형으로 변환.
         try{
@@ -129,8 +152,7 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
 
           /*  String StartAlram =mformat.format(tempStart);
             String FinishAlram=mformat.format(tempFinish);
-*/
-
+            */
             alarmName.setText(listViewAlarmItemI.getAlramName());
             dose.setText(listViewAlarmItemI.getOneTimeDose()+"회");
             doseTypeView.setText(listViewAlarmItemI.getDoseType());
@@ -138,13 +160,7 @@ public class ListViewAdapter2 extends BaseAdapter { //AlarmFragment 에 있는 �
             remainingTime.setText((Long.parseLong(listViewAlarmItemI.getDosingPeriod())-calDateDays)+"/"+listViewAlarmItemI.getDosingPeriod());
 
             double progress =(1.0-((double)(calDateDays)/Double.parseDouble(listViewAlarmItemI.getDosingPeriod()))) *100;
-               progressBar.setProgress((int) progress);
-
-
-
-
-
-
+            progressBar.setProgress((int) progress);
 
 
             Log.d("time",listViewAlarmItemI.getAlramName());
