@@ -72,53 +72,60 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
                 call.enqueue(new Callback<UserAlarm>() {
                     @Override
                     public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
+                        if(response.body() !=  null){
+                            try{
+                                if(response.body().getAlramMedicines().size()!=0 && response.body() !=null){
+                                    for(int i=0; i<response.body().getAlramMedicines().size(); i++){
+                                        switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
+                                            case 1:{
+                                                pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                                alarmManager.cancel(pendingIntent);
+                                                pendingIntent.cancel();
+                                                pendingIntent=null;
+                                                break;
+                                            }
+                                            case 2:{
+                                                pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                                alarmManager.cancel(pendingIntent);
+                                                pendingIntent.cancel();
+                                                pendingIntent=null;
 
-                        if(response.body().getAlramMedicines().size()!=0 && response.body() !=null){
-                            for(int i=0; i<response.body().getAlramMedicines().size(); i++){
-                                switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
-                                    case 1:{
-                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                        alarmManager.cancel(pendingIntent);
-                                        pendingIntent.cancel();
-                                        pendingIntent=null;
-                                        break;
+                                                pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                                alarmManager.cancel(pendingIntent);
+                                                pendingIntent.cancel();
+                                                pendingIntent=null;
+                                                break;
+                                            }
+                                            case 3:{
+                                                pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                                alarmManager.cancel(pendingIntent);
+                                                pendingIntent.cancel();
+                                                pendingIntent=null;
+
+                                                pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                                alarmManager.cancel(pendingIntent);
+                                                pendingIntent.cancel();
+                                                pendingIntent=null;
+
+                                                pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+200,intent,PendingIntent.FLAG_CANCEL_CURRENT);
+                                                alarmManager.cancel(pendingIntent);
+                                                pendingIntent.cancel();
+                                                pendingIntent=null;
+                                                break;
+                                            }
+                                            default:{
+
+                                            }
+                                        }
                                     }
-                                    case 2:{
-                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                        alarmManager.cancel(pendingIntent);
-                                        pendingIntent.cancel();
-                                        pendingIntent=null;
 
-                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                        alarmManager.cancel(pendingIntent);
-                                        pendingIntent.cancel();
-                                        pendingIntent=null;
-                                        break;
-                                    }
-                                    case 3:{
-                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId(),intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                        alarmManager.cancel(pendingIntent);
-                                        pendingIntent.cancel();
-                                        pendingIntent=null;
-
-                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+100,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                        alarmManager.cancel(pendingIntent);
-                                        pendingIntent.cancel();
-                                        pendingIntent=null;
-
-                                        pendingIntent = PendingIntent.getBroadcast(getContext(),response.body().getAlramMedicines().get(i).getAlramGroupId()+200,intent,PendingIntent.FLAG_CANCEL_CURRENT);
-                                        alarmManager.cancel(pendingIntent);
-                                        pendingIntent.cancel();
-                                        pendingIntent=null;
-                                        break;
-                                    }
-                                    default:{
-
-                                    }
                                 }
+                            }catch (NullPointerException e){
+
                             }
 
                         }
+
                     }
 
                     @Override

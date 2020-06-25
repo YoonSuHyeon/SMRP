@@ -58,7 +58,7 @@ public class ListViewAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name) ;
+        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name_1) ;
         TextView entpTextView = (TextView) convertView.findViewById(R.id.textView3) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득

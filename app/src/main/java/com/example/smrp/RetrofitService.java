@@ -121,7 +121,7 @@ public interface RetrofitService {
             @Body Pillname pillname
     );
     @Multipart
-    @POST("/medicine1/uploadImage")
+    @POST("/medicine2/uploadImage")
     Call<String> uploadImage(@Part MultipartBody.Part files);
 
     @GET("/medicine2/findItemId")

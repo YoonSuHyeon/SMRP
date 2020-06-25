@@ -19,6 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +33,11 @@ public class Fragment_password extends Fragment {
     private Button btn_identifycode,btn_indentify,btn_chagepassword;
     private TextView time_textview, inform_textview;
     private LinearLayout linearLayout,password_linearlayout,basic_linearLayout;
+    String pwPattern = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{9,12}$";
+
+
+
+
 
     private AlertDialog.Builder dialog;
     private CountDownTimer countDownTimer;
@@ -111,9 +119,9 @@ public class Fragment_password extends Fragment {
                         if(!message_code.equals("404")&&message_code.length()>0){ //정상적인 계정을 입력할때
                             linearLayout.setVisibility(View.VISIBLE); //인증코드 구역 활성화
                             btn_identifycode.setVisibility(View.VISIBLE); //인증코드 확인 버튼 활성화
-                            if(countDownTimer!=null){
+                            if(countDownTimer!=null)
                                 countDownTimer.cancel();
-                            }
+
                             countDownTimer();
                         }else{
                             Toast.makeText(getActivity().getApplicationContext(),"계정을 확인해주세요.",Toast.LENGTH_SHORT).show();
@@ -150,8 +158,11 @@ public class Fragment_password extends Fragment {
             public void onClick(View v) {
                 String passwd1 = String.valueOf(et_change_password1.getText());
                 String passwd2 = String.valueOf(et_change_password2.getText());
+                Matcher matcher = Pattern.compile(pwPattern).matcher(passwd1);
                 if(passwd1.equals("")){
                     Toast.makeText(getActivity().getApplicationContext(),"변경할 패스워드를 입력하지 않았습니다.",Toast.LENGTH_SHORT).show();
+                }else if(!matcher.matches()){
+                    Toast.makeText(getActivity().getApplicationContext(),"대소문자,특수문자 포함 9~12자리 수를 입력하세요.",Toast.LENGTH_SHORT).show();
                 }else if(passwd2.equals("")){
                     Toast.makeText(getActivity().getApplicationContext(),"재확인 패스워드를 입력하지 않았습니다.",Toast.LENGTH_SHORT).show();
                 }else if(!passwd1.equals(passwd2)){
