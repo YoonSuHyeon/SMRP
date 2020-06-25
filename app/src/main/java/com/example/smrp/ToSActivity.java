@@ -1,8 +1,5 @@
 package com.example.smrp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatCheckBox;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,11 +10,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class ToSActivity extends AppCompatActivity {
     Context context; //this 객체
     Button btn_agree; // 동의 버튼 객체
-    ImageView iv_back; //뒤로가기 이미지
+    ImageView iv_back,img1,img2; //뒤로가기 이미지
     CheckBox checkAll,check1,check2,check3;  //전체동의 등... 체크박스
+    Tos_Law1Activity tos_law1Activity;
+    Tos_Law2Activity tos_law2Activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,8 @@ public class ToSActivity extends AppCompatActivity {
         check1=findViewById(R.id.cb_Check1);
         check2=findViewById(R.id.cb_Check2);
         check3=findViewById(R.id.cb_Check3);
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
 
         //Init
         context=this;
@@ -112,10 +115,28 @@ public class ToSActivity extends AppCompatActivity {
             }
         });
 
+        img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tos_law1Activity = new Tos_Law1Activity(ToSActivity.this);
+                tos_law1Activity.setCancelable(false);
+                tos_law1Activity.show();
+            }
+        });
+
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tos_law2Activity = new Tos_Law2Activity(ToSActivity.this);
+                tos_law2Activity.setCancelable(false);
+                tos_law2Activity.show();
+            }
+        });
 
 
 
 
 
     }
+
 }
