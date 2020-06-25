@@ -60,8 +60,9 @@ public class AlarmListViewAdapter extends BaseAdapter {
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조
         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
+        TextView entpTextView =  convertView.findViewById(R.id.textView3);//약 제조사
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name) ;
+        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name_1) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItem listViewItem = listViewItemArrayList.get(position);
@@ -92,7 +93,7 @@ public class AlarmListViewAdapter extends BaseAdapter {
         Glide.with(activity).load(listViewItem.getUrl()).override(500, 150).fitCenter().into(iconImageView);
         titleTextView.setText(listViewItem.getName());
         descTextView.setText(listViewItem.getTime());
-
+        entpTextView.setText(listViewItem.getEntpName());
         return convertView;
 
 

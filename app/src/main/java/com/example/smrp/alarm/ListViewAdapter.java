@@ -16,6 +16,8 @@ import com.bumptech.glide.Glide;
 import com.example.smrp.R;
 import com.example.smrp.medicine.ListViewItem;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
@@ -65,10 +67,11 @@ public class ListViewAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조
-        final LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
+        final LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine); //이미지
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name) ;
+        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ; //약이름
+        TextView entpTextView =  convertView.findViewById(R.id.textView3);//약 제조사
+        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name_1) ;//약 시간
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItem listViewItem = listViewItemArrayList.get(position);
@@ -103,7 +106,7 @@ public class ListViewAdapter extends BaseAdapter {
 //        iconImageView.setImageDrawable(listViewItem.getIcon());
         titleTextView.setText(listViewItem.getName());
         descTextView.setText(listViewItem.getTime());
-
+        entpTextView.setText(listViewItem.getEntpName());
         return convertView;
 
 
