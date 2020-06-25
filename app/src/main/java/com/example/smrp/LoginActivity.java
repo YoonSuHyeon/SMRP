@@ -92,11 +92,10 @@ public class LoginActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         /*    아이디 저장(시작)    */
-        storeidinformation = getSharedPreferences("store_id",0);
+        storeidinformation = getSharedPreferences("store_id",0); //아이디 저장
         storeid_editor = storeidinformation.edit();
         getStoreid = storeidinformation.getString("store_id","");
         if(getStoreid.equals("true")){
-
             user_id = storeidinformation.getString("id","");
             Txt_id.setText(user_id);
             store_id.setChecked(true);
@@ -179,11 +178,13 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             if(bool_store_id){//아이디저장
+                                
                                 storeid_editor.putString("store_id","true");
                                 storeid_editor.putString("id",user_id);
                             }else{
                                 storeid_editor.putString("store_id","false");
                             }
+                            autologin_editor.putString("id", user_id); //자동로그인시 ID 값 입력
                             autologin_editor.commit();
                             storeid_editor.commit();
 
