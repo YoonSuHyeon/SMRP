@@ -332,13 +332,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<HomeMedItem>> call, retrofit2.Response<ArrayList<HomeMedItem>> response) {
                 //HomeRecyclerAdapter
-                Log.d("TAG", "response_body: "+response.body().size());
-                Log.d("TAG", "response_body: "+response.body().get(0).getName());
+             //   Log.d("TAG", "response_body: "+response.body().size());
+              //  Log.d("TAG", "response_body: "+response.body().get(0).getName());
                 homeMedItemArrayList=response.body();
                 homeRecyclerAdapter=new HomeRecyclerAdapter(homeMedItemArrayList);
                 recyclerView.setAdapter(homeRecyclerAdapter);
 
-                Log.d("zxcbz",homeMedItemArrayList.get(0).getName());
+//                Log.d("zxcbz",homeMedItemArrayList.get(0).getName());
                 homeRecyclerAdapter.notifyDataSetChanged();
                // homeRecyclerAdapter= new HomeRecyclerAdapter(homeMedItemArrayList);
                // recyclerView.setAdapter(homeRecyclerAdapter);

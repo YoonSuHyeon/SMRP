@@ -490,7 +490,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
                 for (int i = 0; i < reponse_medicines.size(); i++) {
                     //items:ArrayList
-                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(), reponse_medicines.get(i).getItemName(), reponse_medicines.get(i).getItemSeq(), reponse_medicines.get(i).getCreatedAt()));
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(), reponse_medicines.get(i).getItemName(), reponse_medicines.get(i).getItemSeq(), reponse_medicines.get(i).getCreatedAt(),reponse_medicines.get(i).getEntpName()));
 
                 }
                 adapter.notifyDataSetChanged();

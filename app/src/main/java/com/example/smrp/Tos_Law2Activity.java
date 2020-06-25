@@ -15,16 +15,16 @@ public class Tos_Law2Activity extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_tos__law2);
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
 
-        setContentView(R.layout.activity_tos__law2);
 
 
-        button_ok = findViewById(R.id.ok_button);
+
+        button_ok = findViewById(R.id.okbutton);
         button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

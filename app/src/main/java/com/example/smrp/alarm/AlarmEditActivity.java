@@ -150,7 +150,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 ArrayList<reponse_medicine3> temp =response_alarmMedicine.getMedicine3s();
 
                 for( reponse_medicine3 i :temp){
-                    alarmMedicineList.add(new ListViewItem(i.getImageUrl(),i.getItemName(),i.getItemSeq(),i.getCreatedAt()));
+                    alarmMedicineList.add(new ListViewItem(i.getImageUrl(),i.getItemName(),i.getItemSeq(),i.getCreatedAt(),i.getEntpName()));
                 }
                 Log.d("size",response_alarmMedicine.getMedicine3s().size()+"");
 
@@ -288,7 +288,7 @@ public class AlarmEditActivity extends AppCompatActivity {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt(),reponse_medicines.get(i).getEntpName()));
 
                 }
                 adapter.notifyDataSetChanged();
