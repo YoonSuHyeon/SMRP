@@ -2,7 +2,6 @@ package com.example.smrp.alarm;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class AlarmListViewAdapter extends BaseAdapter {
         LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
+        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItem listViewItem = listViewItemArrayList.get(position);

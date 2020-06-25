@@ -1,7 +1,5 @@
 package com.example.smrp.alarm;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -70,7 +68,7 @@ public class ListViewAdapter extends BaseAdapter {
         final LinearLayout linearLayout = (LinearLayout) convertView.findViewById(R.id.line_medicine);
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1) ;
-        TextView descTextView = (TextView) convertView.findViewById(R.id.textView2) ;
+        TextView descTextView = (TextView) convertView.findViewById(R.id.med_name) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListViewItem listViewItem = listViewItemArrayList.get(position);

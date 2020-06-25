@@ -7,29 +7,21 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
 import com.example.smrp.medicine.ListViewItem;
-import com.example.smrp.reponse_medicine2;
 import com.example.smrp.reponse_medicine3;
 import com.example.smrp.response;
 
@@ -150,7 +142,7 @@ public class AlarmEditActivity extends AppCompatActivity {
                 ArrayList<reponse_medicine3> temp =response_alarmMedicine.getMedicine3s();
 
                 for( reponse_medicine3 i :temp){
-                    alarmMedicineList.add(new ListViewItem(i.getImageUrl(),i.getItemName(),i.getItemSeq(),i.getCreatedAt()));
+                    alarmMedicineList.add(new ListViewItem(i.getImageUrl(),i.getItemName(),i.getItemSeq(),i.getCreatedAt(),i.getEntpName()));
                 }
                 Log.d("size",response_alarmMedicine.getMedicine3s().size()+"");
 
@@ -288,7 +280,7 @@ public class AlarmEditActivity extends AppCompatActivity {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt(),reponse_medicines.get(i).getEntpName()));
 
                 }
                 adapter.notifyDataSetChanged();

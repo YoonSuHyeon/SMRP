@@ -9,21 +9,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -36,11 +31,8 @@ import com.example.smrp.LoginActivity;
 import com.example.smrp.R;
 import com.example.smrp.RetrofitHelper;
 import com.example.smrp.RetrofitService;
-import com.example.smrp.User;
-import com.example.smrp.UserAlarm;
 import com.example.smrp.medicine.ListViewItem;
 import com.example.smrp.reponse_medicine3;
-import com.example.smrp.response;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -490,7 +482,7 @@ public class AlarmSetActivity extends AppCompatActivity {
 
                 for (int i = 0; i < reponse_medicines.size(); i++) {
                     //items:ArrayList
-                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(), reponse_medicines.get(i).getItemName(), reponse_medicines.get(i).getItemSeq(), reponse_medicines.get(i).getCreatedAt()));
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(), reponse_medicines.get(i).getItemName(), reponse_medicines.get(i).getItemSeq(), reponse_medicines.get(i).getCreatedAt(),reponse_medicines.get(i).getEntpName()));
 
                 }
                 adapter.notifyDataSetChanged();

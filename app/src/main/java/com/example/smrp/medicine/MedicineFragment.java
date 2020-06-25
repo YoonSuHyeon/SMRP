@@ -147,16 +147,17 @@ public class MedicineFragment extends Fragment {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    Log.d("TAG", "reponse_medicines.get(i).getItemName(): "+reponse_medicines.get(i).getItemName());
-                    Log.d("TAG", "reponse_medicines.get(i).getEntpName(): "+reponse_medicines.get(i).getEntpName());
+                    //Log.d("TAG", "reponse_medicines.get(i).getItemName(): "+reponse_medicines.get(i).getItemName());
+                  //  Log.d("TAG", "reponse_medicines.get(i).getEntpName(): "+reponse_medicines.get(i).getEntpName());
                     items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt(),reponse_medicines.get(i).getEntpName()));
-                    Log.d("TAG", "=================================\n: ");
+                   // Log.d("TAG", "=================================\n: ");
 
                 }
                 listViewAdapter.notifyDataSetChanged();
             }
             @Override
             public void onFailure(Call<List<reponse_medicine3>> call, Throwable t) {
+                Log.d("TAG", "onFailureonFailure: ");
             }
         });
     }

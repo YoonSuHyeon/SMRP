@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 
 import com.bumptech.glide.Glide;
 import com.example.smrp.R;
@@ -34,7 +32,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
     Button Btn_set;
     TextView medicineName,medicineEntpName,medicineChart,medicineClassName,medicineEtcOtcName,medicineEffect,medicineUsage;
     String itemSeq ,time;// intent용 변수
-    private String str_image, str_name, str_seq;
+    private String str_image, str_name, str_seq,str_entp;
     String user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +84,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
                 str_image = reponse_medicine2.getItemImage();
                 str_name = reponse_medicine2.getItemName();
                 str_seq = reponse_medicine2.getItemSeq();
+                str_entp = reponse_medicine2.getEntpName();
             }
 
             @Override
@@ -113,7 +112,7 @@ public class AlarmDetailActivity extends AppCompatActivity {
             public void onClick(View v) {//추가 하기 버튼을 눌렀을때 서버에게 현재 자기가 등록 한 약이 무엇이다라는 것을 알려준다.
 
                 ArrayList<ListViewItem>list = new ArrayList<>();
-                list.add(new ListViewItem(str_image,str_name,str_seq,time)); //ListViewItem 클래스의 성질을 가지고 있는 ArrayList 객체에 정보(약 이미지url, 약 이름, 약 식별번호
+                list.add(new ListViewItem(str_image,str_name,str_seq,time,str_entp)); //ListViewItem 클래스의 성질을 가지고 있는 ArrayList 객체에 정보(약 이미지url, 약 이름, 약 식별번호
                 // 약 생성 일자) 추가
 
                 Intent intent1= new Intent(getApplicationContext(),AlarmSetActivity.class);
