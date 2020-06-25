@@ -7,12 +7,16 @@ public class ListViewItem implements Serializable {
     private String name; //약 이름
     private String itemSeq; //약 식별번호
     private String time; //시간
+    private String entpName; //제조사
 
-    public ListViewItem(String url, String name,String itemSeq,String time){
+
+
+    public ListViewItem(String url, String name, String itemSeq, String time, String entpName){
         this.url = url;
         this.name = name;
         this.itemSeq=itemSeq;
         this.time=time;
+        this.entpName = entpName;
     }
     public String getTime() {
         return time;
@@ -31,8 +35,6 @@ public class ListViewItem implements Serializable {
     }
 
 
-
-
     public String getUrl() {
         return url;
     }
@@ -47,6 +49,14 @@ public class ListViewItem implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEntpName() {
+        return entpName;
+    }
+
+    public void setEntpName(String entpName) {
+        this.entpName = entpName;
     }
 
 

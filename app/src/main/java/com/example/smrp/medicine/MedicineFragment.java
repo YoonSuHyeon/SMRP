@@ -1,17 +1,13 @@
 package com.example.smrp.medicine;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -141,7 +137,6 @@ public class MedicineFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-
         RetrofitService networkService= RetrofitHelper.getRetrofit().create(RetrofitService.class);
         Call<List<reponse_medicine3>> call = networkService.findUserMedicine(user_id);
         call.enqueue(new Callback<List<reponse_medicine3>>() {
@@ -152,7 +147,10 @@ public class MedicineFragment extends Fragment {
 
                 for(int i = 0; i<  reponse_medicines.size(); i++)
                 {
-                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt()));
+                    Log.d("TAG", "reponse_medicines.get(i).getItemName(): "+reponse_medicines.get(i).getItemName());
+                    Log.d("TAG", "reponse_medicines.get(i).getEntpName(): "+reponse_medicines.get(i).getEntpName());
+                    items.add(new ListViewItem(reponse_medicines.get(i).getImageUrl(),reponse_medicines.get(i).getItemName(),reponse_medicines.get(i).getItemSeq(),reponse_medicines.get(i).getCreatedAt(),reponse_medicines.get(i).getEntpName()));
+                    Log.d("TAG", "=================================\n: ");
 
                 }
                 listViewAdapter.notifyDataSetChanged();

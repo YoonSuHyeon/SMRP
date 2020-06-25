@@ -24,6 +24,10 @@ public class reponse_medicine3 {
     @Expose
     private String imageUrl;
 
+    @SerializedName("entpName")
+    @Expose
+    private String entpName;
+
     public String getItemSeq() {
         return itemSeq;
     }
@@ -62,5 +66,13 @@ public class reponse_medicine3 {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getEntpName() {
+        return entpName;
+    }
+
+    public void setEntpName(String entpName) {
+        this.entpName = entpName;
     }
 }
