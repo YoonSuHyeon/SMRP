@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class findIdActivity extends AppCompatActivity {
+class findIdActivity extends AppCompatActivity {
     LinearLayout ll_fragment_id,ll_fragment_password,ll_id,ll_password;
     TextView tv_id,tv_password;
     ImageView iv_back;
