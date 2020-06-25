@@ -1,5 +1,6 @@
 package com.example.smrp.pharmacy;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,8 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
         hash_remain_stat = new HashMap<>();
 
         hash_type.put("01","약국");hash_type.put("02","우체국");hash_type.put("03","농협");
-        hash_remain_stat.put("plenty","100개 이상 ~");hash_remain_stat.put("some","~100개미만");
-        hash_remain_stat.put("few","2개이상 ~ 30개 미만");hash_remain_stat.put("empty","1개 이하");
+        hash_remain_stat.put("plenty","충분");hash_remain_stat.put("some","보통");
+        hash_remain_stat.put("few","부족");hash_remain_stat.put("empty","부족");
         hash_remain_stat.put("break","판매중지");
 
     }
@@ -116,7 +117,18 @@ public class PharmacyAdapter  extends  RecyclerView.Adapter<PharmacyAdapter.View
            // textView_create_data.setText(item.getCreated_at()); //데이터생성일자
             textview_type.setText(hash_type.get(item.getType())); //타입(약국 우체국, 농협)
             textview_address.setText(item.getAddr()); //주소
-            textView_mask_state.setText(hash_remain_stat.get(item.getRemain_stat()));
+            String state = hash_remain_stat.get(item.getRemain_stat());
+            if(state.equals("충분")){
+                textView_mask_state.setTextColor(Color.GREEN);
+                textView_mask_state.append("충분");
+            }else if(state.equals("보통")){
+                textView_mask_state.setTextColor(Color.YELLOW);
+                textView_mask_state.append("보통");
+            }else{
+                textView_mask_state.setTextColor(Color.RED);
+                textView_mask_state.append("판매중지");
+            }
+
         }
     }
 }

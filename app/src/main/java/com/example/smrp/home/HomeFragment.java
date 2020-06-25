@@ -332,7 +332,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<HomeMedItem>> call, retrofit2.Response<ArrayList<HomeMedItem>> response) {
                 //HomeRecyclerAdapter
-
+                Log.d("TAG", "response_body: "+response.body().size());
+                Log.d("TAG", "response_body: "+response.body().get(0).getName());
                 homeMedItemArrayList=response.body();
                 homeRecyclerAdapter=new HomeRecyclerAdapter(homeMedItemArrayList);
                 recyclerView.setAdapter(homeRecyclerAdapter);
@@ -384,12 +385,12 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        /*ic_alarm_set.setOnClickListener(new View.OnClickListener() {
+        ic_alarm_set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_nav_home_to_nav_alarm);
             }
-        });*/
+        });
         ic_pharmacy_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

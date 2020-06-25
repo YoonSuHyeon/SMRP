@@ -72,7 +72,8 @@ public class LogoutFragment extends DialogFragment implements View.OnClickListen
                 call.enqueue(new Callback<UserAlarm>() {
                     @Override
                     public void onResponse(Call<UserAlarm> call, Response<UserAlarm> response) {
-                        if(response.body().getAlramMedicines().size()!=0){
+
+                        if(response.body().getAlramMedicines().size()!=0 && response.body() !=null){
                             for(int i=0; i<response.body().getAlramMedicines().size(); i++){
                                 switch (response.body().getAlramMedicines().get(i).getOneTimeCapacity()){
                                     case 1:{

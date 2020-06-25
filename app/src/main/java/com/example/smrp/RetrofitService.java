@@ -39,6 +39,11 @@ public interface RetrofitService {
                                  @Query("id") String id,
                                  @Query("email") String email
     );
+
+    @POST("/findPassword/changePass")
+    Call<response> changpasswd(
+            @Body Change_Password change_password
+    );
     @POST("medicine2/addAlram") //알람 추가
     Call<Long> addAlram(
             @Body AlarmMedicine alarmMedicine

@@ -117,7 +117,8 @@
                     android:text="이용약관 동의"/>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
+                    android:id="@+id/img1"
+                    android:layout_width="35dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:background="@android:color/transparent"
@@ -145,12 +146,12 @@
                     android:text="개인정보 수집 및 이용 동의"/>
 
                 <ImageButton
-                    android:layout_width="wrap_content"
+                    android:id="@+id/img2"
+                    android:layout_width="35dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/ic_keyboard_arrow_24dp"
-                    />
+                    android:src="@drawable/ic_keyboard_arrow_24dp" />
 
             </RelativeLayout>
 

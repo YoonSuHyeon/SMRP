@@ -1,42 +1,22 @@
 package com.example.smrp;
 
-import androidx.annotation.NonNull;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.pdf.PdfDocument;
-import android.graphics.pdf.PdfRenderer;
-import android.icu.util.ICUUncheckedIOException;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
+import com.example.smrp.medicine.ViewPagerAdapter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
-import android.content.Context;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import androidx.viewpager.widget.PagerAdapter;
-
-import com.bumptech.glide.Glide;
-import com.example.smrp.medicine.ViewPagerAdapter;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -78,7 +58,7 @@ public class StartActivity extends AppCompatActivity{
 
         Btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //로그인 버튼
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
 
@@ -86,7 +66,7 @@ public class StartActivity extends AppCompatActivity{
         });
         Btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //회원가입버튼
                 
                 Intent intent = new Intent(getApplicationContext(),ToSActivity.class);
                 startActivity(intent);

@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:layout_gravity="right"
-                    android:id="@+id/textView2"
+                    android:id="@+id/med_name"
                     android:textSize="16dp"
                     android:textColor="#666666"
                     android:layout_marginStart="24dp"

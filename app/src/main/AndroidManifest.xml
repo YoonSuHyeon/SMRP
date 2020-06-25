@@ -3,16 +3,15 @@
     package="com.example.smrp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +23,10 @@
         android:roundIcon="@drawable/ic_med_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".searchPrescription.Search_prescriptionActivity" />
+        <activity android:name=".Tos_Law2Activity"></activity>
         <activity android:name=".ToSActivity" />
+        <activity android:name=".Tos_Law1Activity" />
+        <activity android:name=".searchPrescription.Search_prescriptionActivity" />
         <activity android:name=".findIdActivity" />
         <activity
             android:name=".StartActivity"
@@ -60,28 +60,30 @@
         <activity android:name=".camera.ResultActivity" />
         <activity android:name=".alarm.AlarmDetailActivity" />
         <activity android:name=".alarm.AlarmDetailActivity2" />
-        <activity android:name=".alarm.AlarmSetActivity"
-           android:windowSoftInputMode="adjustNothing"/>
-        <activity android:name=".report.ReportResultActivity"/>
-        <activity android:name=".report.DetailActivity"/>
-        <activity android:name=".alarm.AlarmInformActivity"/>
-        <activity android:name=".alarm.AlarmEditActivity"/>
-        <activity android:name=".report.ReportNoticeActivity"/>
-        <receiver android:name=".alarm.Alarm_Reciver">
-        </receiver>
-        <receiver android:name=".alarm.BootReceiver"
+        <activity
+            android:name=".alarm.AlarmSetActivity"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity android:name=".report.ReportResultActivity" />
+        <activity android:name=".report.DetailActivity" />
+        <activity android:name=".alarm.AlarmInformActivity" />
+        <activity android:name=".alarm.AlarmEditActivity" />
+        <activity android:name=".report.ReportNoticeActivity" />
+
+        <receiver android:name=".alarm.Alarm_Reciver" />
+        <receiver
+            android:name=".alarm.BootReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.smrp"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/image" />

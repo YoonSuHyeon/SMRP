@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                                 autologin_editor.putString("auto_login", "false");
                             }
 
-                            if(bool_store_id){
+                            if(bool_store_id){//아이디저장
                                 storeid_editor.putString("store_id","true");
                                 storeid_editor.putString("id",user_id);
                             }else{

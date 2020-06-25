@@ -20,27 +20,30 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
       />
+
     <EditText
-        android:background="@drawable/setbtn"
-        android:hint="문의하실 내용을 입력해주세요."
-        android:textColorHint="#7E7E7E"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:gravity="top|left"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_weight="0.3"
+        android:background="@drawable/setbtn"
+        android:gravity="top|left"
+        android:hint="문의하실 내용을 입력해주세요."
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
 
 
-        />
+        android:textColorHint="#7E7E7E" />
+
     <Button
-        android:layout_marginTop="16dp"
+        android:id="@+id/sendbutton"
+        android:layout_width="110dp"
+        android:layout_height="34dp"
         android:layout_gravity="center"
+        android:layout_marginTop="16dp"
         android:background="@drawable/setaddbtn"
         android:text="전송"
-        android:textColor="#FFFFFF"
-        android:layout_width="110dp"
-        android:layout_height="34dp"/>
+        android:textColor="#FFFFFF" />
 </LinearLayout>
