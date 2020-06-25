@@ -148,6 +148,7 @@ public class Fragment_password extends Fragment {
                     password_linearlayout.setVisibility(View.VISIBLE); //비밀번호 변경영역 활성화
                     btn_chagepassword.setVisibility(View.VISIBLE); // 비밀번호 변경 버튼 활성화
                     btn_identifycode.setVisibility(View.GONE);//인증코드 확인 버튼 비활성화
+                    countDownTimer.cancel();
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(),"인증코드를 잘못입력하셨습니다.",Toast.LENGTH_SHORT).show();
                 }
