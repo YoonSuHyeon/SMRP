@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         tv_findId = findViewById(R.id.tv_findId); //사용자 ID찾기 버튼
         iv_back = findViewById(R.id.iv_back);//뒤로가기 버튼
         auto_lgoin = findViewById(R.id.auto_login); //자동로그인 checkbox버튼
-        store_id = findViewById(R.id.stoe_id);
+        store_id = findViewById(R.id.store_id);
 
         auto_lgoin.setChecked(false);
 

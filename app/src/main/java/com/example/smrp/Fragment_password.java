@@ -111,6 +111,9 @@ public class Fragment_password extends Fragment {
                         if(!message_code.equals("404")&&message_code.length()>0){ //정상적인 계정을 입력할때
                             linearLayout.setVisibility(View.VISIBLE); //인증코드 구역 활성화
                             btn_identifycode.setVisibility(View.VISIBLE); //인증코드 확인 버튼 활성화
+                            if(countDownTimer!=null){
+                                countDownTimer.cancel();
+                            }
                             countDownTimer();
                         }else{
                             Toast.makeText(getActivity().getApplicationContext(),"계정을 확인해주세요.",Toast.LENGTH_SHORT).show();
