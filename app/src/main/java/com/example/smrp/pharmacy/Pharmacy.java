@@ -14,7 +14,7 @@ public class Pharmacy {
 
     public Pharmacy(String addr, /*String created_at, */float latitude, float longitude, String name, String remain_stat,/* String stock_at, */String type) {
         this.addr = addr; //약국주소소
-//        this.latitude = latitude; //경도
+        this.latitude = latitude; //경도
         this.longitude = longitude; //위도
         this.name= name; //병원 이름
         this.remain_stat = remain_stat; //마스크 보유량
